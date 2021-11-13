@@ -61,8 +61,9 @@ public class paciente extends persona
             
         try
         {
+            //Se establece un id basado en el último id de paciente encontrado.
+            id += 1;
             //Se piden los datos del paciente
-            id = Integer.parseInt(JOptionPane.showInputDialog("Identificador del paciente:"));
             nombre = JOptionPane.showInputDialog("Nombre del paciente:");
             apellido = JOptionPane.showInputDialog("Apellido del paciente:");
             email = JOptionPane.showInputDialog("Correo electrónico del paciente: ");

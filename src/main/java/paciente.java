@@ -54,13 +54,16 @@ public class paciente extends persona
     public static boolean creaPaciente(String archivo) throws Exception
     {
         //Variables necesarias para el correcto funcionamiento del método
-        String nombre, apellido, contraseña, email, diagnostico, nombre_medico, apellido_medico, especialidad;
-        int id, edad;
+        String nombre, ingresaGenero, apellido, contraseña;
+        String email, diagnostico, nombre_medico, apellido_medico, especialidad;
+        int id = 0, edad;
         char genero;
         medico medico;
             
         try
         {
+            //Se crea el arreglo con las opciones de género para evitar error por parte del usuario
+            String [] generos = {"F","M"};
             //Se establece un id basado en el último id de paciente encontrado.
             id += 1;
             //Se piden los datos del paciente
@@ -69,7 +72,11 @@ public class paciente extends persona
             email = JOptionPane.showInputDialog("Correo electrónico del paciente: ");
             contraseña = JOptionPane.showInputDialog("Contraseña con la que accederá el paciente:");
             edad = Integer.parseInt(JOptionPane.showInputDialog("Edad del paciente:"));
-            genero = (JOptionPane.showInputDialog("Indica el género del paciente:\n (Usa F para Femenino y M para masculino)")).charAt(0);
+            //Se elige el género del paciente
+            ingresaGenero = (String) JOptionPane.showInputDialog(null,"Indica el género del paciente:\n (Usa F para Femenino y M para masculino)", 
+                    "", JOptionPane.DEFAULT_OPTION, null, generos, generos[0]);
+            //Se convierte la opción elegida para crear el objeto de forma correcta
+            genero = ingresaGenero.charAt(0);
             diagnostico = JOptionPane.showInputDialog("Diagnóstico del paciente:");
             //Se piden los datos del medico del paciente (sin usar todos los atributos, sólo los necesarios para la identificación)
             nombre_medico = JOptionPane.showInputDialog("Nombre del médico:");
@@ -125,7 +132,7 @@ public class paciente extends persona
             while ((cadena = lector.readLine()) != null)
             {
                 System.out.println(cadena);
-                //json.append(cadena);
+                json.append(cadena);
             }
 
             Gson gson = new Gson();

@@ -6,6 +6,7 @@
  */
 
 //Se importan librerías necesarias para el funcionamiento de la clase
+import com.google.gson.Gson;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
@@ -22,7 +23,10 @@ public class persona
     private String email;
     
     //Lista para guardar todos los usuarios(personas)
-    private static List <persona> persona = new ArrayList<>();;
+    private static List <persona> persona = new ArrayList<>();
+    
+    //Archivo donde se guardarán todos los datos de la persona
+    private static String ARCHIVO = "personas.json";
     
     //Constructor persona usando todos los atributos
     public persona(int id, String nombre, String apellido, int edad, char genero, String contraseña, String email) 
@@ -65,8 +69,12 @@ public class persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se agrega el dato semilla a la lista persona
-            persona.add(new persona(1,"Maria","Tchijov",19,'F',"1234","mashjov13@outlook.es"));
+            //Se crea la persona con los datos semilla
+            persona semilla = new persona(1,"Maria","Tchijov",19,'F',"1234","mashjov13@outlook.es");
+            //Se agrega el objeto a la lista persona
+            persona.add(semilla);
+            //Se guarda el usuario semilla en el archivo JSON
+            guardaPersona(semilla);
             //Se notifica al usuario en consola que los datos semilla han sido guardados
             System.out.println("Los datos iniciales han sido guardados.");
         }
@@ -74,6 +82,38 @@ public class persona
         catch(Exception e)
         {System.out.println("No se pudieron guardar los datos semilla correctamente.");}
         
+    }
+    
+    //guardaPersona: guarda los datos del usuario en un archivo json
+    public static void guardaPersona(persona persona) throws Exception
+    {
+        //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
+        String jsonPersona;
+        
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se crea el objeto gson que nos ayudará a pasar el objeto paciente a un formato JSON
+            Gson gson = new Gson();
+            //Se pasa el paciente a un formato JSON
+            jsonPersona = gson.toJson(persona);
+            
+            //Se crea el fileWritter para crear el archivo
+            FileWriter fileWriter = new FileWriter(ARCHIVO);
+            //Se crea el printWritter para ir escribiendo en el archivo JSON
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            //Se escribe en el archivo JSON
+            printWriter.print(jsonPersona);
+            //Se cierra el printWritter para que los cambios sean guardados
+            printWriter.close();
+            
+            //Se manda mensaje al usuario para que pueda ver el guardado exitoso del paciente
+            System.out.println("El usuario ha sido guardado:\n" + jsonPersona);
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {throw new Exception("No se pudo guardar el usuario en el archivo JSON.");}
     }
     
     //ingresar: validará si efectivamente el usuario ha sido registrado en el sistema

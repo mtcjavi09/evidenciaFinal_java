@@ -20,6 +20,9 @@ public class medico extends persona
     //Lista donde se guardarán todos los médicos
     private static List <medico> medicos = new ArrayList<>();
     
+    //Archivo donde se guardarán todos los datos del médico
+    private static String ARCHIVO = "medico.json";
+    
     //Constructor para crear el médico usando atributos completos
     public medico(String especialidad, int id, String nombre, String apellido, int edad, char genero, String contraseña, String email) 
     {
@@ -39,7 +42,7 @@ public class medico extends persona
     
     //Métodos propios de la clase
     //creaMedico: pide los datos necesarios del médico y los guarda en el archivo JSON
-    public static void creaMedico(String ARCHIVO)
+    public static void creaMedico()
     {
         //Variables necesarias para el correcto funcionamiento del método
         String nombre_medico, ingresaGenero, apellido_medico, contraseña_medico, email_medico, especialidad;
@@ -80,7 +83,7 @@ public class medico extends persona
             medicos.add(medico);
 
             //Se guardan los objetos del paciente en el archivo json
-            guardaMedico(medico, ARCHIVO);    
+            guardaMedico(medico);    
 
             //Se regresa un mensaje en consola indicando el término del método
             System.out.println("Se ha guardado correctamente el médico en las listas persona y medicos");
@@ -91,7 +94,7 @@ public class medico extends persona
     }
     
     //guardaPaciente: guarda los datos del paciente en un archivo json
-    public static void guardaMedico(medico medico, String ARCHIVO)
+    public static void guardaMedico(medico medico)
     {
         //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
         String jsonMedico;

@@ -18,10 +18,14 @@ public class paciente extends persona
     private String diagnostico;
     //Aquí se indica que tendrá un objeto de la clase médico como atributo
     private medico medico;
+    
     //Lista donde se guardarán todos los pacientes
     private static List <paciente> pacientes = new ArrayList<>();
 
-     //Constructor para crear el paciente usando atributos completos
+    //Archivo donde se guardarán todos los datos de la persona
+    private static String ARCHIVO = "pacientes.json";
+    
+    //Constructor para crear el paciente usando atributos completos
     public paciente(String diagnostico, medico medico, int id, String nombre, String apellido, int edad, char genero, String contraseña, String email) 
     {
         super(id, nombre, apellido, edad, genero, contraseña, email);
@@ -44,17 +48,33 @@ public class paciente extends persona
     //Métodos propios de la clase
     
     //creaPaciente: pide los datos necesarios del paciente los guarda en el archivo JSON
-    public static void creaPaciente(String ARCHIVO) throws Exception
+    public static void creaPaciente() throws Exception
     {
         //Variables necesarias para el correcto funcionamiento del método
         String nombre_paciente, ingresaGenero, apellido_paciente, contraseña_paciente, email_paciente, diagnostico;
         int id_paciente = 0, edad_paciente, id_medico;
         char genero_paciente;
+        medico medico = null;
         
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones            
         try
         {
+            //Se pide el Id del médico
+            id_medico = Integer.parseInt(JOptionPane.showInputDialog("ID del médico tratante:"));
+            //Se crea el objeto metodos_medico para acceder a los métodos de la clase médico
+            medico metodos_medico = new medico();
+            //Se verifica que el médico exista
+            //Si existe, envía un mensaje al usuario de que se encontró el médico
+            if(metodos_medico.getMedicos().contains(id_medico) == true)
+            {
+                System.out.println("Médico encontrado en la lista de médicos.");
+                medico = metodos_medico.getMedicos().get(id_medico);
+            }
+            //Si no existe, llamará al método para crear un nuevo médico
+            else
+            {metodos_medico.creaMedico();}
+
             //Se crea el arreglo con las opciones de género para evitar error por parte del usuario
             String [] generos = {"F","M"};
             //Se establece un id basado en el último id de registro encontrado en usuarios.
@@ -75,29 +95,6 @@ public class paciente extends persona
             //Se convierte la opción elegida para crear el objeto de forma correcta
             genero_paciente = ingresaGenero.charAt(0);
 
-            //Se pide el Id del médico
-            id_medico = Integer.parseInt(JOptionPane.showInputDialog("ID del médico tratante:"));
-            //Se crea el objeto metodos_medico para acceder a los métodos de la clase médico
-            medico metodos_medico = new medico();
-            //Se verifica que el médico exista
-            //Si existe, envía un mensaje al usuario de que se encontró el médico
-            if(metodos_medico.getMedicos().contains(id_medico))
-            {System.out.println("Médico encontrado en la lista de médicos.");}
-            //Si no existe, llamará al método para crear un nuevo médico
-            else
-            {metodos_medico.creaMedico(ARCHIVO);}
-            //Se guardan los datos obtenidos en el objeto médico
-            String especialidad = metodos_medico.getMedicos().get(id_medico).getEspecialidad();
-            int num_medico = metodos_medico.getMedicos().get(id_medico).getId();
-            String nombre_medico = metodos_medico.getMedicos().get(id_medico).getNombre();
-            String apellido_medico = metodos_medico.getMedicos().get(id_medico).getApellido();
-            String email_medico = metodos_medico.getMedicos().get(id_medico).getEmail();
-            String contraseña_medico = metodos_medico.getMedicos().get(id_medico).getContraseña();
-            int edad_medico = metodos_medico.getMedicos().get(id_medico).getEdad();
-            char genero_medico = metodos_medico.getMedicos().get(id_medico).getGenero(); 
-            //Se crea el objeto médico para completar el objeto paciente
-            medico medico = new medico(especialidad, num_medico, nombre_medico, apellido_medico, edad_medico, genero_medico, contraseña_medico, email_medico);
-
             //Se crea el objeto paciente
             paciente paciente = new paciente(diagnostico, medico, id_paciente, nombre_paciente, apellido_paciente, edad_paciente, genero_paciente, contraseña_paciente, email_paciente);
 
@@ -108,7 +105,7 @@ public class paciente extends persona
             pacientes.add(paciente);
 
             //Se guardan los objetos del paciente en el archivo json
-            guardaPaciente(paciente, ARCHIVO);    
+            guardaPaciente(paciente);    
 
             //Se regresa un mensaje en consola indicando el término del método
             System.out.println("Se ha guardado correctamente el paciente en las listas persona y paciente");
@@ -119,7 +116,7 @@ public class paciente extends persona
     }
     
     //guardaPaciente: guarda los datos del paciente en un archivo json
-    public static void guardaPaciente(paciente paciente, String ARCHIVO) throws Exception
+    public static void guardaPaciente(paciente paciente) throws Exception
     {
         //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
         String jsonPaciente;
@@ -151,7 +148,7 @@ public class paciente extends persona
     }
     
     //Método cargaPaciente para leer y cargar el archivo 
-    public static void cargaPaciente(String ARCHIVO) throws Exception
+    public static void cargaPaciente() throws Exception
     {
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones 

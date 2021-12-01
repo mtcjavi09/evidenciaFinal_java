@@ -21,9 +21,6 @@ public class paciente extends persona
     
     //Lista donde se guardarán todos los pacientes
     private static List <paciente> pacientes = new ArrayList<>();
-
-    //Archivo donde se guardarán todos los datos de la persona
-    private static String ARCHIVO = "pacientes.json";
     
     //Constructor para crear el paciente usando atributos completos
     public paciente(String diagnostico, medico medico, int id, String nombre, String apellido, int edad, char genero, String contraseña, String email) 
@@ -41,139 +38,104 @@ public class paciente extends persona
     public void setDiagnostico(String diagnostico) {this.diagnostico = diagnostico;}
     public medico getMedico() {return medico;}
     public void setMedico(medico medico) {this.medico = medico;}
-    public List<paciente> getPacientes() {return pacientes;}
-    public void setPacientes(List<paciente> pacientes) {this.pacientes = pacientes;}
+
     
     
     //Métodos propios de la clase
     
-    //creaPaciente: pide los datos necesarios del paciente los guarda en el archivo JSON
-    public static void creaPaciente() throws Exception
+    @Override
+    //creaPersona: registra a un nuevo paciente para su acceso al sistema
+    public void creaPersona()
     {
-        //Variables necesarias para el correcto funcionamiento del método
-        String nombre_paciente, ingresaGenero, apellido_paciente, contraseña_paciente, email_paciente, diagnostico;
-        int id_paciente = 0, edad_paciente, id_medico;
-        char genero_paciente;
-        medico medico = null;
-        
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones            
         try
         {
-            //Se pide el Id del médico
-            id_medico = Integer.parseInt(JOptionPane.showInputDialog("ID del médico tratante:"));
-            //Se crea el objeto metodos_medico para acceder a los métodos de la clase médico
-            medico metodos_medico = new medico();
-            //Se verifica que el médico exista
-            //Si existe, envía un mensaje al usuario de que se encontró el médico
-            if(metodos_medico.getMedicos().contains(id_medico) == true)
-            {
-                System.out.println("Médico encontrado en la lista de médicos.");
-                medico = metodos_medico.getMedicos().get(id_medico);
-            }
-            //Si no existe, llamará al método para crear un nuevo médico
-            else
-            {metodos_medico.creaMedico();}
-
+            //Se llama al método buscaMedico para conocer si el médico está registrado o no y se guarda en la variable medico
+            medico medico = buscaMedico();
+            
+            //Si está nulo, manda una excepción
+            if (medico == null)
+            {throw new Exception("No se puede crear el paciente sin un médico, por favor, registra un médico tratante");}
+            
+            //Si no, crea al nuevo paciente
+            //Variables necesarias para guardar los atributos del paciente
+            int id, edad;
+            String nombre, apellido, ingresaGenero;
+            char genero;
+            String contraseña, email, diagnostico;
             //Se crea el arreglo con las opciones de género para evitar error por parte del usuario
             String [] generos = {"F","M"};
-            //Se establece un id basado en el último id de registro encontrado en usuarios.
-            //Se crea el objeto persona para obtener el último id guardado
-            persona persona = new persona();
-            //Se aumenta un id dependiendo de la cantidad de personas guardadas en la lista persona
-            id_paciente = persona.getPersona().size() + 1;
+            
+            //Se aumenta un id dependiendo de la cantidad de personas guardadas en la lista personas
+            id = getPersonas().size() + 1;
             //Se piden los datos del paciente
-            nombre_paciente = JOptionPane.showInputDialog("Nombre del paciente:");
-            apellido_paciente = JOptionPane.showInputDialog("Apellido del paciente:");
-            email_paciente = JOptionPane.showInputDialog("Correo electrónico del paciente: ");
-            contraseña_paciente = JOptionPane.showInputDialog("Contraseña con la que accederá el paciente:");
-            edad_paciente = Integer.parseInt(JOptionPane.showInputDialog("Edad del paciente:"));
+            nombre = JOptionPane.showInputDialog("Nombre del paciente:");
+            apellido = JOptionPane.showInputDialog("Apellido del paciente:");
+            email = JOptionPane.showInputDialog("Correo electrónico del paciente: ");
+            contraseña = JOptionPane.showInputDialog("Contraseña con la que accederá el paciente:");
+            edad = Integer.parseInt(JOptionPane.showInputDialog("Edad del paciente:"));
             diagnostico = JOptionPane.showInputDialog("Diagnóstico del paciente:");
             //Se elige el género del paciente
-            ingresaGenero = (String) JOptionPane.showInputDialog(null,"Indica el género del paciente:\n (Usa F para Femenino y M para masculino)", 
+            ingresaGenero = (String) JOptionPane.showInputDialog(null,"Indica el género del paciente:\n (Usa F para Femenino y M para masculino)\n\n", 
                     "", JOptionPane.DEFAULT_OPTION, null, generos, generos[0]);
             //Se convierte la opción elegida para crear el objeto de forma correcta
-            genero_paciente = ingresaGenero.charAt(0);
-
-            //Se crea el objeto paciente
-            paciente paciente = new paciente(diagnostico, medico, id_paciente, nombre_paciente, apellido_paciente, edad_paciente, genero_paciente, contraseña_paciente, email_paciente);
-
-            //Se guarda el paciente en la lista persona
-            persona.getPersona().add(paciente);
-
-            //Se guarda el paciente en la lista paciente
+            genero = ingresaGenero.charAt(0);
+            
+            //Se crea el objeto persona
+            paciente paciente = new paciente(diagnostico, medico, id, nombre, apellido, edad, genero, contraseña, email);
+            
+            //Se guarda el objeto en la lista personas para que sea guardado en el archivo JSON
+            getPersonas().add(paciente);
+            
+            //Se guarda el objeto en la lista pacientes para poder permitir filtrar por pacientes
             pacientes.add(paciente);
-
-            //Se guardan los objetos del paciente en el archivo json
-            guardaPaciente(paciente);    
-
+            
             //Se regresa un mensaje en consola indicando el término del método
-            System.out.println("Se ha guardado correctamente el paciente en las listas persona y paciente");
+            System.out.println("Se ha guardado correctamente el paciente en las listas personas y pacientes.");
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {throw new Exception("No se pudo guardar el paciente en las listas.");}
+        {System.out.println("No se pudo guardar el paciente en la lista por el error: " + e.getMessage());}
     }
     
-    //guardaPaciente: guarda los datos del paciente en un archivo json
-    public static void guardaPaciente(paciente paciente) throws Exception
+    //buscaMedico: buscará el registro del médico tratante, si no lo encuentra, crea un nuevo médico
+    public static medico buscaMedico() throws Exception
     {
-        //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
-        String jsonPaciente;
-        
+        //Se crea el objeto médico para guardar los resultados de la búsqueda
+        medico medico = null;
+            
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el objeto gson que nos ayudará a pasar el objeto paciente a un formato JSON
-            Gson gson = new Gson();
-            //Se pasa el paciente a un formato JSON
-            jsonPaciente = gson.toJson(paciente);
-            
-            //Se crea el fileWritter para crear el archivo
-            FileWriter fileWriter = new FileWriter(ARCHIVO);
-            //Se crea el printWritter para ir escribiendo en el archivo JSON
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            //Se escribe en el archivo JSON
-            printWriter.print(jsonPaciente);
-            //Se cierra el printWritter para que los cambios sean guardados
-            printWriter.close();
-            
-            //Se manda mensaje al usuario para que pueda ver el guardado exitoso del paciente
-            System.out.println("El paciente ha sido guardado:\n" + jsonPaciente);
+            //Se pide el Id del médico
+            int id_medico = Integer.parseInt(JOptionPane.showInputDialog("ID del médico tratante:"));
+            //Se crea el objeto metodos_medico para acceder a los métodos de la clase médico
+            medico metodos_medico = new medico();
+            //Se verifica que el médico exista
+            boolean existe_medico = metodos_medico.getPersonas().stream().anyMatch(x -> x.getId() == id_medico);
+            //Si existe, envía un mensaje al usuario de que se encontró el médico y guarda los datos en el 
+            if(existe_medico == true)
+            {
+                //Se indica que el médico fue encontrado
+                System.out.println("Médico encontrado en la lista de personas.");
+                //Se guarda el objeto encontrado en el id del médico en el objeto medico
+                medico = (medico) getPersonas().get(id_medico);
+            }
+            //Si no existe, llamará al método para crear un nuevo médico
+            else
+            {System.out.println("Médico no encontrado en la lista de personas.");}
         }
-        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
-        {throw new Exception("No se pudo guardar el paciente en el archivo JSON.");}
+        {System.out.println("No se pudo referenciar al médico por el error: " + e.getMessage());}
+   
+        return medico;
     }
     
-    //Método cargaPaciente para leer y cargar el archivo 
+    //cargaPaciente: leer y cargar el archivo JSON
     public static void cargaPaciente() throws Exception
     {
-        //Se especifica el manejo de excepciones try ... catch
-        //Se intenta la ejecución de las siguientes instrucciones 
-        try
-        {
-            File file = new File(ARCHIVO);
         
-            BufferedReader lector = new BufferedReader(new FileReader(file));
-            StringBuilder json = new StringBuilder();
-
-            String cadena;
-
-            while ((cadena = lector.readLine()) != null)
-            {
-                System.out.println(cadena);
-                json.append(cadena);
-            }
-
-            Gson gson = new Gson();
-            paciente paciente = gson.fromJson(json.toString(), paciente.class);
-
-            System.out.println("Paciente cargado.");
-        }
-        //Capta cualquier excepción que surga durante la ejecución
-        catch (Exception e)
-        {System.out.println("No se pudieron cargar correctamente los datos.");}
     }
 }

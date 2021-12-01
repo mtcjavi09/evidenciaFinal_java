@@ -35,14 +35,16 @@ public class main_consultorio
             
             //Acciones del método main
             
-            //Bienvenida y guardado del nombre del archivo
+            //Bienvenida al usuario
             System.out.println("****BIENVENID@ AL CONSULTORIO MTC****");
-            //Se especifica una constante del nombre del archivo donde se guardarán todos los datos
-            String ARCHIVO = "pacientes.json";
             
-            
+            //Se crea el objeto persona para ingresar los datos semilla
             persona persona = new persona();
+            //Se llama al método para agregar al usuario inicial
             persona.agregaDatosIniciales();
+            
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
             
             do
             {
@@ -72,8 +74,11 @@ public class main_consultorio
             {throw new Exception("Se han terminado los intentos disponibles");}
             
             //Muestra al usuario el menú de opciones
-            menu(ARCHIVO);
+            menu();
             
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
+                        
             //Despedida al usuario por correcta ejecución del programa
             System.out.println("El programa se ha terminado con éxito. Nos vemos pronto :)\n");
         }
@@ -92,7 +97,7 @@ public class main_consultorio
         }
     }
     
-    public static void menu(String ARCHIVO)
+    public static void menu()
     {       
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones
@@ -133,7 +138,7 @@ public class main_consultorio
                     case "Crear paciente": //Se eligió crear un nuevo paciente
                     {
                         //Se llama al método creaPaciente de la clase paciente
-                        paciente.creaPaciente(ARCHIVO);
+                        paciente.creaPaciente();
                         //Se agrega una línea para mejor visibilidad
                         System.out.println("");
                         //Se termina el switch
@@ -143,7 +148,17 @@ public class main_consultorio
                     case "Cargar Paciente": //Se eligió cargar los pacientes
                     {
                         //Se llama al método cargaPaciente de la clase paciente
-                        paciente.cargaPaciente(ARCHIVO);
+                        paciente.cargaPaciente();
+                        //Se agrega una línea para mejor visibilidad
+                        System.out.println("");
+                        //Se termina el switch
+                        break;
+                    }
+                    
+                    case "Crear médico": //Se eligió crear un médico
+                    {
+                        //Se llama al método creaMedico de la clase medico
+                        medico.creaMedico();
                         //Se agrega una línea para mejor visibilidad
                         System.out.println("");
                         //Se termina el switch

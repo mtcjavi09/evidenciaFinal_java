@@ -38,6 +38,9 @@ public class main_consultorio
             //Bienvenida al usuario
             System.out.println("****BIENVENID@ AL CONSULTORIO MTC****");
             
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
+            
             //Se crea el objeto persona para ingresar los datos semilla
             persona persona = new persona();
             //Se llama al método para agregar al usuario inicial
@@ -111,6 +114,10 @@ public class main_consultorio
             String opcionElegida;
             //salir: es la variable que ayudará a finalizar el ciclo del menú
             int salir = 0;
+            //Objetos necesarios para acceder a los métodos de las clases
+            paciente paciente = new paciente();
+            medico medico = new medico();
+            persona persona = new persona();
             
             //Se comienza el ciclo while hasta que la opción de salir sea 1
             while(salir == 0)
@@ -127,18 +134,23 @@ public class main_consultorio
                 {
                     case "Crear un nuevo usuario": //Se eligió crear un nuevo usuario
                     {
-                        
+                        //Se llama al método creaPaciente de la clase paciente
+                        persona.creaPersona();
+                        //Se agrega una línea para mejor visibilidad
+                        System.out.println("");
+                        //Se termina el switch
+                        break;
                     }
 
                     case "Cargar usuario": //Se eligió cargar los usuarios
                     {
-
+                        
                     }
 
                     case "Crear paciente": //Se eligió crear un nuevo paciente
                     {
                         //Se llama al método creaPaciente de la clase paciente
-                        paciente.creaPaciente();
+                        paciente.creaPersona();
                         //Se agrega una línea para mejor visibilidad
                         System.out.println("");
                         //Se termina el switch
@@ -158,7 +170,7 @@ public class main_consultorio
                     case "Crear médico": //Se eligió crear un médico
                     {
                         //Se llama al método creaMedico de la clase medico
-                        medico.creaMedico();
+                        medico.creaPersona();
                         //Se agrega una línea para mejor visibilidad
                         System.out.println("");
                         //Se termina el switch
@@ -175,8 +187,10 @@ public class main_consultorio
                 }
             }
             
+            //Se indica que se va a salir del menú
             System.out.println("Saliendo del menú...");
-            
+            //Se guardan los objetos de todos los usuarios en el archivo JSON
+            persona.guardaPersona();
         }
         
         catch(Exception e)

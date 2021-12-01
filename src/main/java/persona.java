@@ -22,7 +22,7 @@ public class persona
     private String email;
     
     //Lista para guardar todos los usuarios(personas)
-    private static List <persona> persona;
+    private static List <persona> persona = new ArrayList<>();;
     
     //Constructor persona usando todos los atributos
     public persona(int id, String nombre, String apellido, int edad, char genero, String contraseña, String email) 
@@ -34,13 +34,6 @@ public class persona
         this.genero = genero;
         this.contraseña = contraseña;
         this.email = email;
-    }
-    
-    //Constructor persona usado para creación de médico para paciente (sin usar todos los atributos)
-    public persona(String nombre, String apellido) 
-    {
-        this.nombre = nombre;
-        this.apellido = apellido;
     }
     
     //Constructor vacío para su uso en algunos métodos de la clase main
@@ -65,22 +58,39 @@ public class persona
     public void setPersona(List<persona> persona) {this.persona = persona;}
        
     //Métodos propios de la clase
-    public void registrarUsuario()
+    //agregaDatosIniciales: añadirá un dato semilla para acceder a las funciones 
+    public void agregaDatosIniciales()
     {
-        
-        if (persona == null)
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
         {
-            //Se reserva memoria para guardar los usuarios (personas)
-            persona = new ArrayList<>();
+            //Se agrega el dato semilla a la lista persona
+            persona.add(new persona(1,"Maria","Tchijov",19,'F',"1234","mashjov13@outlook.es"));
+            //Se notifica al usuario en consola que los datos semilla han sido guardados
+            System.out.println("Los datos iniciales han sido guardados.");
         }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch(Exception e)
+        {System.out.println("No se pudieron guardar los datos semilla correctamente.");}
         
-        else
+    }
+    
+    //ingresar: validará si efectivamente el usuario ha sido registrado en el sistema
+    public static boolean ingresar(int id, String contraseña) throws Exception
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones
+        try
         {
-            //Ingreso de dato semilla para el correcto uso del programa
-            persona.add(new persona(id+=1,"Maria","Tchijov",19,'F',"m123",
-                    "mashjov13@outlook.es")); 
-            
-            
+            //Se identifica si el usuario ingresado está registrado
+            boolean existe = persona.stream().anyMatch(x -> 
+                x.getId() == id && x.getContraseña().equals(contraseña));
+            //Se regresa el resultado de la búsqueda
+            return existe;
         }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch(Exception e)
+        {throw new Exception("No se pudo validar al usuario.");}
     }
 }

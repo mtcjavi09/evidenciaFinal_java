@@ -108,8 +108,7 @@ public class main_consultorio
         {
             //Se declaran las variables que se usarán en el método
             //opciones: guardará las opciones disponibles para elegir entre las funciones
-            String [] opciones = {"Crear un nuevo usuario", "Cargar usuario", "Crear paciente", "Cargar Paciente", 
-                "Crear médico", "Salir"};
+            String [] opciones = {"Cargar usuarios", "Crear nuevo usuario", "Crear nuevo paciente", "Salir"};
             //opcionElegida: le pide al usuario la opción de la función a realizar
             String opcionElegida;
             //salir: es la variable que ayudará a finalizar el ciclo del menú
@@ -132,45 +131,30 @@ public class main_consultorio
 
                 switch(opcionElegida)
                 {
-                    case "Crear un nuevo usuario": //Se eligió crear un nuevo usuario
+                    case "Cargar usuarios": //Se eligió cargar a los usuarios guardados en el archivo JSON
                     {
-                        //Se llama al método creaPaciente de la clase paciente
+                        //Se llama al método de cargarJSON de la clase persona
+                        persona.cargarJSON();
+                        //Se agrega una línea para mejor visibilidad
+                        System.out.println("");
+                        //Se termina el switch
+                        break;
+                    }                        
+                    
+                    case "Crear nuevo usuario":
+                    {
+                        //Se llama al método de creaPersona de la clase persona
                         persona.creaPersona();
                         //Se agrega una línea para mejor visibilidad
                         System.out.println("");
                         //Se termina el switch
                         break;
                     }
-
-                    case "Cargar usuario": //Se eligió cargar los usuarios
-                    {
-                        
-                    }
-
-                    case "Crear paciente": //Se eligió crear un nuevo paciente
-                    {
-                        //Se llama al método creaPaciente de la clase paciente
-                        paciente.creaPersona();
-                        //Se agrega una línea para mejor visibilidad
-                        System.out.println("");
-                        //Se termina el switch
-                        break;
-                    }
-
-                    case "Cargar Paciente": //Se eligió cargar los pacientes
-                    {
-                        //Se llama al método cargaPaciente de la clase paciente
-                        paciente.cargaPaciente();
-                        //Se agrega una línea para mejor visibilidad
-                        System.out.println("");
-                        //Se termina el switch
-                        break;
-                    }
                     
-                    case "Crear médico": //Se eligió crear un médico
+                    case "Crear nuevo paciente":
                     {
-                        //Se llama al método creaMedico de la clase medico
-                        medico.creaPersona();
+                        //Se llama al método de creaPersona de la clase paciente
+                        paciente.creaPersona();
                         //Se agrega una línea para mejor visibilidad
                         System.out.println("");
                         //Se termina el switch
@@ -189,8 +173,16 @@ public class main_consultorio
             
             //Se indica que se va a salir del menú
             System.out.println("Saliendo del menú...");
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
             //Se guardan los objetos de todos los usuarios en el archivo JSON
             persona.guardaPersona();
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
+            //Se muestran todos los usuarios guardados en el archivo JSON
+            persona.cargarJSON();
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
         }
         
         catch(Exception e)

@@ -22,6 +22,9 @@ public class paciente extends persona
     //Lista donde se guardarán todos los pacientes
     private static List <paciente> pacientes = new ArrayList<>();
     
+    //Archivo donde se guardarán todos los datos de los medicos
+    private static String ARCHIVO = "pacientes.json";
+    
     //Constructor para crear el paciente usando atributos completos
     public paciente(String diagnostico, medico medico, int id, String nombre, String apellido, int edad, char genero, String contraseña, String email) 
     {
@@ -38,10 +41,67 @@ public class paciente extends persona
     public void setDiagnostico(String diagnostico) {this.diagnostico = diagnostico;}
     public medico getMedico() {return medico;}
     public void setMedico(medico medico) {this.medico = medico;}
-
+    public static List<paciente> getPacientes() {return pacientes;}
+    public static void setPacientes(List<paciente> pacientes) {paciente.pacientes = pacientes;}
+    
     
     
     //Métodos propios de la clase
+    
+    @Override
+    //agregaDatosIniciales: añadirá un dato semilla para acceder a las funciones 
+    public void agregaDatosIniciales()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se crea el archivo con nombrado con la constante ARCHIVO
+            File file = new File(ARCHIVO);
+            //Se crea el médico con los datos semilla para crear el paciente semilla
+            medico medico = new medico("Traumatología",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
+            //Se crea el paciente con los datos semilla
+            paciente semilla = new paciente("Gripa",medico,1,"Nam","Joon",30,'M',"1234","namj@outlook.es");
+            
+            //Si no existe el archivo, se agrega el paciente semilla para comenzar con el programa    
+            if(file.canExecute() == false)
+            {pacientes.add(semilla);}
+            
+            //Si sí existe, se leen las líneas contenidas en el archivo
+            else
+            {
+                
+                //Se crea el lector para el archivo de personas.json
+                BufferedReader lector = new BufferedReader(new FileReader(file));
+                //Se crea el String builder para pasar el formato JSON a un objeto
+                StringBuilder json = new StringBuilder();
+
+                //Se crea una variable para ir recorriendo el archivo
+                String cadena;
+
+                //Se crea el ciclo para recorrer el archivo JSON
+                while ((cadena = lector.readLine()) != null)
+                {
+                    //Se guarda la línea
+                    json.append(cadena);
+                    //Se crea el objeto gson para pasar del formato JSON a un objeto Java
+                    Gson gson = new Gson();
+                    //Se convierte el objeto
+                    paciente paciente = gson.fromJson(json.toString(), paciente.class);
+                    pacientes.add(paciente);
+                }
+                
+                //Si la lista tiene algún valor vacío, entonces se agrega el dato semilla para comenzar el programa
+                if(pacientes.isEmpty())
+                {pacientes.add(semilla);}
+            }
+
+            System.out.println("Los pacientes iniciales han sido guardados.");
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch(Exception e)
+        {System.out.println("No se pudieron guardar los pacientes semilla correctamente.");}
+    }
     
     @Override
     //creaPersona: registra a un nuevo paciente para su acceso al sistema
@@ -68,7 +128,7 @@ public class paciente extends persona
             String [] generos = {"F","M"};
             
             //Se aumenta un id dependiendo de la cantidad de personas guardadas en la lista personas
-            id = getPersonas().size() + 1;
+            id = pacientes.size() + 1;
             //Se piden los datos del paciente
             nombre = JOptionPane.showInputDialog("Nombre del paciente:");
             apellido = JOptionPane.showInputDialog("Apellido del paciente:");
@@ -85,14 +145,11 @@ public class paciente extends persona
             //Se crea el objeto persona
             paciente paciente = new paciente(diagnostico, medico, id, nombre, apellido, edad, genero, contraseña, email);
             
-            //Se guarda el objeto en la lista personas para que sea guardado en el archivo JSON
-            getPersonas().add(paciente);
-            
-            //Se guarda el objeto en la lista pacientes para poder permitir filtrar por pacientes
+            //Se guarda el objeto en la lista pacientes para que se pueda guardar en el archivo JSON de los médicos
             pacientes.add(paciente);
             
             //Se regresa un mensaje en consola indicando el término del método
-            System.out.println("Se ha guardado correctamente el paciente en las listas personas y pacientes.");
+            System.out.println("Se ha guardado correctamente el paciente en la lista pacientes.");
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
@@ -114,18 +171,18 @@ public class paciente extends persona
             //Se crea el objeto metodos_medico para acceder a los métodos de la clase médico
             medico metodos_medico = new medico();
             //Se verifica que el médico exista
-            boolean existe_medico = metodos_medico.getPersonas().stream().anyMatch(x -> x.getId() == id_medico);
+            boolean existe_medico = metodos_medico.getMedicos().stream().anyMatch(x -> x.getId() == id_medico);
             //Si existe, envía un mensaje al usuario de que se encontró el médico y guarda los datos en el 
             if(existe_medico == true)
             {
                 //Se indica que el médico fue encontrado
-                System.out.println("Médico encontrado en la lista de personas.");
+                System.out.println("Médico encontrado en la lista de medicos.");
                 //Se guarda el objeto encontrado en el id del médico en el objeto medico
-                medico = (medico) getPersonas().get(id_medico);
+                medico = metodos_medico.getMedicos().get(id_medico);
             }
             //Si no existe, llamará al método para crear un nuevo médico
             else
-            {System.out.println("Médico no encontrado en la lista de personas.");}
+            {System.out.println("Médico no encontrado en la lista de medicos.");}
         }
         catch (Exception e)
         {System.out.println("No se pudo referenciar al médico por el error: " + e.getMessage());}
@@ -133,9 +190,118 @@ public class paciente extends persona
         return medico;
     }
     
-    //cargaPaciente: leer y cargar el archivo JSON
-    public static void cargaPaciente() throws Exception
+    @Override
+    //guardaPersona: guarda los datos de los médicos en un archivo json
+    public void guardaPersona()
     {
+        //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
+        String jsonPaciente;
         
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se crea el objeto gson que nos ayudará a pasar el objeto paciente a un formato JSON
+            Gson gson = new Gson();
+                        
+            //Se crea el fileWritter para crear el archivo
+            FileWriter fileWriter = new FileWriter(ARCHIVO);
+            //Se crea el printWritter para ir escribiendo en el archivo JSON
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            
+            //Se indica al usuario que se guardarán los pacientes
+            System.out.println("Los siguientes pacientes serán guardados:");
+            //Se crea un bucle for para guardar cada objeto de la lista en el archivo
+            for (int x = 0; x < pacientes.size(); x++)
+            {
+                //Se pasa el paciente a un formato JSON
+                jsonPaciente = gson.toJson(pacientes.get(x));
+                //Se escribe en el archivo JSON
+                printWriter.print(jsonPaciente);
+                //Se indica qué paciente será guardado
+                System.out.println("Paciente guardado: " + jsonPaciente);
+            }
+            
+            //Se cierra el printWritter para que los cambios sean guardados
+            printWriter.close();
+            
+            //Se manda mensaje al usuario para que pueda ver el guardado exitoso del paciente
+            System.out.println("Los pacientes han sido guardados correctamente.");
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudieron guardar los pacientes en el archivo JSON por el error: " + e.getMessage());}
+    }
+    
+    @Override
+    //ingresar: validará si efectivamente el paciente ha sido registrado en el sistema
+    public boolean ingresar(int id, String contraseña) throws Exception
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones
+        try
+        {
+            //Se identifica si el paciente ingresado está registrado
+            boolean existe = pacientes.stream().anyMatch(x -> 
+                x.getId() == id && x.getContraseña().equals(contraseña));
+            //Se regresa el resultado de la búsqueda
+            return existe;
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch(Exception e)
+        {throw new Exception("No se pudo validar al médico.");}
+    }
+    
+    
+    @Override
+    //cargarJSON: leerá y cargará todos los pacientes que se encuentren en el archivo JSON
+    public void cargarJSON()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se crea el archivo con nombrado con la constante ARCHIVO
+            File file = new File(ARCHIVO);
+        
+            //Se crea el lector para el archivo de pacientes.json
+            BufferedReader lector = new BufferedReader(new FileReader(file));
+            //Se crea el String builder para pasar el formato JSON a un objeto
+            StringBuilder json = new StringBuilder();
+
+            //Se crea una variable para ir recorriendo el archivo
+            String cadena;
+
+            //Se indicará al usuario que se mostrarán los pacientes guardados en el archivo
+            System.out.println("Los pacientes encontrados en el archivo son: ");
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
+            
+            //Se crea el ciclo para recorrer el archivo JSON
+            while ((cadena = lector.readLine()) != null)
+            {
+                //Se guarda la línea
+                json.append(cadena);
+                //Se crea el objeto gson para pasar del formato JSON a un objeto Java
+                Gson gson = new Gson();
+                //Se convierte el objeto
+                paciente paciente = gson.fromJson(json.toString(), paciente.class);
+                //Se muestra al usuario los datos guardados
+                System.out.println("ID del paciente: " + paciente.getId());
+                System.out.println("Nombre del paciente: " + paciente.getNombre());
+                System.out.println("Apellido del paciente: " + paciente.getApellido());
+                System.out.println("Edad del paciente: " + paciente.getEdad());
+                System.out.println("Género del paciente: " + paciente.getGenero());
+                System.out.println("Correo del paciente: " + paciente.getEmail());
+                System.out.println("Contraseña del paciente: " + paciente.getContraseña());
+                System.out.println("Diagnóstico del paciente: " + paciente.getDiagnostico());
+                System.out.println("Médico tratante del paciente: " + paciente.getMedico());
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
+            }
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
     }
 }

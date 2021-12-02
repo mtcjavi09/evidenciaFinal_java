@@ -57,12 +57,11 @@ public class persona
     public String getContraseña() {return contraseña;}
     public void setContraseña(String contraseña) {this.contraseña = contraseña;}
     public String getEmail() {return email;}
-    public void setEmail(String email) {this.email = email;}   
-    public static List<persona> getPersonas() {return personas;}
-    public static void setPersonas(List<persona> personas) {persona.personas = personas;}
+    public void setEmail(String email) {this.email = email;}
 
        
     //Métodos propios de la clase
+    
     //agregaDatosIniciales: añadirá un dato semilla para acceder a las funciones 
     public void agregaDatosIniciales()
     {
@@ -70,16 +69,49 @@ public class persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea la persona con los datos semilla
+            //Se crea el archivo con nombrado con la constante ARCHIVO
+            File file = new File(ARCHIVO);
+            //Se crea el usuario con los datos semilla
             persona semilla = new persona(1,"Maria","Tchijov",19,'F',"1234","mashjov13@outlook.es");
-            //Se agrega el objeto a la lista persona
-            personas.add(semilla);
-            //Se notifica al usuario en consola que los datos semilla han sido guardados
-            System.out.println("Los datos iniciales han sido guardados.");
+                
+            //Si no existe el archivo, se agrega el usuario semilla para comenzar con el programa    
+            if(file.canExecute() == false)
+            {personas.add(semilla);}
+            
+            //Si sí existe, se leen las líneas contenidas en el archivo
+            else
+            {
+                
+                //Se crea el lector para el archivo de personas.json
+                BufferedReader lector = new BufferedReader(new FileReader(file));
+                //Se crea el String builder para pasar el formato JSON a un objeto
+                StringBuilder json = new StringBuilder();
+
+                //Se crea una variable para ir recorriendo el archivo
+                String cadena;
+
+                //Se crea el ciclo para recorrer el archivo JSON
+                while ((cadena = lector.readLine()) != null)
+                {
+                    //Se guarda la línea
+                    json.append(cadena);
+                    //Se crea el objeto gson para pasar del formato JSON a un objeto Java
+                    Gson gson = new Gson();
+                    //Se convierte el objeto
+                    persona persona = gson.fromJson(json.toString(), persona.class);
+                    personas.add(persona);
+                }
+                
+                //Si la lista tiene algún valor vacío, entonces se agrega el dato semilla para comenzar el programa
+                if(personas.isEmpty())
+                {personas.add(semilla);}
+            }
+
+            System.out.println("Los usuarios iniciales han sido guardados.");
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {System.out.println("No se pudieron guardar los datos semilla correctamente.");}
+        {System.out.println("No se pudieron guardar los usuarios semilla correctamente.");}
     }
     
     //creaPersona: registra a un nuevo usuario para su acceso al sistema
@@ -124,8 +156,8 @@ public class persona
         {System.out.println("No se pudo guardar el usuario en las listas por el error: " + e.getMessage());}
     }
     
-    //guardaUsuario: guarda los datos del los usuarios en un archivo json
-    public static void guardaPersona()
+    //guardaPersona: guarda los datos de los usuarios en un archivo json
+    public void guardaPersona()
     {
         //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
         String jsonUsuario;
@@ -141,9 +173,8 @@ public class persona
             FileWriter fileWriter = new FileWriter(ARCHIVO);
             //Se crea el printWritter para ir escribiendo en el archivo JSON
             PrintWriter printWriter = new PrintWriter(fileWriter);
+
             
-            //Se indica al usuario que se guardarán los pacientes
-            System.out.println("Los siguientes pacientes serán guardados:");
             //Se crea un bucle for para guardar cada objeto de la lista en el archivo
             for (int x = 0; x < personas.size(); x++)
             {
@@ -151,8 +182,6 @@ public class persona
                 jsonUsuario = gson.toJson(personas.get(x));
                 //Se escribe en el archivo JSON
                 printWriter.print(jsonUsuario);
-                //Se indica qué paciente será guardado
-                System.out.println("Usuario guardado: " + jsonUsuario);
             }
             
             //Se cierra el printWritter para que los cambios sean guardados
@@ -165,39 +194,9 @@ public class persona
         catch (Exception e)
         {System.out.println("No se pudieron guardar los usuarios en el archivo JSON por el error: " + e.getMessage());}
     }
-    
-    //cargarPersona: leerá y cargará todos los usuarios que se encuentren en el archivo JSON
-    public static void cargarPersona()
-    {
-        //Se especifica el manejo de excepciones try ... catch
-        //Se intenta la ejecución de las siguientes instrucciones 
-        try
-        {
-            File file = new File(ARCHIVO);
-        
-            BufferedReader lector = new BufferedReader(new FileReader(file));
-            StringBuilder json = new StringBuilder();
 
-            String cadena;
-
-            while ((cadena = lector.readLine()) != null)
-            {
-                System.out.println(cadena);
-                json.append(cadena);
-            }
-
-            Gson gson = new Gson();
-            paciente paciente = gson.fromJson(json.toString(), paciente.class);
-
-            System.out.println("Paciente cargado.");
-        }
-        //Capta cualquier excepción que surga durante la ejecución
-        catch (Exception e)
-        {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
-    }
-    
     //ingresar: validará si efectivamente el usuario ha sido registrado en el sistema
-    public static boolean ingresar(int id, String contraseña) throws Exception
+    public boolean ingresar(int id, String contraseña) throws Exception
     {
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones
@@ -212,5 +211,54 @@ public class persona
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
         {throw new Exception("No se pudo validar al usuario.");}
+    }
+    
+    //cargarJSON: leerá y cargará todos los usuarios que se encuentren en el archivo JSON
+    public void cargarJSON()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se crea el archivo con nombrado con la constante ARCHIVO
+            File file = new File(ARCHIVO);
+        
+            //Se crea el lector para el archivo de personas.json
+            BufferedReader lector = new BufferedReader(new FileReader(file));
+            //Se crea el String builder para pasar el formato JSON a un objeto
+            StringBuilder json = new StringBuilder();
+
+            //Se crea una variable para ir recorriendo el archivo
+            String cadena;
+
+            //Se indicará al usuario que se mostrarán los médicos guardados en el archivo
+            System.out.println("Los usuarios encontrados en el archivo son: ");
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
+            
+            //Se crea el ciclo para recorrer el archivo JSON
+            while ((cadena = lector.readLine()) != null)
+            {
+                //Se guarda la línea
+                json.append(cadena);
+                //Se crea el objeto gson para pasar del formato JSON a un objeto Java
+                Gson gson = new Gson();
+                //Se convierte el objeto
+                persona persona = gson.fromJson(json.toString(), persona.class);
+                //Se muestra al usuario los datos guardados
+                System.out.println("ID del usuario: " + persona.getId());
+                System.out.println("Nombre del usuario: " + persona.getNombre());
+                System.out.println("Apellido del usuario: " + persona.getApellido());
+                System.out.println("Edad del usuario: " + persona.getEdad());
+                System.out.println("Género del usuario: " + persona.getGenero());
+                System.out.println("Correo del usuario: " + persona.getEmail());
+                System.out.println("Contraseña del usuario: " + persona.getContraseña());
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
+            }
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
     }
 }

@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 public class paciente extends persona
@@ -287,6 +288,31 @@ public class paciente extends persona
         {System.out.println("No se pudo mostrar el paciente por el error: " + e.getMessage());}
     }
     
+    @Override
+    //consultaUsuarios: mostrará todos los usuarios guardados en la lista personas
+    public void consultaUsuarios()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se indica al usuario que se mostrarán todas los pacientes que se han registrado
+            System.out.println("Se han registrado los siguientes pacientes: ");
+            //Se recorre la lista citas para mostrarle al usuario cada paciente que se ha registrado
+            for (paciente x : pacientes)
+            {
+                //Se llama al método despliega de la clase paciente
+                x.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
+            }
+            //Se indica al usuario que se han terminado de desplegar todos los pacientes
+            System.out.println("Se han terminado de mostrar todos los pacientes registrados.");
+        }
+        catch (Exception e)
+        {System.out.println("No se pudieron desplegar los pacientes por el error: " + e.getMessage());}
+    }
+       
     //asistirCita: llamará al método consultaPaciente para cambiar el diagnóstico
     public static void asistirCita(int id)
     {

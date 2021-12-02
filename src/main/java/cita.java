@@ -339,7 +339,31 @@ public class cita
         {System.out.println("No se pudo mostrar la citas por el error: " + e.getMessage());}
     }
     
-    //buscaCita: Buscará y mostrará las citas relacionadas con el ID del paciente o del médico
+    //consultaCitas: permite mostrar todos los datos guardados en la lista 
+    public static void consultaCitas()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se indica al usuario que se mostrarán todas las citas que se han registrado
+            System.out.println("Se han registrado las siguientes citas: ");
+            //Se recorre la lista citas para mostrarle al usuario cada cita que se ha registrado
+            for (cita x : citas)
+            {
+                //Se llama al método despliega de la clase cita
+                x.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
+            }
+            //Se indica al usuario que se han terminado de desplegar todas las citas
+            System.out.println("Se han terminado de mostrar todas las citas registradas.");
+        }
+        catch (Exception e)
+        {System.out.println("No se pudieron desplegar las citas por el error: " + e.getMessage());}
+    }
+    
+    //buscaCita: buscará y mostrará las citas relacionadas con el ID del paciente o del médico
     public static void buscaCita(int id, String usuario)
     {
         //Se especifica el manejo de excepciones try ... catch
@@ -359,10 +383,12 @@ public class cita
                     //Se buscan las citas que correspondan al paciente y se guarda en una lista
                     List <cita> citasPaciente = citas.stream().filter(paciente -> paciente.getId() == id).collect(Collectors.toList());
                     //Se recorre la lista citasPaciente para mostrarle al usuario cada cita que tiene
-                    for (cita x: citasPaciente)
+                    for (cita x : citasPaciente)
                     {
-                       x.despliega();
-                       
+                        //Se llama al método despliega de la clase cita
+                        x.despliega();
+                        //Se agrega una línea para mejor visibilidad
+                        System.out.println("");
                     }
                     //Se termina el switch
                     break;
@@ -375,13 +401,19 @@ public class cita
                     //Se recorre la lista citasPaciente para mostrarle al usuario cada cita que tiene
                     for (cita x : citasMedico)
                     {
+                        //Se llama al método despliega de la clase cita
                         x.despliega();
-                        
+                        //Se agrega una línea para mejor visibilidad
+                        System.out.println("");                        
                     }
                     //Se termina el switch
                     break;
                 }
             }
+            
+            //Se indica al usuario que se han terminado de desplegar todas las citas
+            System.out.println("Se han terminado de mostrar las citas del " + usuario.toLowerCase() + 
+                    " #" + id + ".");
         }
         catch (Exception e)
         {System.out.println("No se pudieron encontrar las citas por el error: " + e.getMessage());}

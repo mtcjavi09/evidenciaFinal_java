@@ -248,13 +248,7 @@ public class persona
                 //Se convierte el objeto
                 persona persona = gson.fromJson(json.toString(), persona.class);
                 //Se muestra al usuario los datos guardados
-                System.out.println("ID del usuario: " + persona.getId());
-                System.out.println("Nombre del usuario: " + persona.getNombre());
-                System.out.println("Apellido del usuario: " + persona.getApellido());
-                System.out.println("Edad del usuario: " + persona.getEdad());
-                System.out.println("Género del usuario: " + persona.getGenero());
-                System.out.println("Correo del usuario: " + persona.getEmail());
-                System.out.println("Contraseña del usuario: " + persona.getContraseña());
+                persona.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
             }
@@ -282,6 +276,30 @@ public class persona
         }
         catch (Exception e)
         {System.out.println("No se pudo mostrar el usuario por el error: " + e.getMessage());}
+    }
+    
+    //consultaUsuarios: mostrará todos los usuarios guardados en la lista personas
+    public void consultaUsuarios()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se indica al usuario que se mostrarán todas los usuarios que se han registrado
+            System.out.println("Se han registrado los siguientes usuarios: ");
+            //Se recorre la lista citas para mostrarle al usuario cada persona que se ha registrado
+            for (persona x : personas)
+            {
+                //Se llama al método despliega de la clase persona
+                x.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
+            }
+            //Se indica al usuario que se han terminado de desplegar todas las personas
+            System.out.println("Se han terminado de mostrar todos los usuarios registrados.");
+        }
+        catch (Exception e)
+        {System.out.println("No se pudieron desplegar los usuarios por el error: " + e.getMessage());}
     }
     
     //enviaMensaje: enviará mensaje a una persona, un paciente o un médico

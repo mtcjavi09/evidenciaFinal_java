@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 
 public class medico extends persona
@@ -265,6 +266,60 @@ public class medico extends persona
         }
         catch (Exception e)
         {System.out.println("No se pudo mostrar el médico por el error: " + e.getMessage());}
+    }
+    
+    @Override
+    //consultaUsuarios: mostrará todos los usuarios guardados en la lista personas
+    public void consultaUsuarios()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se indica al usuario que se mostrarán todas los médico que se han registrado
+            System.out.println("Se han registrado los siguientes médicos: ");
+            //Se recorre la lista citas para mostrarle al usuario cada médico que se ha registrado
+            for (medico x : medicos)
+            {
+                //Se llama al método despliega de la clase médico
+                x.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
+            }
+            //Se indica al usuario que se han terminado de desplegar todos los médicos
+            System.out.println("Se han terminado de mostrar todos los médicos registrados.");
+        }
+        catch (Exception e)
+        {System.out.println("No se pudieron desplegar los médicos por el error: " + e.getMessage());}
+    }
+    
+    
+    //buscaPaciente: filtrará todos los pacientes relacionados con el médico
+    public static void buscaPacientes(int id)
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se agrega un título para los pacientes obtenidas
+            System.out.println("Se encontraron las siguientes citas para el médico #" + id);
+            //Se buscan los pacientes que correspondan al médico y se guardan en una lista de pacientes
+            List <paciente> pacientesMedico = paciente.getPacientes().stream().filter(medico -> medico.getId() == id).collect(Collectors.toList());
+            //Se recorre la lista pacientesMedico para mostrarle al médico cada paciente que tiene
+            for (paciente x : pacientesMedico)
+            {
+                //Se llama al método despliega de la clase paciente
+                x.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");                        
+            }
+            
+            //Se indica al usuario que se han terminado de desplegar todos los pacientes
+            System.out.println("Se han terminado de mostrar las citas del médico #" + id + ".");
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudieron filtrar los pacientes por el error: " + e.getMessage());}
     }
     
     //consultaPaciente: cambiará el diagnóstico del paciente

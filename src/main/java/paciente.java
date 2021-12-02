@@ -304,4 +304,24 @@ public class paciente extends persona
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
     }
+    
+    //asistirCita: llamará al método consultaPaciente para cambiar el diagnóstico
+    public static void asistirCita(int id)
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se guardan los datos del paciente en un objeto de tipo paciente
+            paciente paciente = pacientes.get(id);
+            //Se crea el objeto medico para acceder a todos los métodos
+            medico medico = new medico();
+            //Se llama al método consultaPaciente para el cambio del diagnóstico
+            medico.consultaPaciente(paciente);
+            //Se le indica al usuario que la consulta fue concluida
+            System.out.println("Se ha terminado la consulta con éxito.");
+        }
+        catch (Exception e)
+        {System.out.println("No se pudo asistir a la cita por el error: " + e.getMessage());}
+    }
 }

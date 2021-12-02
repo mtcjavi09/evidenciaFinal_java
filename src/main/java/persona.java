@@ -112,7 +112,7 @@ public class persona
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {System.out.println("No se pudieron guardar los usuarios semilla correctamente.");}
+        {System.out.println("No se pudieron guardar los usuarios semilla correctamente por el error: " + e.getMessage());}
     }
     
     //creaPersona: registra a un nuevo usuario para su acceso al sistema
@@ -132,7 +132,7 @@ public class persona
             
             //Se aumenta un id dependiendo de la cantidad de personas guardadas en la lista personas
             id = personas.size() + 1;
-            //Se piden los datos del paciente
+            //Se piden los datos de la persona
             nombre = JOptionPane.showInputDialog("Nombre del usuario:");
             apellido = JOptionPane.showInputDialog("Apellido del usuario:");
             email = JOptionPane.showInputDialog("Correo electrónico del usuario: ");
@@ -147,6 +147,7 @@ public class persona
             //Se crea el objeto persona
             persona persona = new persona(id, nombre, apellido, edad, genero, contraseña, email);
             
+            //Se agrega el objeto persona en la lista personas
             personas.add(persona);
             
             //Se regresa un mensaje en consola indicando el término del método
@@ -154,13 +155,13 @@ public class persona
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {System.out.println("No se pudo guardar el usuario en las listas por el error: " + e.getMessage());}
+        {System.out.println("No se pudo guardar el usuario en la lista por el error: " + e.getMessage());}
     }
     
     //guardaPersona: guarda los datos de los usuarios en un archivo json
     public void guardaPersona()
     {
-        //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
+        //Se crea el String llamado jsonUsuario como variable que guardará el formato JSON.
         String jsonUsuario;
         
         //Se especifica el manejo de excepciones try ... catch

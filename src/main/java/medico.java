@@ -95,7 +95,7 @@ public class medico extends persona
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {System.out.println("No se pudieron guardar los médicos semilla correctamente.");}
+        {System.out.println("No se pudieron guardar los médicos semilla correctamente por el error: " + e.getMessage());}
     }
     
     @Override
@@ -116,7 +116,7 @@ public class medico extends persona
             
             //Se aumenta un id dependiendo de la cantidad de personas guardadas en la lista personas
             id = medicos.size() + 1;
-            //Se piden los datos del paciente
+            //Se piden los datos del médico
             nombre = JOptionPane.showInputDialog("Nombre del médico:");
             apellido = JOptionPane.showInputDialog("Apellido del médico:");
             email = JOptionPane.showInputDialog("Correo electrónico del médico: ");
@@ -132,7 +132,7 @@ public class medico extends persona
             //Se crea el objeto medico
             medico medico = new medico(especialidad, id, nombre, apellido, edad, genero, contraseña, email);
             
-            //Se guarda el objeto en la lista medicos para que se pueda guardar en el archivo JSON de los médicos
+            //Se agrega el objeto medico en la lista medicos
             medicos.add(medico);
             
             //Se regresa un mensaje en consola indicando el término del método
@@ -147,7 +147,7 @@ public class medico extends persona
     //guardaPersona: guarda los datos de los médicos en un archivo json
     public void guardaPersona()
     {
-        //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
+        //Se crea el String llamado jsonMedico como variable que guardará el formato JSON.
         String jsonMedico;
         
         //Se especifica el manejo de excepciones try ... catch

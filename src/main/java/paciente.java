@@ -100,7 +100,7 @@ public class paciente extends persona
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {System.out.println("No se pudieron guardar los pacientes semilla correctamente.");}
+        {System.out.println("No se pudieron guardar los pacientes semilla correctamente por el error: " + e.getMessage());}
     }
     
     @Override
@@ -112,7 +112,7 @@ public class paciente extends persona
         try
         {
             //Se llama al método buscaMedico para conocer si el médico está registrado o no y se guarda en la variable medico
-            medico medico = buscaMedico();
+            medico medico = cita.buscaMedico();
             
             //Si está nulo, manda una excepción
             if (medico == null)
@@ -145,7 +145,7 @@ public class paciente extends persona
             //Se crea el objeto persona
             paciente paciente = new paciente(diagnostico, medico, id, nombre, apellido, edad, genero, contraseña, email);
             
-            //Se guarda el objeto en la lista pacientes para que se pueda guardar en el archivo JSON de los médicos
+            //Se agrega el objeto paciente en la lista pacientes
             pacientes.add(paciente);
             
             //Se regresa un mensaje en consola indicando el término del método
@@ -154,40 +154,6 @@ public class paciente extends persona
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudo guardar el paciente en la lista por el error: " + e.getMessage());}
-    }
-    
-    //buscaMedico: buscará el registro del médico tratante, si no lo encuentra, crea un nuevo médico
-    public static medico buscaMedico() throws Exception
-    {
-        //Se crea el objeto médico para guardar los resultados de la búsqueda
-        medico medico = null;
-            
-        //Se especifica el manejo de excepciones try ... catch
-        //Se intenta la ejecución de las siguientes instrucciones 
-        try
-        {
-            //Se pide el Id del médico
-            int id_medico = Integer.parseInt(JOptionPane.showInputDialog("ID del médico tratante:"));
-            //Se crea el objeto metodos_medico para acceder a los métodos de la clase médico
-            medico metodos_medico = new medico();
-            //Se verifica que el médico exista
-            boolean existe_medico = metodos_medico.getMedicos().stream().anyMatch(x -> x.getId() == id_medico);
-            //Si existe, envía un mensaje al usuario de que se encontró el médico y guarda los datos en el 
-            if(existe_medico == true)
-            {
-                //Se indica que el médico fue encontrado
-                System.out.println("Médico encontrado en la lista de medicos.");
-                //Se guarda el objeto encontrado en el id del médico en el objeto medico
-                medico = metodos_medico.getMedicos().get(id_medico);
-            }
-            //Si no existe, llamará al método para crear un nuevo médico
-            else
-            {System.out.println("Médico no encontrado en la lista de medicos.");}
-        }
-        catch (Exception e)
-        {System.out.println("No se pudo referenciar al médico por el error: " + e.getMessage());}
-   
-        return medico;
     }
     
     @Override
@@ -295,7 +261,7 @@ public class paciente extends persona
                 System.out.println("Correo del paciente: " + paciente.getEmail());
                 System.out.println("Contraseña del paciente: " + paciente.getContraseña());
                 System.out.println("Diagnóstico del paciente: " + paciente.getDiagnostico());
-                System.out.println("Médico tratante del paciente: " + paciente.getMedico());
+                System.out.println("Médico tratante del paciente: " + paciente.getMedico().toString());
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
             }

@@ -36,6 +36,7 @@ public class main_consultorio
             paciente paciente = new paciente();
             medico medico = new medico();
             persona persona = new persona();
+            cita cita = new cita();
              
             //Acciones del método main
             
@@ -49,6 +50,8 @@ public class main_consultorio
             persona.agregaDatosIniciales();
             paciente.agregaDatosIniciales();
             medico.agregaDatosIniciales();
+            cita.agregaDatosIniciales();
+            
             
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
@@ -103,7 +106,7 @@ public class main_consultorio
             {throw new Exception("Se han terminado los intentos disponibles");}
             
             //Muestra al usuario el menú de opciones
-            menu(tipoUsuario, persona, medico, paciente);
+            menu(id_usuario, tipoUsuario, persona, medico, paciente, cita);
             
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
@@ -126,7 +129,7 @@ public class main_consultorio
         }
     }
     
-    public static void menu(String tipoUsuario, persona persona, medico medico, paciente paciente)
+    public static void menu(int id, String tipoUsuario, persona persona, medico medico, paciente paciente, cita cita)
     {       
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones
@@ -146,7 +149,7 @@ public class main_consultorio
                     {
                         //opciones: guardará las opciones disponibles para elegir entre las funciones
                         String [] opciones = {"Cargar usuarios", "Crear nuevo usuario", "Cargar pacientes", "Crear nuevo paciente", 
-                            "Cargar médicos","Crear nuevo médico", "Salir"};
+                            "Cargar médicos","Crear nuevo médico", "Cargar citas", "Crear nueva cita", "Salir"};
                         //opcionElegida: le pide al usuario la opción de la función a realizar
                         String opcionElegida;
                         
@@ -222,6 +225,26 @@ public class main_consultorio
                                 break;
                             }
                             
+                            case "Cargar citas":
+                            {
+                                //Se llama al método de cargarJSON de la clase cita
+                                cita.cargarJSON();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Crear nueva cita":
+                            {
+                                //Se llama al método de creaCita de la clase cita
+                                cita.creaCita();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
                             case "Salir": //Se eligió salir del menú
                             {
                                 //Se cambia el valor de salir para que finalice el ciclo
@@ -235,7 +258,71 @@ public class main_consultorio
                     
                     case "Médico": //Es un médico
                     {
+                        //opciones: guardará las opciones disponibles para elegir entre las funciones
+                        String [] opciones = {"Cargar pacientes", "Crear nuevo paciente", "Consultar a un paciente", 
+                            "Buscar citas", "Salir"};
+                        //opcionElegida: le pide al usuario la opción de la función a realizar
+                        String opcionElegida;
                         
+                        //Se le pide al usuario la opción que desea realizar
+                        opcionElegida = (String) JOptionPane.showInputDialog(null, "Por favor, selecciona "
+                                + "la opción que deseas", "Menú principal", JOptionPane.DEFAULT_OPTION, 
+                                null, opciones, opciones[0]);
+                        
+                        switch(opcionElegida)
+                        {
+                            case "Cargar pacientes": //Se eligió cargar a los pacientes guardados en el archivo JSON
+                            {
+                                //Se llama al método de cargarJSON de la clase paciente
+                                paciente.cargarJSON();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }  
+
+                            case "Crear nuevo paciente": //Se eligió crear un nuevo paciente para ingresar
+                            {
+                                //Se llama al método de creaPersona de la clase paciente
+                                paciente.creaPersona();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Consultar a un paciente":
+                            {
+                                //Se pide el id del paciente a consultar
+                                int id_paciente = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el nuevo diagnóstico del paciente:"));
+                                //Se busca el paciente en la lista pacientes
+                                paciente consulta = paciente.getPacientes().get(id_paciente);
+                                //Se llama al método de consultaPaciente de la clase medico
+                                medico.consultaPaciente(consulta);
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Buscar citas":
+                            {
+                                //Se llama al método de buscaCita de la clase cita
+                                cita.buscaCita(id,tipoUsuario);
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Salir": //Se eligió salir del menú
+                            {
+                                //Se cambia el valor de salir para que finalice el ciclo
+                                salir = 1;
+                                //Se termina el switch
+                                break;
+                            }
+                        }
                     }
                     
                     case "Paciente": //Es un paciente
@@ -250,12 +337,28 @@ public class main_consultorio
             System.out.println("Saliendo del menú...");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
-            //Se guardan los objetos de todos los usuarios en el archivo JSON
+            //Se guardan los objetos creados en los respectivos archivos JSON
             persona.guardaPersona();
+            paciente.guardaPersona();
+            medico.guardaPersona();
+            cita.guardaCita();
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
-            //Se muestran todos los usuarios guardados en el archivo JSON
+            //Se muestran todos los objetos guardados en los respectivos archivo JSON
+            //Objetos persona
             persona.cargarJSON();
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
+            //Objetos paciente
+            paciente.cargarJSON();
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
+            //Objetos médico
+            medico.cargarJSON();
+            //Se agrega una línea para mejor visibilidad
+            System.out.println("");
+            //Objetos cita
+            cita.cargarJSON();
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
         }

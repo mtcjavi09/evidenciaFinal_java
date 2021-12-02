@@ -221,7 +221,7 @@ public class medico extends persona
             String cadena;
 
             //Se indicará al usuario que se mostrarán los médicos guardados en el archivo
-            System.out.println("Los médicos encontrados en el archivo son: ");
+            System.out.println("Los médicos encontrados en el archivo " + ARCHIVO + " son: ");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
             
@@ -250,5 +250,24 @@ public class medico extends persona
         //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
+    }
+    
+    //consultaPaciente: cambiará el diagnóstico del paciente
+    public static void consultaPaciente(paciente paciente)
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se pide el nuevo diagnóstico del paciente
+            String diagnóstico = JOptionPane.showInputDialog("Ingresa el nuevo diagnóstico del paciente:");
+            //Se cambia el diagnóstico del paciente 
+            paciente.setDiagnostico(diagnóstico);
+            //Se le indica al usuario el nuevo diagnóstico
+            System.out.println("El nuevo diagnóstico del paciente es: " + paciente.getDiagnostico());
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudo consultar al paciente por el error: " + e.getMessage());}
     }
 }

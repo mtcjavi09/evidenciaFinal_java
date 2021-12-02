@@ -273,7 +273,7 @@ public class paciente extends persona
             String cadena;
 
             //Se indicará al usuario que se mostrarán los pacientes guardados en el archivo
-            System.out.println("Los pacientes encontrados en el archivo son: ");
+            System.out.println("Los pacientes encontrados en el archivo " + ARCHIVO + " son: ");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
             

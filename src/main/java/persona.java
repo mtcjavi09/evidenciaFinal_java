@@ -9,6 +9,7 @@
 import com.google.gson.Gson;
 import javax.swing.*;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
 public class persona
@@ -232,7 +233,7 @@ public class persona
             String cadena;
 
             //Se indicará al usuario que se mostrarán los médicos guardados en el archivo
-            System.out.println("Los usuarios encontrados en el archivo son: ");
+            System.out.println("Los usuarios encontrados en el archivo " + ARCHIVO + " son: ");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
             
@@ -260,5 +261,68 @@ public class persona
         //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
+    }
+    
+    //enviaMensaje: enviará mensaje a una persona, un paciente o un médico
+    public static void enviaMensaje()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Variables necesarias para el funcionamiento del método
+            String email = null, mensaje, fecha;
+            //Se pide al usuario el id de la persona a la que desea enviar el mensaje
+            int id = Integer.parseInt(JOptionPane.showInputDialog("ID del usuario destino:"));
+            //Se crea el arreglo con las opciones de usuario para evitar error por parte del usuario
+            String [] usuarios = {"Persona","Paciente","Médico"};
+            //Se pregunta qué tipo de usuario corresponde al ID
+            String usuario = (String) JOptionPane.showInputDialog(null, "Por favor, selecciona "
+                        + "el tipo de que corresponde al id", "Buscando id ...", JOptionPane.DEFAULT_OPTION, 
+                        null, usuarios, usuarios[0]);
+            
+            
+            //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
+            switch(usuario)
+            {
+                case "Persona":
+                {
+                    //Se busca el email en la lista correspondiente
+                    email = personas.get(id).getEmail();
+                    //Se termina el switch
+                    break;
+                }
+                
+                case "Paciente":
+                {
+                    //Se busca el email en la lista correspondiente
+                    email = paciente.getPacientes().get(id).getEmail();
+                    //Se termina el switch
+                    break;
+                }
+                
+                case "Médico":
+                {
+                    //Se busca el email en la lista correspondiente
+                    email = medico.getMedicos().get(id).getEmail();
+                    //Se termina el switch
+                    break;
+                }
+            }
+            
+            //Se pide el contendido del mensaje
+            mensaje = JOptionPane.showInputDialog("Ingresa el mensaje que deseas enviar: ");
+            //Se guarda la fecha de envío del mensaje, pasándola a formato String
+            fecha = LocalDate.now().toString();
+            
+            //Se muestra al usuario los resultados del mensaje
+            System.out.println("Se ha enviado el siguiente mensaje:");
+            System.out.println("Destinatario: " + email);
+            System.out.println("Mensaje: " + mensaje);
+            System.out.println("Fecha de envío: " + fecha);
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudo enviar el mensaje por el error: " + e.getMessage());}        
     }
 }

@@ -70,6 +70,8 @@ public class main_consultorio
                 //Se manda mensaje en consola con el el tipo de usuario que desea ingresar
                 System.out.println("Eres: " + tipoUsuario);
 
+                //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
+
                 switch(tipoUsuario)
                 {
                     case "Persona": //Es un usuario privilegiado
@@ -137,6 +139,7 @@ public class main_consultorio
             //Se comienza el ciclo while hasta que la opción de salir sea 1
             while(salir == 0)
             {
+                //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
                 switch(tipoUsuario)
                 {
                     case "Persona": //Es un usuario privilegiado
@@ -154,6 +157,8 @@ public class main_consultorio
 
                         //Se manda mensaje en consola con la opción que eligió
                         System.out.println("Has elegido: " + opcionElegida);
+                        
+                        //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
 
                         switch(opcionElegida)
                         {

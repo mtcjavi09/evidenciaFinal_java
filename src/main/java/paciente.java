@@ -253,15 +253,7 @@ public class paciente extends persona
                 //Se convierte el objeto
                 paciente paciente = gson.fromJson(json.toString(), paciente.class);
                 //Se muestra al usuario los datos guardados
-                System.out.println("ID del paciente: " + paciente.getId());
-                System.out.println("Nombre del paciente: " + paciente.getNombre());
-                System.out.println("Apellido del paciente: " + paciente.getApellido());
-                System.out.println("Edad del paciente: " + paciente.getEdad());
-                System.out.println("Género del paciente: " + paciente.getGenero());
-                System.out.println("Correo del paciente: " + paciente.getEmail());
-                System.out.println("Contraseña del paciente: " + paciente.getContraseña());
-                System.out.println("Diagnóstico del paciente: " + paciente.getDiagnostico());
-                System.out.println("Médico tratante del paciente: " + paciente.getMedico().toString());
+                paciente.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
             }
@@ -269,6 +261,30 @@ public class paciente extends persona
         //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
+    }
+    
+    @Override
+    //despliega: método que ayudará a mostrar los datos de cada paciente
+    public void despliega()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se imprimen en pantalla los datos del paciente
+            System.out.println("ID del paciente: " + getId());
+            System.out.println("Nombre del paciente: " + getNombre());
+            System.out.println("Apellido del paciente: " + getApellido());
+            System.out.println("Edad del paciente: " + getEdad());
+            System.out.println("Género del paciente: " + getGenero());
+            System.out.println("Correo del paciente: " + getEmail());
+            System.out.println("Contraseña del paciente: " + getContraseña());
+            System.out.println("Diagnóstico del paciente: " + diagnostico);
+            System.out.println("**** Medico tratante ****");
+            medico.despliega();
+        }
+        catch (Exception e)
+        {System.out.println("No se pudo mostrar el paciente por el error: " + e.getMessage());}
     }
     
     //asistirCita: llamará al método consultaPaciente para cambiar el diagnóstico

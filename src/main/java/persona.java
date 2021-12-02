@@ -264,6 +264,26 @@ public class persona
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
     }
     
+    //despliega: método que ayudará a mostrar los datos de cada usuario
+    public void despliega()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se imprimen en pantalla los datos del usuario
+            System.out.println("ID del usuario: " + id);
+            System.out.println("Nombre del usuario: " + nombre);
+            System.out.println("Apellido del usuario: " + apellido);
+            System.out.println("Edad del usuario: " + edad);
+            System.out.println("Género del usuario: " + genero);
+            System.out.println("Correo del usuario: " + email);
+            System.out.println("Contraseña del usuario: " + contraseña);
+        }
+        catch (Exception e)
+        {System.out.println("No se pudo mostrar el usuario por el error: " + e.getMessage());}
+    }
+    
     //enviaMensaje: enviará mensaje a una persona, un paciente o un médico
     public static void enviaMensaje()
     {

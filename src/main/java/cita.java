@@ -308,14 +308,7 @@ public class cita
                 //Se convierte el objeto
                 cita cita = gson.fromJson(json.toString(), cita.class);
                 //Se muestra al usuario los datos guardados
-                System.out.println("ID de la cita: " + cita.getId());
-                System.out.println("Nombre de la cita: " + cita.getNombre());
-                System.out.println("Motivo de la cita: " + cita.getMotivo());
-                System.out.println("Fecha de la cita: " + cita.getFecha());
-                System.out.println("Hora de la cita: " + cita.getHora());
-                System.out.println("Medico tratante de la cita: " + cita.getMedico());
-                System.out.println("Paciente que asistirá: " + cita.getPaciente());
-                
+                cita.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
             }
@@ -323,6 +316,27 @@ public class cita
         //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
+    }
+    
+    //despliega: método que ayudará a mostrar los datos de cada cita
+    public void despliega()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            System.out.println("ID de la cita: " + id);
+            System.out.println("Nombre de la cita: " + nombre);
+            System.out.println("Motivo de la cita: " + motivo);
+            System.out.println("Fecha de la cita: " + fecha);
+            System.out.println("Hora de la cita: " + hora);
+            System.out.println("**** Medico tratante ****");
+            medico.despliega();
+            System.out.println("**** Paciente a asistir ****");
+            paciente.despliega();
+        }
+        catch (Exception e)
+        {System.out.println("No se pudo mostrar la citas por el error: " + e.getMessage());}
     }
     
     //buscaCita: Buscará y mostrará las citas relacionadas con el ID del paciente o del médico
@@ -345,8 +359,11 @@ public class cita
                     //Se buscan las citas que correspondan al paciente y se guarda en una lista
                     List <cita> citasPaciente = citas.stream().filter(paciente -> paciente.getId() == id).collect(Collectors.toList());
                     //Se recorre la lista citasPaciente para mostrarle al usuario cada cita que tiene
-                    for (int x = 0; x < citasPaciente.size(); x++)
-                    {System.out.println("Cita #" + (x+1) + ": " + citasPaciente.get(x));}
+                    for (cita x: citasPaciente)
+                    {
+                       x.despliega();
+                       
+                    }
                     //Se termina el switch
                     break;
                 }
@@ -356,16 +373,10 @@ public class cita
                     //Se buscan las citas que correspondan al médico
                     List <cita> citasMedico = citas.stream().filter(medico -> medico.getId() == id).collect(Collectors.toList());
                     //Se recorre la lista citasPaciente para mostrarle al usuario cada cita que tiene
-                    for (int x = 0; x < citasMedico.size(); x++)
+                    for (cita x : citasMedico)
                     {
-                        System.out.println("Cita #" + (x+1) + ": ");
-                        System.out.print("ID: " + citasMedico.get(x).getId() + "; ");
-                        System.out.print("Nombre: " + citasMedico.get(x).getNombre() + "; ");
-                        System.out.println("Motivo: " + citasMedico.get(x).getMotivo());
-                        System.out.print("Fecha: " + citasMedico.get(x).getFecha() + "; ");
-                        System.out.println("Hora: " + citasMedico.get(x).getHora());
-                        System.out.println("Medico: " + citasMedico.get(x).getMedico());
-                        System.out.println("Paciente: " + citasMedico.get(x).getPaciente());
+                        x.despliega();
+                        
                     }
                     //Se termina el switch
                     break;

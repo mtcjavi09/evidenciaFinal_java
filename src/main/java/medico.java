@@ -235,14 +235,7 @@ public class medico extends persona
                 //Se convierte el objeto
                 medico medico = gson.fromJson(json.toString(), medico.class);
                 //Se muestra al usuario los datos guardados
-                System.out.println("ID del médico: " + medico.getId());
-                System.out.println("Nombre del médico: " + medico.getNombre());
-                System.out.println("Apellido del médico: " + medico.getApellido());
-                System.out.println("Edad del médico: " + medico.getEdad());
-                System.out.println("Género del médico: " + medico.getGenero());
-                System.out.println("Correo del médico: " + medico.getEmail());
-                System.out.println("Contraseña del médico: " + medico.getContraseña());
-                System.out.println("Especialidad del médico: " + medico.getEspecialidad());
+                medico.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
             }
@@ -250,6 +243,28 @@ public class medico extends persona
         //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
+    }
+    
+    @Override
+    //despliega: método que ayudará a mostrar los datos de cada médico
+    public void despliega()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se imprimen en pantalla los datos del médico
+            System.out.println("ID del médico: " + getId());
+            System.out.println("Nombre del médico: " + getNombre());
+            System.out.println("Apellido del médico: " + getApellido());
+            System.out.println("Edad del médico: " + getEdad());
+            System.out.println("Género del médico: " + getGenero());
+            System.out.println("Correo del médico: " + getEmail());
+            System.out.println("Contraseña del médico: " + getContraseña());
+            System.out.println("Especialidad del médico: " + especialidad);
+        }
+        catch (Exception e)
+        {System.out.println("No se pudo mostrar el médico por el error: " + e.getMessage());}
     }
     
     //consultaPaciente: cambiará el diagnóstico del paciente

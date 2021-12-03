@@ -37,6 +37,7 @@ public class main_consultorio
             medico medico = new medico();
             persona persona = new persona();
             cita cita = new cita();
+            receta receta = new receta();
              
             //Acciones del método main
             
@@ -51,7 +52,7 @@ public class main_consultorio
             paciente.agregaDatosIniciales();
             medico.agregaDatosIniciales();
             cita.agregaDatosIniciales();
-            
+            receta.agregaDatosIniciales();
             
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
@@ -106,7 +107,7 @@ public class main_consultorio
             {throw new Exception("Se han terminado los intentos disponibles");}
             
             //Muestra al usuario el menú de opciones
-            menu(id_usuario, tipoUsuario, persona, medico, paciente, cita);
+            menu(id_usuario, tipoUsuario, persona, medico, paciente, cita, receta);
             
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
@@ -129,7 +130,7 @@ public class main_consultorio
         }
     }
     
-    public static void menu(int id, String tipoUsuario, persona persona, medico medico, paciente paciente, cita cita)
+    public static void menu(int id, String tipoUsuario, persona persona, medico medico, paciente paciente, cita cita, receta receta)
     {       
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones

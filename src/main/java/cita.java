@@ -98,7 +98,7 @@ public class cita
             else
             {
                 
-                //Se crea el lector para el archivo de personas.json
+                //Se crea el lector para el archivo de citas.json
                 BufferedReader lector = new BufferedReader(new FileReader(file));
                 //Se crea el String builder para pasar el formato JSON a un objeto
                 StringBuilder json = new StringBuilder();
@@ -118,7 +118,7 @@ public class cita
                     citas.add(cita);
                 }
                 
-                //Si la lista tiene algún valor vacío, entonces se agrega el dato semilla para comenzar el programa
+                //Si la lista está vacía, entonces se agrega el dato semilla para comenzar el programa
                 if(citas.isEmpty())
                 {citas.add(semilla);}
             }
@@ -152,10 +152,15 @@ public class cita
             hora = LocalTime.now().toString();
             //Se crea el objeto medico llamando al método busca medico
             medico medico = buscaMedico();
+            //Si está nulo, manda una excepción
+            if (medico == null)
+            {throw new Exception("No existe ningún médico con tal ID");}
             //Se crea el objeto paciente llamando al método busca paciente
             paciente paciente = buscaPaciente();
+            if (medico == null)
+            {throw new Exception("No existe ningún paciente con tal ID");}
             
-            //Se crea el objeto persona
+            //Se crea el objeto cita
             cita cita = new cita(id, nombre, fecha, hora, motivo, medico, paciente);
             
             //Se agrega el objeto cita en la lista citas
@@ -200,6 +205,7 @@ public class cita
         catch (Exception e)
         {System.out.println("No se pudo referenciar al médico por el error: " + e.getMessage());}
    
+        //Capta cualquier excepción que surga durante la ejecución
         return medico;
     }
     
@@ -231,6 +237,7 @@ public class cita
             else
             {System.out.println("Paciente no encontrado en la lista de pacientes.");}
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo referenciar al paciente por el error: " + e.getMessage());}
    
@@ -325,6 +332,7 @@ public class cita
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
+            //Se imprimen en pantalla los datos de la cita
             System.out.println("ID de la cita: " + id);
             System.out.println("Nombre de la cita: " + nombre);
             System.out.println("Motivo de la cita: " + motivo);
@@ -335,8 +343,9 @@ public class cita
             System.out.println("**** Paciente a asistir ****");
             paciente.despliega();
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
-        {System.out.println("No se pudo mostrar la citas por el error: " + e.getMessage());}
+        {System.out.println("No se pudo mostrar la cita por el error: " + e.getMessage());}
     }
     
     //consultaCitas: permite mostrar todos los datos guardados en la lista 
@@ -359,6 +368,7 @@ public class cita
             //Se indica al usuario que se han terminado de desplegar todas las citas
             System.out.println("Se han terminado de mostrar todas las citas registradas.");
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron desplegar las citas por el error: " + e.getMessage());}
     }
@@ -370,9 +380,6 @@ public class cita
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Variables necesarias para el funcionamiento del método
-            String email = null, mensaje, fecha;
-            
             //Se agrega un título para las citas obtenidas
             System.out.println("Se encontraron las siguientes citas para el " + usuario.toLowerCase() + " #" + id);
             //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
@@ -396,7 +403,7 @@ public class cita
                 
                 case "Médico":
                 {
-                    //Se buscan las citas que correspondan al médico
+                    //Se buscan las citas que correspondan al médico y se guarda en una lista
                     List <cita> citasMedico = citas.stream().filter(medico -> medico.getId() == id).collect(Collectors.toList());
                     //Se recorre la lista citasPaciente para mostrarle al usuario cada cita que tiene
                     for (cita x : citasMedico)
@@ -415,6 +422,7 @@ public class cita
             System.out.println("Se han terminado de mostrar las citas del " + usuario.toLowerCase() + 
                     " #" + id + ".");
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron encontrar las citas por el error: " + e.getMessage());}
     }

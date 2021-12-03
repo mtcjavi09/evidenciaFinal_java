@@ -103,7 +103,7 @@ public class persona
                     personas.add(persona);
                 }
                 
-                //Si la lista tiene algún valor vacío, entonces se agrega el dato semilla para comenzar el programa
+                //Si la lista está vacía, entonces se agrega el dato semilla para comenzar el programa
                 if(personas.isEmpty())
                 {personas.add(semilla);}
             }
@@ -274,6 +274,7 @@ public class persona
             System.out.println("Correo del usuario: " + email);
             System.out.println("Contraseña del usuario: " + contraseña);
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo mostrar el usuario por el error: " + e.getMessage());}
     }
@@ -298,6 +299,7 @@ public class persona
             //Se indica al usuario que se han terminado de desplegar todas las personas
             System.out.println("Se han terminado de mostrar todos los usuarios registrados.");
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron desplegar los usuarios por el error: " + e.getMessage());}
     }

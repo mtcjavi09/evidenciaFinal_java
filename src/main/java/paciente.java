@@ -92,7 +92,7 @@ public class paciente extends persona
                     pacientes.add(paciente);
                 }
                 
-                //Si la lista tiene algún valor vacío, entonces se agrega el dato semilla para comenzar el programa
+                //Si la lista está vacía, entonces se agrega el dato semilla para comenzar el programa
                 if(pacientes.isEmpty())
                 {pacientes.add(semilla);}
             }
@@ -112,12 +112,6 @@ public class paciente extends persona
         //Se intenta la ejecución de las siguientes instrucciones            
         try
         {
-            //Se llama al método buscaMedico para conocer si el médico está registrado o no y se guarda en la variable medico
-            medico medico = cita.buscaMedico();
-            
-            //Si está nulo, manda una excepción
-            if (medico == null)
-            {throw new Exception("No se puede crear el paciente sin un médico, por favor, registra un médico tratante");}
             
             //Si no, crea al nuevo paciente
             //Variables necesarias para guardar los atributos del paciente
@@ -133,17 +127,24 @@ public class paciente extends persona
             //Se piden los datos del paciente
             nombre = JOptionPane.showInputDialog("Nombre del paciente:");
             apellido = JOptionPane.showInputDialog("Apellido del paciente:");
-            email = JOptionPane.showInputDialog("Correo electrónico del paciente: ");
-            contraseña = JOptionPane.showInputDialog("Contraseña con la que accederá el paciente:");
             edad = Integer.parseInt(JOptionPane.showInputDialog("Edad del paciente:"));
-            diagnostico = JOptionPane.showInputDialog("Diagnóstico del paciente:");
             //Se elige el género del paciente
             ingresaGenero = (String) JOptionPane.showInputDialog(null,"Indica el género del paciente:\n (Usa F para Femenino y M para masculino)\n\n", 
                     "", JOptionPane.DEFAULT_OPTION, null, generos, generos[0]);
             //Se convierte la opción elegida para crear el objeto de forma correcta
             genero = ingresaGenero.charAt(0);
+            //Continúa con el ingreso de los datos
+            contraseña = JOptionPane.showInputDialog("Contraseña con la que accederá el paciente:");
+            email = JOptionPane.showInputDialog("Correo electrónico del paciente: ");
+            diagnostico = JOptionPane.showInputDialog("Diagnóstico del paciente:");
+            //Se crea el objeto medico llamando al método busca medico
+            medico medico = cita.buscaMedico();
+            //Si está nulo, manda una excepción
+            if (medico == null)
+            {throw new Exception("No existe ningún médico con tal ID");}
             
-            //Se crea el objeto persona
+            
+            //Se crea el objeto paciente
             paciente paciente = new paciente(diagnostico, medico, id, nombre, apellido, edad, genero, contraseña, email);
             
             //Se agrega el objeto paciente en la lista pacientes
@@ -284,6 +285,7 @@ public class paciente extends persona
             System.out.println("**** Medico tratante ****");
             medico.despliega();
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo mostrar el paciente por el error: " + e.getMessage());}
     }
@@ -309,6 +311,7 @@ public class paciente extends persona
             //Se indica al usuario que se han terminado de desplegar todos los pacientes
             System.out.println("Se han terminado de mostrar todos los pacientes registrados.");
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron desplegar los pacientes por el error: " + e.getMessage());}
     }
@@ -329,6 +332,7 @@ public class paciente extends persona
             //Se le indica al usuario que la consulta fue concluida
             System.out.println("Se ha terminado la consulta con éxito.");
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo asistir a la cita por el error: " + e.getMessage());}
     }

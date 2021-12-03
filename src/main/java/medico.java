@@ -67,7 +67,7 @@ public class medico extends persona
             else
             {
                 
-                //Se crea el lector para el archivo de personas.json
+                //Se crea el lector para el archivo de medicos.json
                 BufferedReader lector = new BufferedReader(new FileReader(file));
                 //Se crea el String builder para pasar el formato JSON a un objeto
                 StringBuilder json = new StringBuilder();
@@ -87,7 +87,7 @@ public class medico extends persona
                     medicos.add(medico);
                 }
                 
-                //Si la lista tiene algún valor vacío, entonces se agrega el dato semilla para comenzar el programa
+                //Si la lista está vacía, entonces se agrega el dato semilla para comenzar el programa
                 if(medicos.isEmpty())
                 {medicos.add(semilla);}
             }
@@ -264,6 +264,7 @@ public class medico extends persona
             System.out.println("Contraseña del médico: " + getContraseña());
             System.out.println("Especialidad del médico: " + especialidad);
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo mostrar el médico por el error: " + e.getMessage());}
     }
@@ -289,6 +290,7 @@ public class medico extends persona
             //Se indica al usuario que se han terminado de desplegar todos los médicos
             System.out.println("Se han terminado de mostrar todos los médicos registrados.");
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron desplegar los médicos por el error: " + e.getMessage());}
     }

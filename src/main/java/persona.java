@@ -103,7 +103,7 @@ public class persona
                     personas.add(persona);
                 }
                 
-                //Si la lista tiene algún valor vacío, entonces se agrega el dato semilla para comenzar el programa
+                //Si la lista está vacía, entonces se agrega el dato semilla para comenzar el programa
                 if(personas.isEmpty())
                 {personas.add(semilla);}
             }
@@ -112,7 +112,7 @@ public class persona
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {System.out.println("No se pudieron guardar los usuarios semilla correctamente.");}
+        {System.out.println("No se pudieron guardar los usuarios semilla correctamente por el error: " + e.getMessage());}
     }
     
     //creaPersona: registra a un nuevo usuario para su acceso al sistema
@@ -132,7 +132,7 @@ public class persona
             
             //Se aumenta un id dependiendo de la cantidad de personas guardadas en la lista personas
             id = personas.size() + 1;
-            //Se piden los datos del paciente
+            //Se piden los datos de la persona
             nombre = JOptionPane.showInputDialog("Nombre del usuario:");
             apellido = JOptionPane.showInputDialog("Apellido del usuario:");
             email = JOptionPane.showInputDialog("Correo electrónico del usuario: ");
@@ -147,6 +147,7 @@ public class persona
             //Se crea el objeto persona
             persona persona = new persona(id, nombre, apellido, edad, genero, contraseña, email);
             
+            //Se agrega el objeto persona en la lista personas
             personas.add(persona);
             
             //Se regresa un mensaje en consola indicando el término del método
@@ -154,13 +155,13 @@ public class persona
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {System.out.println("No se pudo guardar el usuario en las listas por el error: " + e.getMessage());}
+        {System.out.println("No se pudo guardar el usuario en la lista por el error: " + e.getMessage());}
     }
     
     //guardaPersona: guarda los datos de los usuarios en un archivo json
     public void guardaPersona()
     {
-        //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
+        //Se crea el String llamado jsonUsuario como variable que guardará el formato JSON.
         String jsonUsuario;
         
         //Se especifica el manejo de excepciones try ... catch
@@ -247,13 +248,7 @@ public class persona
                 //Se convierte el objeto
                 persona persona = gson.fromJson(json.toString(), persona.class);
                 //Se muestra al usuario los datos guardados
-                System.out.println("ID del usuario: " + persona.getId());
-                System.out.println("Nombre del usuario: " + persona.getNombre());
-                System.out.println("Apellido del usuario: " + persona.getApellido());
-                System.out.println("Edad del usuario: " + persona.getEdad());
-                System.out.println("Género del usuario: " + persona.getGenero());
-                System.out.println("Correo del usuario: " + persona.getEmail());
-                System.out.println("Contraseña del usuario: " + persona.getContraseña());
+                persona.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
             }
@@ -261,6 +256,52 @@ public class persona
         //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
+    }
+    
+    //despliega: método que ayudará a mostrar los datos de cada usuario
+    public void despliega()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se imprimen en pantalla los datos del usuario
+            System.out.println("ID del usuario: " + id);
+            System.out.println("Nombre del usuario: " + nombre);
+            System.out.println("Apellido del usuario: " + apellido);
+            System.out.println("Edad del usuario: " + edad);
+            System.out.println("Género del usuario: " + genero);
+            System.out.println("Correo del usuario: " + email);
+            System.out.println("Contraseña del usuario: " + contraseña);
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudo mostrar el usuario por el error: " + e.getMessage());}
+    }
+    
+    //consultaUsuarios: mostrará todos los usuarios guardados en la lista personas
+    public void consultaUsuarios()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se indica al usuario que se mostrarán todas los usuarios que se han registrado
+            System.out.println("Se han registrado los siguientes usuarios: ");
+            //Se recorre la lista citas para mostrarle al usuario cada persona que se ha registrado
+            for (persona x : personas)
+            {
+                //Se llama al método despliega de la clase persona
+                x.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
+            }
+            //Se indica al usuario que se han terminado de desplegar todas las personas
+            System.out.println("Se han terminado de mostrar todos los usuarios registrados.");
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudieron desplegar los usuarios por el error: " + e.getMessage());}
     }
     
     //enviaMensaje: enviará mensaje a una persona, un paciente o un médico

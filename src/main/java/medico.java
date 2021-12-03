@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 
 public class medico extends persona
@@ -66,7 +67,7 @@ public class medico extends persona
             else
             {
                 
-                //Se crea el lector para el archivo de personas.json
+                //Se crea el lector para el archivo de medicos.json
                 BufferedReader lector = new BufferedReader(new FileReader(file));
                 //Se crea el String builder para pasar el formato JSON a un objeto
                 StringBuilder json = new StringBuilder();
@@ -86,7 +87,7 @@ public class medico extends persona
                     medicos.add(medico);
                 }
                 
-                //Si la lista tiene algún valor vacío, entonces se agrega el dato semilla para comenzar el programa
+                //Si la lista está vacía, entonces se agrega el dato semilla para comenzar el programa
                 if(medicos.isEmpty())
                 {medicos.add(semilla);}
             }
@@ -95,7 +96,7 @@ public class medico extends persona
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {System.out.println("No se pudieron guardar los médicos semilla correctamente.");}
+        {System.out.println("No se pudieron guardar los médicos semilla correctamente por el error: " + e.getMessage());}
     }
     
     @Override
@@ -116,7 +117,7 @@ public class medico extends persona
             
             //Se aumenta un id dependiendo de la cantidad de personas guardadas en la lista personas
             id = medicos.size() + 1;
-            //Se piden los datos del paciente
+            //Se piden los datos del médico
             nombre = JOptionPane.showInputDialog("Nombre del médico:");
             apellido = JOptionPane.showInputDialog("Apellido del médico:");
             email = JOptionPane.showInputDialog("Correo electrónico del médico: ");
@@ -132,7 +133,7 @@ public class medico extends persona
             //Se crea el objeto medico
             medico medico = new medico(especialidad, id, nombre, apellido, edad, genero, contraseña, email);
             
-            //Se guarda el objeto en la lista medicos para que se pueda guardar en el archivo JSON de los médicos
+            //Se agrega el objeto medico en la lista medicos
             medicos.add(medico);
             
             //Se regresa un mensaje en consola indicando el término del método
@@ -147,7 +148,7 @@ public class medico extends persona
     //guardaPersona: guarda los datos de los médicos en un archivo json
     public void guardaPersona()
     {
-        //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
+        //Se crea el String llamado jsonMedico como variable que guardará el formato JSON.
         String jsonMedico;
         
         //Se especifica el manejo de excepciones try ... catch
@@ -235,14 +236,7 @@ public class medico extends persona
                 //Se convierte el objeto
                 medico medico = gson.fromJson(json.toString(), medico.class);
                 //Se muestra al usuario los datos guardados
-                System.out.println("ID del médico: " + medico.getId());
-                System.out.println("Nombre del médico: " + medico.getNombre());
-                System.out.println("Apellido del médico: " + medico.getApellido());
-                System.out.println("Edad del médico: " + medico.getEdad());
-                System.out.println("Género del médico: " + medico.getGenero());
-                System.out.println("Correo del médico: " + medico.getEmail());
-                System.out.println("Contraseña del médico: " + medico.getContraseña());
-                System.out.println("Especialidad del médico: " + medico.getEspecialidad());
+                medico.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
             }
@@ -250,6 +244,84 @@ public class medico extends persona
         //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
+    }
+    
+    @Override
+    //despliega: método que ayudará a mostrar los datos de cada médico
+    public void despliega()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se imprimen en pantalla los datos del médico
+            System.out.println("ID del médico: " + getId());
+            System.out.println("Nombre del médico: " + getNombre());
+            System.out.println("Apellido del médico: " + getApellido());
+            System.out.println("Edad del médico: " + getEdad());
+            System.out.println("Género del médico: " + getGenero());
+            System.out.println("Correo del médico: " + getEmail());
+            System.out.println("Contraseña del médico: " + getContraseña());
+            System.out.println("Especialidad del médico: " + especialidad);
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudo mostrar el médico por el error: " + e.getMessage());}
+    }
+    
+    @Override
+    //consultaUsuarios: mostrará todos los usuarios guardados en la lista personas
+    public void consultaUsuarios()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se indica al usuario que se mostrarán todas los médico que se han registrado
+            System.out.println("Se han registrado los siguientes médicos: ");
+            //Se recorre la lista citas para mostrarle al usuario cada médico que se ha registrado
+            for (medico x : medicos)
+            {
+                //Se llama al método despliega de la clase médico
+                x.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
+            }
+            //Se indica al usuario que se han terminado de desplegar todos los médicos
+            System.out.println("Se han terminado de mostrar todos los médicos registrados.");
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudieron desplegar los médicos por el error: " + e.getMessage());}
+    }
+    
+    
+    //buscaPaciente: filtrará todos los pacientes relacionados con el médico
+    public static void buscaPacientes(int id)
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se agrega un título para los pacientes obtenidas
+            System.out.println("Se encontraron las siguientes citas para el médico #" + id);
+            //Se buscan los pacientes que correspondan al médico y se guardan en una lista de pacientes
+            List <paciente> pacientesMedico = paciente.getPacientes().stream().filter(medico -> medico.getId() == id).collect(Collectors.toList());
+            //Se recorre la lista pacientesMedico para mostrarle al médico cada paciente que tiene
+            for (paciente x : pacientesMedico)
+            {
+                //Se llama al método despliega de la clase paciente
+                x.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");                        
+            }
+            
+            //Se indica al usuario que se han terminado de desplegar todos los pacientes
+            System.out.println("Se han terminado de mostrar las citas del médico #" + id + ".");
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudieron filtrar los pacientes por el error: " + e.getMessage());}
     }
     
     //consultaPaciente: cambiará el diagnóstico del paciente

@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 public class paciente extends persona
@@ -91,7 +92,7 @@ public class paciente extends persona
                     pacientes.add(paciente);
                 }
                 
-                //Si la lista tiene algún valor vacío, entonces se agrega el dato semilla para comenzar el programa
+                //Si la lista está vacía, entonces se agrega el dato semilla para comenzar el programa
                 if(pacientes.isEmpty())
                 {pacientes.add(semilla);}
             }
@@ -100,7 +101,7 @@ public class paciente extends persona
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
-        {System.out.println("No se pudieron guardar los pacientes semilla correctamente.");}
+        {System.out.println("No se pudieron guardar los pacientes semilla correctamente por el error: " + e.getMessage());}
     }
     
     @Override
@@ -111,12 +112,6 @@ public class paciente extends persona
         //Se intenta la ejecución de las siguientes instrucciones            
         try
         {
-            //Se llama al método buscaMedico para conocer si el médico está registrado o no y se guarda en la variable medico
-            medico medico = buscaMedico();
-            
-            //Si está nulo, manda una excepción
-            if (medico == null)
-            {throw new Exception("No se puede crear el paciente sin un médico, por favor, registra un médico tratante");}
             
             //Si no, crea al nuevo paciente
             //Variables necesarias para guardar los atributos del paciente
@@ -132,20 +127,27 @@ public class paciente extends persona
             //Se piden los datos del paciente
             nombre = JOptionPane.showInputDialog("Nombre del paciente:");
             apellido = JOptionPane.showInputDialog("Apellido del paciente:");
-            email = JOptionPane.showInputDialog("Correo electrónico del paciente: ");
-            contraseña = JOptionPane.showInputDialog("Contraseña con la que accederá el paciente:");
             edad = Integer.parseInt(JOptionPane.showInputDialog("Edad del paciente:"));
-            diagnostico = JOptionPane.showInputDialog("Diagnóstico del paciente:");
             //Se elige el género del paciente
             ingresaGenero = (String) JOptionPane.showInputDialog(null,"Indica el género del paciente:\n (Usa F para Femenino y M para masculino)\n\n", 
                     "", JOptionPane.DEFAULT_OPTION, null, generos, generos[0]);
             //Se convierte la opción elegida para crear el objeto de forma correcta
             genero = ingresaGenero.charAt(0);
+            //Continúa con el ingreso de los datos
+            contraseña = JOptionPane.showInputDialog("Contraseña con la que accederá el paciente:");
+            email = JOptionPane.showInputDialog("Correo electrónico del paciente: ");
+            diagnostico = JOptionPane.showInputDialog("Diagnóstico del paciente:");
+            //Se crea el objeto medico llamando al método busca medico
+            medico medico = cita.buscaMedico();
+            //Si está nulo, manda una excepción
+            if (medico == null)
+            {throw new Exception("No existe ningún médico con tal ID");}
             
-            //Se crea el objeto persona
+            
+            //Se crea el objeto paciente
             paciente paciente = new paciente(diagnostico, medico, id, nombre, apellido, edad, genero, contraseña, email);
             
-            //Se guarda el objeto en la lista pacientes para que se pueda guardar en el archivo JSON de los médicos
+            //Se agrega el objeto paciente en la lista pacientes
             pacientes.add(paciente);
             
             //Se regresa un mensaje en consola indicando el término del método
@@ -154,40 +156,6 @@ public class paciente extends persona
         //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudo guardar el paciente en la lista por el error: " + e.getMessage());}
-    }
-    
-    //buscaMedico: buscará el registro del médico tratante, si no lo encuentra, crea un nuevo médico
-    public static medico buscaMedico() throws Exception
-    {
-        //Se crea el objeto médico para guardar los resultados de la búsqueda
-        medico medico = null;
-            
-        //Se especifica el manejo de excepciones try ... catch
-        //Se intenta la ejecución de las siguientes instrucciones 
-        try
-        {
-            //Se pide el Id del médico
-            int id_medico = Integer.parseInt(JOptionPane.showInputDialog("ID del médico tratante:"));
-            //Se crea el objeto metodos_medico para acceder a los métodos de la clase médico
-            medico metodos_medico = new medico();
-            //Se verifica que el médico exista
-            boolean existe_medico = metodos_medico.getMedicos().stream().anyMatch(x -> x.getId() == id_medico);
-            //Si existe, envía un mensaje al usuario de que se encontró el médico y guarda los datos en el 
-            if(existe_medico == true)
-            {
-                //Se indica que el médico fue encontrado
-                System.out.println("Médico encontrado en la lista de medicos.");
-                //Se guarda el objeto encontrado en el id del médico en el objeto medico
-                medico = metodos_medico.getMedicos().get(id_medico);
-            }
-            //Si no existe, llamará al método para crear un nuevo médico
-            else
-            {System.out.println("Médico no encontrado en la lista de medicos.");}
-        }
-        catch (Exception e)
-        {System.out.println("No se pudo referenciar al médico por el error: " + e.getMessage());}
-   
-        return medico;
     }
     
     @Override
@@ -287,15 +255,7 @@ public class paciente extends persona
                 //Se convierte el objeto
                 paciente paciente = gson.fromJson(json.toString(), paciente.class);
                 //Se muestra al usuario los datos guardados
-                System.out.println("ID del paciente: " + paciente.getId());
-                System.out.println("Nombre del paciente: " + paciente.getNombre());
-                System.out.println("Apellido del paciente: " + paciente.getApellido());
-                System.out.println("Edad del paciente: " + paciente.getEdad());
-                System.out.println("Género del paciente: " + paciente.getGenero());
-                System.out.println("Correo del paciente: " + paciente.getEmail());
-                System.out.println("Contraseña del paciente: " + paciente.getContraseña());
-                System.out.println("Diagnóstico del paciente: " + paciente.getDiagnostico());
-                System.out.println("Médico tratante del paciente: " + paciente.getMedico());
+                paciente.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
             }
@@ -305,6 +265,57 @@ public class paciente extends persona
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
     }
     
+    @Override
+    //despliega: método que ayudará a mostrar los datos de cada paciente
+    public void despliega()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se imprimen en pantalla los datos del paciente
+            System.out.println("ID del paciente: " + getId());
+            System.out.println("Nombre del paciente: " + getNombre());
+            System.out.println("Apellido del paciente: " + getApellido());
+            System.out.println("Edad del paciente: " + getEdad());
+            System.out.println("Género del paciente: " + getGenero());
+            System.out.println("Correo del paciente: " + getEmail());
+            System.out.println("Contraseña del paciente: " + getContraseña());
+            System.out.println("Diagnóstico del paciente: " + diagnostico);
+            System.out.println("**** Medico tratante ****");
+            medico.despliega();
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudo mostrar el paciente por el error: " + e.getMessage());}
+    }
+    
+    @Override
+    //consultaUsuarios: mostrará todos los usuarios guardados en la lista personas
+    public void consultaUsuarios()
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se indica al usuario que se mostrarán todas los pacientes que se han registrado
+            System.out.println("Se han registrado los siguientes pacientes: ");
+            //Se recorre la lista citas para mostrarle al usuario cada paciente que se ha registrado
+            for (paciente x : pacientes)
+            {
+                //Se llama al método despliega de la clase paciente
+                x.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
+            }
+            //Se indica al usuario que se han terminado de desplegar todos los pacientes
+            System.out.println("Se han terminado de mostrar todos los pacientes registrados.");
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudieron desplegar los pacientes por el error: " + e.getMessage());}
+    }
+       
     //asistirCita: llamará al método consultaPaciente para cambiar el diagnóstico
     public static void asistirCita(int id)
     {
@@ -321,6 +332,7 @@ public class paciente extends persona
             //Se le indica al usuario que la consulta fue concluida
             System.out.println("Se ha terminado la consulta con éxito.");
         }
+        //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo asistir a la cita por el error: " + e.getMessage());}
     }

@@ -8,7 +8,6 @@
 //Se importan librerías necesarias para el funcionamiento de la clase
 import javax.swing.*;
 
-
 public class main_consultorio 
 {
     //Método main
@@ -149,8 +148,10 @@ public class main_consultorio
                     case "Persona": //Es un usuario privilegiado
                     {
                         //opciones: guardará las opciones disponibles para elegir entre las funciones
-                        String [] opciones = {"Cargar usuarios", "Crear nuevo usuario", "Cargar pacientes", "Crear nuevo paciente", 
-                            "Cargar médicos","Crear nuevo médico", "Cargar citas", "Crear nueva cita", "Salir"};
+                        String [] opciones = {"Crear nuevo usuario", "Cargar usuarios JSON", "Visualizar usuarios creados",
+                        "Enviar un mensaje", "Crear nuevo paciente", "Cargar pacientes JSON", "Visualizar pacientes creados",
+                        "Crear nuevo médico", "Cargar médicos JSON", "Visualizar médicos creados", "Crear nueva cita",
+                        "Cargar citas JSON", "Visualizar citas creadas", };
                         //opcionElegida: le pide al usuario la opción de la función a realizar
                         String opcionElegida;
                         
@@ -163,20 +164,9 @@ public class main_consultorio
                         System.out.println("Has elegido: " + opcionElegida);
                         
                         //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
-
                         switch(opcionElegida)
                         {
-                            case "Cargar usuarios": //Se eligió cargar a los usuarios guardados en el archivo JSON
-                            {
-                                //Se llama al método de cargarJSON de la clase persona
-                                persona.cargarJSON();
-                                //Se agrega una línea para mejor visibilidad
-                                System.out.println("");
-                                //Se termina el switch
-                                break;
-                            }                        
-
-                            case "Crear nuevo usuario": //Se eligió crear un nuevo usuario para ingresar
+                            case "Crear nuevo usuario": //Se crea un nuevo usuario
                             {
                                 //Se llama al método de creaPersona de la clase persona
                                 persona.creaPersona();
@@ -186,19 +176,39 @@ public class main_consultorio
                                 break;
                             }
                             
-                            case "Cargar pacientes": //Se eligió cargar a los pacientes guardados en el archivo JSON
+                            case "Cargar usuarios JSON": //Se carga el archivo personas.JSON
                             {
-                                //Se llama al método de cargarJSON de la clase paciente
-                                paciente.cargarJSON();
+                                //Se llama al método de cargarJSON de la clase persona
+                                persona.cargarJSON();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
                                 //Se termina el switch
                                 break;
-                            }  
-
-                            case "Crear nuevo paciente": //Se eligió crear un nuevo paciente para ingresar
+                            }
+                            
+                            case "Visualizar usuarios creados": //Se cargarán los usuarios guardados en la lista personas
                             {
-                                //Se llama al método de creaPersona de la clase paciente
+                                //Se llama al método de consultaUsuarios de la clase persona
+                                persona.consultaUsuarios();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Enviar un mensaje": //Se creará un mensaje
+                            {
+                                //Se llama al método de enviaMensaje de la clase persona
+                                persona.enviaMensaje();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Crear nuevo paciente": //Se crea un nuevo paciente
+                            {
+                                //Se llama al método creaPersona de la clase paciente
                                 paciente.creaPersona();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
@@ -206,19 +216,29 @@ public class main_consultorio
                                 break;
                             }
                             
-                            case "Cargar médicos": //Se eligió cargar a los médicos guardados en el archivo JSON
+                            case "Cargar pacientes JSON": //Se carga el archivo pacientes.JSON
                             {
-                                //Se llama al método de cargarJSON de la clase medico
-                                medico.cargarJSON();
+                                //Se llama al método cargarJSON de la clase paciente
+                                paciente.cargarJSON();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
                                 //Se termina el switch
                                 break;
                             }
                             
-                            case "Crear nuevo médico": //Se eligió crear un nuevo médico para ingresar
+                            case "Visualizar pacientes creados": //Se cargarán los pacientes guardados en la lista pacientes
                             {
-                                //Se llama al método de creaPersona de la clase medico
+                                //Se llama al método de consultaUsuarios de la clase paciente
+                                paciente.consultaUsuarios();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Crear nuevo médico": //Se crea un nuevo médico
+                            {
+                                //Se llama al método creaPersona de la clase medico
                                 medico.creaPersona();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
@@ -226,19 +246,29 @@ public class main_consultorio
                                 break;
                             }
                             
-                            case "Cargar citas":
+                            case "Cargar médicos JSON": //Se carga el archivo medicos.JSON
                             {
-                                //Se llama al método de cargarJSON de la clase cita
-                                cita.cargarJSON();
+                                //Se llama al método cargarJSON de la clase medico
+                                medico.cargarJSON();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
                                 //Se termina el switch
                                 break;
                             }
                             
-                            case "Crear nueva cita":
+                            case "Visualizar médicos creados": //Se cargarán los médicos guardados en la lista medicos
                             {
-                                //Se llama al método de creaCita de la clase cita
+                                //Se llama al método de consultaUsuarios de la clase medico
+                                medico.consultaUsuarios();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Crear nueva cita": //Se creará una nueva cita
+                            {
+                                //Se llama al método creaCita de la clase cita
                                 cita.creaCita();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
@@ -246,22 +276,34 @@ public class main_consultorio
                                 break;
                             }
                             
-                            case "Salir": //Se eligió salir del menú
+                            case "Cargar citas JSON": //Se carga el archivo citas.JSON
                             {
-                                //Se cambia el valor de salir para que finalice el ciclo
-                                salir = 1;
+                                //Se llama al método cargarJSON de la clase medico
+                                medico.cargarJSON();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Visualizar citas creadas": //Se cargarán las citas guardados en la lista citas
+                            {
+                                //Se llama al método de consultaCitas de la clase cita
+                                cita.consultaCitas();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
                                 //Se termina el switch
                                 break;
                             }
                         }
-                        
                     }
                     
                     case "Médico": //Es un médico
                     {
                         //opciones: guardará las opciones disponibles para elegir entre las funciones
-                        String [] opciones = {"Cargar pacientes", "Crear nuevo paciente", "Consultar a un paciente", 
-                            "Buscar citas", "Salir"};
+                        String [] opciones = {"Enviar un mensaje", "Crear nuevo paciente", "Cargar pacientes JSON", "Visualizar pacientes creados",
+                        "Visualizar pacientes asignados", "Consultar paciente", "Crear nueva cita", "Cargar citas JSON",
+                        "Visualizar citas creadas", "Visualizar citas asignadas"};
                         //opcionElegida: le pide al usuario la opción de la función a realizar
                         String opcionElegida;
                         
@@ -270,21 +312,22 @@ public class main_consultorio
                                 + "la opción que deseas", "Menú principal", JOptionPane.DEFAULT_OPTION, 
                                 null, opciones, opciones[0]);
                         
+                        //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
                         switch(opcionElegida)
                         {
-                            case "Cargar pacientes": //Se eligió cargar a los pacientes guardados en el archivo JSON
+                            case "Enviar un mensaje": //Se creará un mensaje
                             {
-                                //Se llama al método de cargarJSON de la clase paciente
-                                paciente.cargarJSON();
+                                //Se llama al método de enviaMensaje de la clase persona
+                                persona.enviaMensaje();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
                                 //Se termina el switch
                                 break;
-                            }  
-
-                            case "Crear nuevo paciente": //Se eligió crear un nuevo paciente para ingresar
+                            }
+                            
+                            case "Crear nuevo paciente": //Se crea un nuevo paciente
                             {
-                                //Se llama al método de creaPersona de la clase paciente
+                                //Se llama al método creaPersona de la clase paciente
                                 paciente.creaPersona();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
@@ -292,34 +335,84 @@ public class main_consultorio
                                 break;
                             }
                             
-                            case "Consultar a un paciente":
+                            case "Cargar pacientes JSON": //Se carga el archivo pacientes.JSON
                             {
-                                //Se pide el id del paciente a consultar
-                                int id_paciente = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el nuevo diagnóstico del paciente:"));
-                                //Se busca el paciente en la lista pacientes
-                                paciente consulta = paciente.getPacientes().get(id_paciente);
-                                //Se llama al método de consultaPaciente de la clase medico
-                                medico.consultaPaciente(consulta);
+                                //Se llama al método cargarJSON de la clase paciente
+                                paciente.cargarJSON();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
                                 //Se termina el switch
                                 break;
                             }
                             
-                            case "Buscar citas":
+                            case "Visualizar pacientes creados": //Se cargarán los pacientes guardados en la lista pacientes
                             {
-                                //Se llama al método de buscaCita de la clase cita
+                                //Se llama al método de consultaUsuarios de la clase paciente
+                                paciente.consultaUsuarios();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Visualizar pacientes asignados": //Se visualizarán los pacientes asignados al médico
+                            {
+                                //Se llama al método buscaPacientes de la clase medico
+                                medico.buscaPacientes(id);
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Consultar paciente": //Cambiará el diagnóstico del paciente
+                            {
+                                //Se llama al método buscaPaciente de la clase cita y se guarda en un objeto de tipo paciente
+                                paciente pacienteConsulta = cita.buscaPaciente();
+                                //Se llama al método consultaPaciente de la clase medico
+                                medico.consultaPaciente(pacienteConsulta);
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Crear nueva cita": //Se creará una nueva cita
+                            {
+                                //Se llama al método creaCita de la clase cita
+                                cita.creaCita();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Cargar citas JSON": //Se carga el archivo citas.JSON
+                            {
+                                //Se llama al método cargarJSON de la clase medico
+                                medico.cargarJSON();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Visualizar citas creadas": //Se cargarán las citas guardadas en la lista citas
+                            {
+                                //Se llama al método de consultaCitas de la clase cita
+                                cita.consultaCitas();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Visualizar citas asignadas": //Se visualizarán las citas asignadas al médico
+                            {
+                                //Se llama al método buscaCita de la clase cita
                                 cita.buscaCita(id,tipoUsuario);
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
-                                //Se termina el switch
-                                break;
-                            }
-                            
-                            case "Salir": //Se eligió salir del menú
-                            {
-                                //Se cambia el valor de salir para que finalice el ciclo
-                                salir = 1;
                                 //Se termina el switch
                                 break;
                             }
@@ -328,7 +421,39 @@ public class main_consultorio
                     
                     case "Paciente": //Es un paciente
                     {
+                        //opciones: guardará las opciones disponibles para elegir entre las funciones
+                        String [] opciones = {"Enviar un mensaje", "Asistir a cita"};
+                        //opcionElegida: le pide al usuario la opción de la función a realizar
+                        String opcionElegida;
                         
+                        //Se le pide al usuario la opción que desea realizar
+                        opcionElegida = (String) JOptionPane.showInputDialog(null, "Por favor, selecciona "
+                                + "la opción que deseas", "Menú principal", JOptionPane.DEFAULT_OPTION, 
+                                null, opciones, opciones[0]);
+                        
+                        //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
+                        switch(opcionElegida)
+                        {
+                            case "Enviar un mensaje": //Se creará un mensaje
+                            {
+                                //Se llama al método de enviaMensaje de la clase persona
+                                persona.enviaMensaje();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Asistir a cita": //El paciente asistirá una cita
+                            {
+                                //Se llama al método asistirCita de la clase paciente
+                                paciente.asistirCita(id);
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                        }
                     }
                 }
                 

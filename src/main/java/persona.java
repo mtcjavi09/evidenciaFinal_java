@@ -328,6 +328,11 @@ public class persona
             {
                 case "Persona":
                 {
+                    //Se busca al usuario en la lista personas
+                    boolean existe = personas.stream().anyMatch(x -> x.getId() == id);
+                    //Si no existe el usuario, se lanza una excepción
+                    if (existe == false)
+                    {throw new Exception("No existe un usuario con dicho ID.");}
                     //Se busca el email en la lista correspondiente
                     email = personas.get(id).getEmail();
                     //Se termina el switch
@@ -336,6 +341,11 @@ public class persona
                 
                 case "Paciente":
                 {
+                    //Se busca al paciente en la lista pacientes
+                    boolean existe = paciente.getPacientes().stream().anyMatch(x -> x.getId() == id);
+                    //Si no existe el paciente, se lanza una excepción
+                    if (existe == false)
+                    {throw new Exception("No existe un paciente con dicho ID.");}
                     //Se busca el email en la lista correspondiente
                     email = paciente.getPacientes().get(id).getEmail();
                     //Se termina el switch
@@ -344,6 +354,11 @@ public class persona
                 
                 case "Médico":
                 {
+                    //Se busca al médico en la lista medicos
+                    boolean existe = medico.getMedicos().stream().anyMatch(x -> x.getId() == id);
+                    //Si no existe el paciente, se lanza una excepción
+                    if (existe == false)
+                    {throw new Exception("No existe un médico con dicho ID.");}
                     //Se busca el email en la lista correspondiente
                     email = medico.getMedicos().get(id).getEmail();
                     //Se termina el switch

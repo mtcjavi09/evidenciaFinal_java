@@ -304,7 +304,7 @@ public class medico extends persona
         try
         {
             //Se agrega un título para los pacientes obtenidas
-            System.out.println("Se encontraron las siguientes citas para el médico #" + id);
+            System.out.println("Se encontraron los siguientes pacientes del médico #" + id);
             //Se buscan los pacientes que correspondan al médico y se guardan en una lista de pacientes
             List <paciente> pacientesMedico = paciente.getPacientes().stream().filter(medico -> medico.getId() == id).collect(Collectors.toList());
             //Se recorre la lista pacientesMedico para mostrarle al médico cada paciente que tiene
@@ -317,7 +317,7 @@ public class medico extends persona
             }
             
             //Se indica al usuario que se han terminado de desplegar todos los pacientes
-            System.out.println("Se han terminado de mostrar las citas del médico #" + id + ".");
+            System.out.println("Se han terminado de mostrar los pacientes del médico #" + id + ".");
         }
         //Capta cualquier excepción que surga durante la ejecución
         catch (Exception e)

@@ -7,10 +7,8 @@
 
 //Se importan librerías necesarias para el funcionamiento de la clase
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 import javax.swing.*;
 
 public class paciente extends persona
@@ -44,8 +42,6 @@ public class paciente extends persona
     public void setMedico(medico medico) {this.medico = medico;}
     public static List<paciente> getPacientes() {return pacientes;}
     public static void setPacientes(List<paciente> pacientes) {paciente.pacientes = pacientes;}
-    
-    
     
     //Métodos propios de la clase
     

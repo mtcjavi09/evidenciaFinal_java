@@ -330,6 +330,9 @@ public class main_consultorio
                                 break;
                             }
                         }
+                        
+                        //Se termina el switch
+                        break;
                     }
                     
                     case "Médico": //Es un médico
@@ -500,6 +503,9 @@ public class main_consultorio
                                 break;
                             }
                         }
+                        
+                        //Se termina el switch
+                        break;
                     }
                     
                     case "Paciente": //Es un paciente
@@ -567,6 +573,9 @@ public class main_consultorio
                             }
                         }
                     }
+                    
+                    //Se termina el switch
+                    break;
                 }
             }
             //Si salir es igual a 1 se termina el ciclo

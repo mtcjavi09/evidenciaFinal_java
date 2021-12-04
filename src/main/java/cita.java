@@ -29,7 +29,6 @@ public class cita
     private medico medico;
     private paciente paciente;
     
-    
     //Lista que guardará todas las citas
     private static List <cita> citas = new ArrayList<>();;
     
@@ -37,7 +36,6 @@ public class cita
     private static String ARCHIVO = "citas.json";
 
     //Constructor
-
     public cita(int id, String nombre, String fecha, String hora, String motivo, medico medico, paciente paciente) 
     {
         this.id = id;
@@ -49,8 +47,7 @@ public class cita
         this.paciente = paciente;
     }
     
-
-    //Constructor vacío para su uso en algunos métodos de la clase main
+    //Constructor vacío para su uso en algunos métodos de otras clases
     public cita() {}
     
     //Métodos Get y Set para atributos privados
@@ -80,7 +77,7 @@ public class cita
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el archivo con nombrado con la constante ARCHIVO
+            //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
             //Se crea el médico con los datos semilla para crear la cita semilla
             medico medico = new medico("Traumatología",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
@@ -96,7 +93,6 @@ public class cita
             //Si sí existe, se leen las líneas contenidas en el archivo
             else
             {
-                
                 //Se crea el lector para el archivo de citas.json
                 BufferedReader lector = new BufferedReader(new FileReader(file));
                 //Se crea el String builder para pasar el formato JSON a un objeto
@@ -124,7 +120,7 @@ public class cita
 
             System.out.println("Las citas iniciales han sido guardadas.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudieron guardar las citas semilla correctamente por el error: " + e.getMessage());}
     }
@@ -139,7 +135,6 @@ public class cita
             //Variables necesarias para guardar los atributos de la cita
             int id;
             String nombre,fecha, hora, motivo;
-
 
             //Se aumenta un id dependiendo de la cantidad de citas guardadas en la lista citas
             id = citas.size() + 1;
@@ -156,7 +151,7 @@ public class cita
             {throw new Exception("No existe ningún médico con tal ID");}
             //Se crea el objeto paciente llamando al método busca paciente
             paciente paciente = buscaPaciente();
-            if (medico == null)
+            if (paciente == null)
             {throw new Exception("No existe ningún paciente con tal ID");}
             
             //Se crea el objeto cita
@@ -168,7 +163,7 @@ public class cita
             //Se regresa un mensaje en consola indicando el término del método
             System.out.println("Se ha guardado correctamente la cita en la lista citas.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudo guardar la cita en la lista por el error: " + e.getMessage());}
     }
@@ -189,7 +184,7 @@ public class cita
             medico metodos_medico = new medico();
             //Se verifica que el médico exista
             boolean existe_medico = metodos_medico.getMedicos().stream().anyMatch(x -> x.getId() == id_medico);
-            //Si existe, envía un mensaje al usuario de que se encontró el médico y guarda los datos en el 
+            //Si existe, envía un mensaje al usuario de que se encontró el médico y guarda los datos en el objeto médico
             if(existe_medico == true)
             {
                 //Se indica que el médico fue encontrado
@@ -197,14 +192,15 @@ public class cita
                 //Se guarda el objeto encontrado en el id del médico en el objeto medico
                 medico = metodos_medico.getMedicos().get(id_medico);
             }
-            //Si no existe, llamará al método para crear un nuevo médico
+            //Si no existe, indicará que el médico no se ha encontrado
             else
             {System.out.println("Médico no encontrado en la lista de medicos.");}
         }
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo referenciar al médico por el error: " + e.getMessage());}
-   
-        //Capta cualquier excepción que surga durante la ejecución
+        
+        //Se regresa el valor del objeto médico
         return medico;
     }
     
@@ -220,26 +216,27 @@ public class cita
         {
             //Se pide el id del paciente
             int id_paciente = Integer.parseInt(JOptionPane.showInputDialog("ID del paciente:"));
-            //Se crea el objeto metodos_medico para acceder a los métodos de la clase médico
+            //Se crea el objeto metodos_paciente para acceder a los métodos de la clase paciente
             paciente metodos_paciente = new paciente();
-            //Se verifica que el médico exista
+            //Se verifica que el paciente exista
             boolean existe_paciente = metodos_paciente.getPacientes().stream().anyMatch(x -> x.getId() == id_paciente);
-            //Si existe, envía un mensaje al usuario de que se encontró el médico y guarda los datos en el 
+            //Si existe, envía un mensaje al usuario de que se encontró el paciente y guarda los datos en el objeto paciente
             if(existe_paciente == true)
             {
-                //Se indica que el médico fue encontrado
+                //Se indica que el paciente fue encontrado
                 System.out.println("Paciente encontrado en la lista de pacientes.");
-                //Se guarda el objeto encontrado en el id del médico en el objeto medico
+                //Se guarda el objeto encontrado en el id del paciente en el objeto paciente
                 paciente = metodos_paciente.getPacientes().get(id_paciente);
             }
-            //Si no existe, llamará al método para crear un nuevo médico
+            //Si no existe, indicará que no se encontró al paciente
             else
             {System.out.println("Paciente no encontrado en la lista de pacientes.");}
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo referenciar al paciente por el error: " + e.getMessage());}
-   
+
+        //Se regresa el valor del objeto paciente
         return paciente;
     }
     
@@ -264,7 +261,7 @@ public class cita
             //Se crea un bucle for para guardar cada objeto de la lista en el archivo
             for (int x = 0; x < citas.size(); x++)
             {
-                //Se pasa el médico a un formato JSON
+                //Se pasa la cita a un formato JSON
                 jsonCita = gson.toJson(citas.get(x));
                 //Se escribe en el archivo JSON
                 printWriter.print(jsonCita);
@@ -273,10 +270,10 @@ public class cita
             //Se cierra el printWritter para que los cambios sean guardados
             printWriter.close();
             
-            //Se manda mensaje al usuario para que pueda ver el guardado exitoso del paciente
+            //Se manda mensaje al usuario de que se guardaron exitosamente las citas
             System.out.println("Las citas han sido guardadas correctamente.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron guardar las citas en el archivo JSON por el error: " + e.getMessage());}
     }
@@ -288,10 +285,10 @@ public class cita
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el archivo con nombrado con la constante ARCHIVO
+            //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
         
-            //Se crea el lector para el archivo de medicos.json
+            //Se crea el lector para el archivo de citas.json
             BufferedReader lector = new BufferedReader(new FileReader(file));
             //Se crea el String builder para pasar el formato JSON a un objeto
             StringBuilder json = new StringBuilder();
@@ -299,7 +296,7 @@ public class cita
             //Se crea una variable para ir recorriendo el archivo
             String cadena;
 
-            //Se indicará al usuario que se mostrarán los médicos guardados en el archivo
+            //Se indicará al usuario que se mostrarán las citas guardadas en el archivo
             System.out.println("Las citas encontrados en el archivo " + ARCHIVO + " son: ");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
@@ -319,7 +316,7 @@ public class cita
                 System.out.println("");
             }
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
     }
@@ -342,7 +339,7 @@ public class cita
             System.out.println("**** Paciente a asistir ****");
             paciente.despliega();
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo mostrar la cita por el error: " + e.getMessage());}
     }
@@ -367,7 +364,7 @@ public class cita
             //Se indica al usuario que se han terminado de desplegar todas las citas
             System.out.println("Se han terminado de mostrar todas las citas registradas.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron desplegar las citas por el error: " + e.getMessage());}
     }
@@ -404,7 +401,7 @@ public class cita
                 {
                     //Se buscan las citas que correspondan al médico y se guarda en una lista
                     List <cita> citasMedico = citas.stream().filter(medico -> medico.getId() == id).collect(Collectors.toList());
-                    //Se recorre la lista citasPaciente para mostrarle al usuario cada cita que tiene
+                    //Se recorre la lista citasMedico para mostrarle al usuario cada cita que tiene
                     for (cita x : citasMedico)
                     {
                         //Se llama al método despliega de la clase cita
@@ -421,7 +418,7 @@ public class cita
             System.out.println("Se han terminado de mostrar las citas del " + usuario.toLowerCase() + 
                     " #" + id + ".");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron encontrar las citas por el error: " + e.getMessage());}
     }

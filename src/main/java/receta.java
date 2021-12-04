@@ -51,7 +51,6 @@ public class receta
         this.firma = firma;
     }
     
-    
     //Constructor vacío para su uso en algunos métodos de la clase main
     public receta() {}
     
@@ -86,7 +85,7 @@ public class receta
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el archivo con nombrado con la constante ARCHIVO
+            //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
             //Se crea el médico con los datos semilla para crear la receta semilla
             medico medico = new medico("Traumatología",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
@@ -101,8 +100,7 @@ public class receta
             
             //Si sí existe, se leen las líneas contenidas en el archivo
             else
-            {
-                
+            {               
                 //Se crea el lector para el archivo de recetas.json
                 BufferedReader lector = new BufferedReader(new FileReader(file));
                 //Se crea el String builder para pasar el formato JSON a un objeto
@@ -130,7 +128,7 @@ public class receta
 
             System.out.println("Las recetas iniciales han sido guardadas.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudieron guardar las recetas semilla correctamente por el error: " + e.getMessage());}
     }
@@ -139,16 +137,17 @@ public class receta
     public void creaReceta()
     {
         //Se especifica el manejo de excepciones try ... catch
-        //Se intenta la ejecución de las siguientes instrucciones            
+        //Se intenta la ejecución de las siguientes instrucciones         
         try
         {
-            //Se aumenta un id dependiendo de la cantidad de citas guardadas en la lista recetas
+            //Se aumenta un id dependiendo de la cantidad de recetas guardadas en la lista recetas
             int id = recetas.size() + 1;
             //Se guarda la fecha actual para la receta
             String fecha = LocalDate.now().toString();
             //Se crea el objeto paciente llamando al método busca paciente
             paciente paciente = cita.buscaPaciente();
-            if (medico == null)
+            //Si está nulo, manda una excepción
+            if (paciente == null)
             {throw new Exception("No existe ningún paciente con tal ID");}
             //Se crea el objeto medico llamando al método busca medico
             medico medico = cita.buscaMedico();
@@ -172,7 +171,7 @@ public class receta
             //Se regresa un mensaje en consola indicando el término del método
             System.out.println("Se ha guardado correctamente la receta en la lista recetas.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudo guardar la receta en la lista por el error: " + e.getMessage());}
     }
@@ -180,14 +179,14 @@ public class receta
     //guardaReceta: guarda los datos de las recetas en un archivo json
     public void guardaReceta()
     {
-        //Se crea el String llamado jsonCita como variable que guardará el formato JSON.
+        //Se crea el String llamado jsonReceta como variable que guardará el formato JSON.
         String jsonReceta;
         
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el objeto gson que nos ayudará a pasar el objeto jsonCita a un formato JSON
+            //Se crea el objeto gson que nos ayudará a pasar el objeto jsonReceta a un formato JSON
             Gson gson = new Gson();
                         
             //Se crea el fileWritter para crear el archivo
@@ -198,7 +197,7 @@ public class receta
             //Se crea un bucle for para guardar cada objeto de la lista en el archivo
             for (int x = 0; x < recetas.size(); x++)
             {
-                //Se pasa el médico a un formato JSON
+                //Se pasa la receta a un formato JSON
                 jsonReceta = gson.toJson(recetas.get(x));
                 //Se escribe en el archivo JSON
                 printWriter.print(jsonReceta);
@@ -207,10 +206,10 @@ public class receta
             //Se cierra el printWritter para que los cambios sean guardados
             printWriter.close();
             
-            //Se manda mensaje al usuario para que pueda ver el guardado exitoso del paciente
+            //Se manda mensaje al usuario para que pueda ver el guardado exitoso de las recetas
             System.out.println("Las recetas han sido guardadas correctamente.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron guardar las recetas en el archivo JSON por el error: " + e.getMessage());}
     }
@@ -222,7 +221,7 @@ public class receta
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el archivo con nombrado con la constante ARCHIVO
+            //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
         
             //Se crea el lector para el archivo de recetas.json
@@ -253,7 +252,7 @@ public class receta
                 System.out.println("");
             }
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
     }
@@ -277,7 +276,7 @@ public class receta
             System.out.println("Sello: " + sello);
             System.out.println("Firma: " + sello);
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo mostrar la receta por el error: " + e.getMessage());}
     }
@@ -299,10 +298,10 @@ public class receta
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
             }
-            //Se indica al usuario que se han terminado de desplegar todas las citas
+            //Se indica al usuario que se han terminado de desplegar todas las recetas
             System.out.println("Se han terminado de mostrar todas las recetas registradas.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron desplegar las recetas por el error: " + e.getMessage());}
     }
@@ -314,7 +313,7 @@ public class receta
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se agrega un título para las citas obtenidas
+            //Se agrega un título para las recetas obtenidas
             System.out.println("Se encontraron las siguientes recetas para el " + usuario.toLowerCase() + " #" + id);
             //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
             switch(usuario)
@@ -339,7 +338,7 @@ public class receta
                 {
                     //Se buscan las recetas que correspondan al médico y se guarda en una lista
                     List <receta> recetasMedico = recetas.stream().filter(medico -> medico.getId() == id).collect(Collectors.toList());
-                    //Se recorre la lista citasPaciente para mostrarle al usuario cada cita que tiene
+                    //Se recorre la lista recetasMedico para mostrarle al usuario cada receta que tiene
                     for (receta x : recetasMedico)
                     {
                         //Se llama al método despliega de la clase receta
@@ -356,12 +355,12 @@ public class receta
             System.out.println("Se han terminado de mostrar las recetas del " + usuario.toLowerCase() + 
                     " #" + id + ".");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron encontrar las recetas por el error: " + e.getMessage());}
     }
     
-    //sellarReceta: regresará un boolean que indica que la receta ha sido sellada
+    //sellarReceta: cambia el boolean sello, indicando que la receta ha sido sellada
     public static void sellarReceta() throws Exception
     {
         //Se especifica el manejo de excepciones try ... catch
@@ -382,12 +381,12 @@ public class receta
             //Se le indica al usuario que la receta fue sellada
             System.out.println("La receta ha sido sellada: " + recetas.get(id).isSello());
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo sellar la receta por el error: " + e.getMessage());}        
     }
     
-    //firmarReceta: regresará un boolean que indica que la receta ha sido firmada
+    //firmarReceta: cambiará el boolean firma, que indica que la receta ha sido firmada
     public static void firmarReceta() throws Exception
     {
         //Se especifica el manejo de excepciones try ... catch
@@ -408,7 +407,7 @@ public class receta
             //Se le indica al usuario que la receta fue firmada
             System.out.println("La receta ha sido firmada: " + recetas.get(id).isFirma());
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo firmar la receta por el error: " + e.getMessage());}        
     }
@@ -421,14 +420,14 @@ public class receta
         try
         {
             //Pregunta al usuario el número de receta a surtir
-            int id = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el id de la receta a firmar:"));
+            int id = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el id de la receta a surtir:"));
             //Se busca la receta en la lista recetas
             boolean existe = recetas.stream().anyMatch(x -> x.getId() == id);
             //Si no existe la receta, se lanza una excepción
             if (existe == false)
             {throw new Exception("No existe una receta con dicho ID.");}
             //Se busca si la receta está sellada y firmada
-            boolean cumple = recetas.get(id).isSello() == false && recetas.get(id).isFirma()== false;
+            boolean cumple = recetas.get(id).isSello() == true && recetas.get(id).isFirma()== true;
             //Si la receta está firmada y sellada, se continúa
             if(cumple)
             {
@@ -448,7 +447,7 @@ public class receta
             {throw new Exception("La receta no tiene sello y/o firma.");}
             
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo surtir la receta por el error: " + e.getMessage());}
     }

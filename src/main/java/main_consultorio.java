@@ -61,8 +61,6 @@ public class main_consultorio
                 //Se piden las credenciales del usuario y la contraseña
                 id_usuario = Integer.parseInt(JOptionPane.showInputDialog("Por favor, escribe tu id de usuario:"));
                 contraseña = JOptionPane.showInputDialog("Por favor, escribe tu contraseña:");                
-          
-                
                 //salir: es la variable que ayudará a finalizar el ciclo del ingreso
                 int salir = 0;
                 
@@ -74,7 +72,6 @@ public class main_consultorio
                 System.out.println("Eres: " + tipoUsuario);
 
                 //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
-
                 switch(tipoUsuario)
                 {
                     case "Persona": //Es un usuario privilegiado
@@ -87,15 +84,14 @@ public class main_consultorio
                     {credenciales = paciente.ingresar(id_usuario, contraseña);}
                 }
 
-                //Si es incorrecto, se restará un intento y se le notificará al usuario que no se ha encontrado
+                //Si es incorrecto, se restará un intento y se le notificará al usuario que no se ha encontrado el registro
                 if (credenciales == false)
                 {
                     //Primero se restará el intento
                     intentos -= 1;
                     //Luego se le notifica al usuario del error
                      JOptionPane.showMessageDialog(null, "Ingresa nuevamente tu id y contraseña", 
-                             "Registro no encontrado", JOptionPane.ERROR_MESSAGE);
-                    
+                             "Registro no encontrado", JOptionPane.ERROR_MESSAGE);    
                 }
             }
             //Si no se acabó los intentos y llenó el campo, se finaliza el ciclo
@@ -114,7 +110,7 @@ public class main_consultorio
             //Despedida al usuario por correcta ejecución del programa
             System.out.println("El programa se ha terminado con éxito. Nos vemos pronto :)\n");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {
             //Muestra al usuario que ha ocurrido un error y que se terminará el programa
@@ -125,7 +121,6 @@ public class main_consultorio
             //Se muestra en consola que el programa ha concluido
             System.out.println("\nPrograma finalizado. Ejecuta nuevamente el programa "
                     + "y vuelve a intentarlo.\n");
-            
         }
     }
     
@@ -279,8 +274,8 @@ public class main_consultorio
                             
                             case "Cargar citas JSON": //Se carga el archivo citas.JSON
                             {
-                                //Se llama al método cargarJSON de la clase medico
-                                medico.cargarJSON();
+                                //Se llama al método cargarJSON de la clase cita
+                                cita.cargarJSON();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
                                 //Se termina el switch
@@ -429,8 +424,8 @@ public class main_consultorio
                             
                             case "Cargar citas JSON": //Se carga el archivo citas.JSON
                             {
-                                //Se llama al método cargarJSON de la clase medico
-                                medico.cargarJSON();
+                                //Se llama al método cargarJSON de la clase cita
+                                cita.cargarJSON();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
                                 //Se termina el switch
@@ -609,7 +604,7 @@ public class main_consultorio
             
             //Se termina el menú
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {e.getMessage();}
     }

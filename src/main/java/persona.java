@@ -1,5 +1,5 @@
 /*
-    PROGRAMA 08: CONSULTORIO | CLASE persona
+    PROGRAMA 02: CONSULTORIO | CLASE persona
     AUTORA: Maria Tchijov Cruz
     FECHA: 29 de octubre de 2021.
     Consultorio para citas de pacientes
@@ -41,7 +41,7 @@ public class persona
         this.email = email;
     }
     
-    //Constructor vacío para su uso en algunos métodos de la clase main
+    //Constructor vacío para su uso en algunos métodos de otras clases
     public persona() {}
     
     //Métodos Get y Set para atributos privados
@@ -70,7 +70,7 @@ public class persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el archivo con nombrado con la constante ARCHIVO
+            //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
             //Se crea el usuario con los datos semilla
             persona semilla = new persona(1,"Maria","Tchijov",19,'F',"1234","mashjov13@outlook.es");
@@ -168,7 +168,7 @@ public class persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el objeto gson que nos ayudará a pasar el objeto paciente a un formato JSON
+            //Se crea el objeto gson que nos ayudará a pasar el objeto persona a un formato JSON
             Gson gson = new Gson();
                         
             //Se crea el fileWritter para crear el archivo
@@ -180,7 +180,7 @@ public class persona
             //Se crea un bucle for para guardar cada objeto de la lista en el archivo
             for (int x = 0; x < personas.size(); x++)
             {
-                //Se pasa el paciente a un formato JSON
+                //Se pasa la persona a un formato JSON
                 jsonUsuario = gson.toJson(personas.get(x));
                 //Se escribe en el archivo JSON
                 printWriter.print(jsonUsuario);
@@ -192,7 +192,7 @@ public class persona
             //Se manda mensaje al usuario para que pueda ver el guardado exitoso del paciente
             System.out.println("Los usuarios han sido guardados correctamente.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron guardar los usuarios en el archivo JSON por el error: " + e.getMessage());}
     }
@@ -210,7 +210,7 @@ public class persona
             //Se regresa el resultado de la búsqueda
             return existe;
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {throw new Exception("No se pudo validar al usuario.");}
     }
@@ -222,7 +222,7 @@ public class persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el archivo con nombrado con la constante ARCHIVO
+            //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
         
             //Se crea el lector para el archivo de personas.json
@@ -233,7 +233,7 @@ public class persona
             //Se crea una variable para ir recorriendo el archivo
             String cadena;
 
-            //Se indicará al usuario que se mostrarán los médicos guardados en el archivo
+            //Se indicará al usuario que se mostrarán las personas guardadas en el archivo
             System.out.println("Los usuarios encontrados en el archivo " + ARCHIVO + " son: ");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
@@ -253,7 +253,7 @@ public class persona
                 System.out.println("");
             }
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
     }
@@ -274,7 +274,7 @@ public class persona
             System.out.println("Correo del usuario: " + email);
             System.out.println("Contraseña del usuario: " + contraseña);
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo mostrar el usuario por el error: " + e.getMessage());}
     }
@@ -286,9 +286,9 @@ public class persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se indica al usuario que se mostrarán todas los usuarios que se han registrado
+            //Se indica al usuario que se mostrarán todas las personas que se han registrado
             System.out.println("Se han registrado los siguientes usuarios: ");
-            //Se recorre la lista citas para mostrarle al usuario cada persona que se ha registrado
+            //Se recorre la lista personas para mostrarle al usuario cada persona que se ha registrado
             for (persona x : personas)
             {
                 //Se llama al método despliega de la clase persona
@@ -299,7 +299,7 @@ public class persona
             //Se indica al usuario que se han terminado de desplegar todas las personas
             System.out.println("Se han terminado de mostrar todos los usuarios registrados.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron desplegar los usuarios por el error: " + e.getMessage());}
     }
@@ -321,7 +321,6 @@ public class persona
             String usuario = (String) JOptionPane.showInputDialog(null, "Por favor, selecciona "
                         + "el tipo de que corresponde al id", "Buscando id ...", JOptionPane.DEFAULT_OPTION, 
                         null, usuarios, usuarios[0]);
-            
             
             //Se usa un switch ... case para elegir el caso de acuerdo con la opción del usuario
             switch(usuario)
@@ -377,7 +376,7 @@ public class persona
             System.out.println("Mensaje: " + mensaje);
             System.out.println("Fecha de envío: " + fecha);
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo enviar el mensaje por el error: " + e.getMessage());}        
     }

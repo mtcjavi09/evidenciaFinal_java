@@ -15,13 +15,12 @@ public class paciente extends persona
 {
     //Atributos del paciente
     private String diagnostico;
-    //Aquí se indica que tendrá un objeto de la clase médico como atributo
     private medico medico;
     
     //Lista donde se guardarán todos los pacientes
     private static List <paciente> pacientes = new ArrayList<>();
     
-    //Archivo donde se guardarán todos los datos de los medicos
+    //Archivo donde se guardarán todos los datos de los pacientes
     private static String ARCHIVO = "pacientes.json";
     
     //Constructor para crear el paciente usando atributos completos
@@ -32,7 +31,7 @@ public class paciente extends persona
         this.medico = medico;
     }
     
-    //Constructor vacío para su uso en algunos métodos de la clase main
+    //Constructor vacío para su uso en algunos métodos de otras clases
     public paciente() {}
     
     //Métodos Get y Set para atributos privados
@@ -53,7 +52,7 @@ public class paciente extends persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el archivo con nombrado con la constante ARCHIVO
+            //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
             //Se crea el médico con los datos semilla para crear el paciente semilla
             medico medico = new medico("Traumatología",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
@@ -67,7 +66,6 @@ public class paciente extends persona
             //Si sí existe, se leen las líneas contenidas en el archivo
             else
             {
-                
                 //Se crea el lector para el archivo de personas.json
                 BufferedReader lector = new BufferedReader(new FileReader(file));
                 //Se crea el String builder para pasar el formato JSON a un objeto
@@ -95,7 +93,7 @@ public class paciente extends persona
 
             System.out.println("Los pacientes iniciales han sido guardados.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudieron guardar los pacientes semilla correctamente por el error: " + e.getMessage());}
     }
@@ -108,8 +106,6 @@ public class paciente extends persona
         //Se intenta la ejecución de las siguientes instrucciones            
         try
         {
-            
-            //Si no, crea al nuevo paciente
             //Variables necesarias para guardar los atributos del paciente
             int id, edad;
             String nombre, apellido, ingresaGenero;
@@ -118,7 +114,7 @@ public class paciente extends persona
             //Se crea el arreglo con las opciones de género para evitar error por parte del usuario
             String [] generos = {"F","M"};
             
-            //Se aumenta un id dependiendo de la cantidad de personas guardadas en la lista personas
+            //Se aumenta un id dependiendo de la cantidad de pacientes guardados en la lista pacientes
             id = pacientes.size() + 1;
             //Se piden los datos del paciente
             nombre = JOptionPane.showInputDialog("Nombre del paciente:");
@@ -139,7 +135,6 @@ public class paciente extends persona
             if (medico == null)
             {throw new Exception("No existe ningún médico con tal ID");}
             
-            
             //Se crea el objeto paciente
             paciente paciente = new paciente(diagnostico, medico, id, nombre, apellido, edad, genero, contraseña, email);
             
@@ -149,13 +144,13 @@ public class paciente extends persona
             //Se regresa un mensaje en consola indicando el término del método
             System.out.println("Se ha guardado correctamente el paciente en la lista pacientes.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudo guardar el paciente en la lista por el error: " + e.getMessage());}
     }
     
     @Override
-    //guardaPersona: guarda los datos de los médicos en un archivo json
+    //guardaPersona: guarda los datos de los pacientes en un archivo json
     public void guardaPersona()
     {
         //Se crea el String llamado jsonPaciente como variable que guardará el formato JSON.
@@ -173,8 +168,6 @@ public class paciente extends persona
             //Se crea el printWritter para ir escribiendo en el archivo JSON
             PrintWriter printWriter = new PrintWriter(fileWriter);
             
-            //Se indica al usuario que se guardarán los pacientes
-            System.out.println("Los siguientes pacientes serán guardados:");
             //Se crea un bucle for para guardar cada objeto de la lista en el archivo
             for (int x = 0; x < pacientes.size(); x++)
             {
@@ -182,17 +175,15 @@ public class paciente extends persona
                 jsonPaciente = gson.toJson(pacientes.get(x));
                 //Se escribe en el archivo JSON
                 printWriter.print(jsonPaciente);
-                //Se indica qué paciente será guardado
-                System.out.println("Paciente guardado: " + jsonPaciente);
             }
             
             //Se cierra el printWritter para que los cambios sean guardados
             printWriter.close();
             
-            //Se manda mensaje al usuario para que pueda ver el guardado exitoso del paciente
+            //Se manda mensaje al usuario para que pueda ver el guardado exitoso de los pacientes
             System.out.println("Los pacientes han sido guardados correctamente.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron guardar los pacientes en el archivo JSON por el error: " + e.getMessage());}
     }
@@ -211,9 +202,9 @@ public class paciente extends persona
             //Se regresa el resultado de la búsqueda
             return existe;
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
-        {throw new Exception("No se pudo validar al médico.");}
+        {throw new Exception("No se pudo validar al paciente.");}
     }
     
     
@@ -225,7 +216,7 @@ public class paciente extends persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se crea el archivo con nombrado con la constante ARCHIVO
+            //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
         
             //Se crea el lector para el archivo de pacientes.json
@@ -256,7 +247,7 @@ public class paciente extends persona
                 System.out.println("");
             }
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron cargar correctamente los datos por el error: " + e.getMessage());}
     }
@@ -281,13 +272,13 @@ public class paciente extends persona
             System.out.println("**** Medico tratante ****");
             medico.despliega();
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo mostrar el paciente por el error: " + e.getMessage());}
     }
     
     @Override
-    //consultaUsuarios: mostrará todos los usuarios guardados en la lista personas
+    //consultaUsuarios: mostrará todos los pacientes guardados en la lista pacientes
     public void consultaUsuarios()
     {
         //Se especifica el manejo de excepciones try ... catch
@@ -296,7 +287,7 @@ public class paciente extends persona
         {
             //Se indica al usuario que se mostrarán todas los pacientes que se han registrado
             System.out.println("Se han registrado los siguientes pacientes: ");
-            //Se recorre la lista citas para mostrarle al usuario cada paciente que se ha registrado
+            //Se recorre la lista pacientes para mostrarle al usuario cada paciente que se ha registrado
             for (paciente x : pacientes)
             {
                 //Se llama al método despliega de la clase paciente
@@ -307,7 +298,7 @@ public class paciente extends persona
             //Se indica al usuario que se han terminado de desplegar todos los pacientes
             System.out.println("Se han terminado de mostrar todos los pacientes registrados.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudieron desplegar los pacientes por el error: " + e.getMessage());}
     }
@@ -328,7 +319,7 @@ public class paciente extends persona
             //Se le indica al usuario que la consulta fue concluida
             System.out.println("Se ha terminado la consulta con éxito.");
         }
-        //Capta cualquier excepción que surga durante la ejecución
+        //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
         {System.out.println("No se pudo asistir a la cita por el error: " + e.getMessage());}
     }

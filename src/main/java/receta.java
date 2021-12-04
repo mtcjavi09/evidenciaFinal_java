@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -175,6 +177,44 @@ public class receta
         {System.out.println("No se pudo guardar la receta en la lista por el error: " + e.getMessage());}
     }
     
+    //guardaReceta: guarda los datos de las recetas en un archivo json
+    public void guardaReceta()
+    {
+        //Se crea el String llamado jsonCita como variable que guardará el formato JSON.
+        String jsonReceta;
+        
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try
+        {
+            //Se crea el objeto gson que nos ayudará a pasar el objeto jsonCita a un formato JSON
+            Gson gson = new Gson();
+                        
+            //Se crea el fileWritter para crear el archivo
+            FileWriter fileWriter = new FileWriter(ARCHIVO);
+            //Se crea el printWritter para ir escribiendo en el archivo JSON
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            
+            //Se crea un bucle for para guardar cada objeto de la lista en el archivo
+            for (int x = 0; x < recetas.size(); x++)
+            {
+                //Se pasa el médico a un formato JSON
+                jsonReceta = gson.toJson(recetas.get(x));
+                //Se escribe en el archivo JSON
+                printWriter.print(jsonReceta);
+            }
+            
+            //Se cierra el printWritter para que los cambios sean guardados
+            printWriter.close();
+            
+            //Se manda mensaje al usuario para que pueda ver el guardado exitoso del paciente
+            System.out.println("Las recetas han sido guardadas correctamente.");
+        }
+        //Capta cualquier excepción que surga durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudieron guardar las recetas en el archivo JSON por el error: " + e.getMessage());}
+    }
+    
     //cargarJSON: leerá y cargará todas las recetas que se encuentren en el archivo JSON
     public void cargarJSON()
     {
@@ -243,7 +283,7 @@ public class receta
     }
     
     //consultaRecetas: permite mostrar todos los datos guardados en la lista 
-    public static void consultaCitas()
+    public static void consultaRecetas()
     {
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones 

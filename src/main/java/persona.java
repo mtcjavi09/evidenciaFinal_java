@@ -333,7 +333,8 @@ public class persona
                     if (existe == false)
                     {throw new Exception("No existe un usuario con dicho ID.");}
                     //Se busca el email en la lista correspondiente
-                    email = personas.get(id).getEmail();
+                    persona persona = personas.get((id-1));
+                    email = persona.email;
                     //Se termina el switch
                     break;
                 }
@@ -346,7 +347,8 @@ public class persona
                     if (existe == false)
                     {throw new Exception("No existe un paciente con dicho ID.");}
                     //Se busca el email en la lista correspondiente
-                    email = paciente.getPacientes().get(id).getEmail();
+                    paciente destino = paciente.getPacientes().get((id-1));
+                    email = destino.getEmail();
                     //Se termina el switch
                     break;
                 }
@@ -359,7 +361,8 @@ public class persona
                     if (existe == false)
                     {throw new Exception("No existe un médico con dicho ID.");}
                     //Se busca el email en la lista correspondiente
-                    email = medico.getMedicos().get(id).getEmail();
+                    medico destino = medico.getMedicos().get((id-1));
+                    email = destino.getEmail();
                     //Se termina el switch
                     break;
                 }

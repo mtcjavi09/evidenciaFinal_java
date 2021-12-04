@@ -151,7 +151,8 @@ public class main_consultorio
                         String [] opciones = {"Crear nuevo usuario", "Cargar usuarios JSON", "Visualizar usuarios creados",
                         "Enviar un mensaje", "Crear nuevo paciente", "Cargar pacientes JSON", "Visualizar pacientes creados",
                         "Crear nuevo médico", "Cargar médicos JSON", "Visualizar médicos creados", "Crear nueva cita",
-                        "Cargar citas JSON", "Visualizar citas creadas", };
+                        "Cargar citas JSON", "Visualizar citas creadas", "Crear nueva receta", "Visualizar recetas creadas",
+                        "Sellar receta", "Salir"};
                         //opcionElegida: le pide al usuario la opción de la función a realizar
                         String opcionElegida;
                         
@@ -295,6 +296,44 @@ public class main_consultorio
                                 //Se termina el switch
                                 break;
                             }
+                            
+                            case "Crear nueva receta": //Se creará una nueva receta
+                            {
+                                //Se llama al método creaReceta de la clase receta
+                                receta.creaReceta();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Visualizar recetas creadas": //Se cargarán las recetas guardados en la lista recetas
+                            {
+                                //Se llama al método consultaRecetas de la clase receta
+                                receta.consultaRecetas();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Sellar receta": //Sellará la receta
+                            {
+                                //Se llama al método sellarReceta de la clase receta
+                                receta.sellarReceta();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Salir": //Se eligió salir del menú
+                            {
+                                //Se cambia el valor de salir para que finalice el ciclo
+                                salir = 1;
+                                //Se termina el switch
+                                break;
+                            }
                         }
                     }
                     
@@ -303,7 +342,8 @@ public class main_consultorio
                         //opciones: guardará las opciones disponibles para elegir entre las funciones
                         String [] opciones = {"Enviar un mensaje", "Crear nuevo paciente", "Cargar pacientes JSON", "Visualizar pacientes creados",
                         "Visualizar pacientes asignados", "Consultar paciente", "Crear nueva cita", "Cargar citas JSON",
-                        "Visualizar citas creadas", "Visualizar citas asignadas"};
+                        "Visualizar citas creadas", "Visualizar citas asignadas", "Crear nueva receta", "Visualizar recetas creadas",
+                        "Visualizar recetas expedidas", "Firmar receta", "Salir"};
                         //opcionElegida: le pide al usuario la opción de la función a realizar
                         String opcionElegida;
                         
@@ -416,13 +456,62 @@ public class main_consultorio
                                 //Se termina el switch
                                 break;
                             }
+                            
+                            case "Crear nueva receta": //Se creará una nueva receta
+                            {
+                                //Se llama al método creaReceta de la clase receta
+                                receta.creaReceta();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Visualizar recetas creadas": //Se cargarán las recetas guardados en la lista recetas
+                            {
+                                //Se llama al método consultaRecetas de la clase receta
+                                receta.consultaRecetas();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Visualizar recetas expedidas": //Se visualizarán las recetas relacionadas con el médico
+                            {
+                                //Se llama al método buscaReceta de la clase receta
+                                receta.buscaReceta(id,tipoUsuario);
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Firmar receta": //Se firma la receta
+                            {
+                                //Se llama al método firmarReceta de la clase receta
+                                receta.firmarReceta();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Salir": //Se eligió salir del menú
+                            {
+                                //Se cambia el valor de salir para que finalice el ciclo
+                                salir = 1;
+                                //Se termina el switch
+                                break;
+                            }
                         }
                     }
                     
                     case "Paciente": //Es un paciente
                     {
                         //opciones: guardará las opciones disponibles para elegir entre las funciones
-                        String [] opciones = {"Enviar un mensaje", "Asistir a cita"};
+                        String [] opciones = {"Enviar un mensaje", "Asistir a cita", "Visualizar recetas obtenidas",
+                        "Surtir receta", "Salir"};
                         //opcionElegida: le pide al usuario la opción de la función a realizar
                         String opcionElegida;
                         
@@ -453,12 +542,39 @@ public class main_consultorio
                                 //Se termina el switch
                                 break;
                             }
+                            
+                            case "Visualizar recetas obtenidas": //Se visualizarán las recetas relacionadas con el paciente
+                            {
+                                //Se llama al método buscaReceta de la clase receta
+                                receta.buscaReceta(id,tipoUsuario);
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Surtir receta": //Se surtirá la receta siempre y cuando cumpla los requisitos de sello y firma
+                            {
+                                //Se llama al método surtirReceta de la clase receta
+                                receta.surtirReceta();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Salir": //Se eligió salir del menú
+                            {
+                                //Se cambia el valor de salir para que finalice el ciclo
+                                salir = 1;
+                                //Se termina el switch
+                                break;
+                            }
                         }
                     }
                 }
-                
             }
-            
+            //Si salir es igual a 1 se termina el ciclo
             //Se indica que se va a salir del menú
             System.out.println("Saliendo del menú...");
             //Se agrega una línea para mejor visibilidad
@@ -468,6 +584,7 @@ public class main_consultorio
             paciente.guardaPersona();
             medico.guardaPersona();
             cita.guardaCita();
+            receta.guardaReceta();
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
             //Se muestran todos los objetos guardados en los respectivos archivo JSON
@@ -487,8 +604,12 @@ public class main_consultorio
             cita.cargarJSON();
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
+            //Objetos receta
+            receta.cargarJSON();
+            
+            //Se termina el menú
         }
-        
+        //Capta cualquier excepción que surga durante la ejecución
         catch(Exception e)
         {e.getMessage();}
     }

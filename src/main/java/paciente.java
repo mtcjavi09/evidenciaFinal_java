@@ -57,7 +57,7 @@ public class paciente extends persona
             //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
             //Se crea el médico con los datos semilla para crear el paciente semilla
-            medico medico = new medico("Traumatología",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
+            medico medico = new medico("General",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
             //Se crea el paciente con los datos semilla
             paciente semilla = new paciente("Gripa",medico,1,"Nam","Joon",30,'M',"1234","namj@outlook.es");
             
@@ -147,6 +147,34 @@ public class paciente extends persona
         //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudo guardar el paciente en la lista por el error: " + e.getMessage());}
+    }
+    
+    @Override
+    //eliminaPersona: eliminará al paciente elegido por el usuario de la lista pacientes
+    public void eliminaPersona() throws Exception
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try 
+        {
+            //Se pide el id del paciente y se busca en la lista
+            int id = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el número de paciente que deseas eliminar:"));
+            boolean existe = pacientes.stream().anyMatch(x -> x.getId() == id);
+            //Si no existe el paciente, se manda que el paciente no fue encontrado
+            if (existe == false)
+            {System.out.println("No existe ningún paciente con dicho ID.");}
+            //Si sí existe, se elimina y manda mensaje de confirmación
+            else
+            {
+                //Se elimina el paciente
+                pacientes.remove(id-1);
+                //Se confirma la eliminación
+                System.out.println("El paciente ha sido eliminado exitosamente.");
+            }            
+        }
+        //Capta cualquier excepción que surja durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudo eliminar el paciente por el error: " + e.getMessage());}
     }
     
     @Override

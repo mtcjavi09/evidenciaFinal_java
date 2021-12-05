@@ -9,7 +9,6 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -81,7 +80,7 @@ public class receta
     //Métodos propios de la clase
     
     //agregaDatosIniciales: añadirá un dato semilla para acceder a las funciones 
-    public void agregaDatosIniciales()
+    public static void agregaDatosIniciales()
     {
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones 
@@ -90,7 +89,7 @@ public class receta
             //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
             //Se crea el médico con los datos semilla para crear la receta semilla
-            medico medico = new medico("Traumatología",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
+            medico medico = new medico("General",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
             //Se crea el paciente con los datos semilla para crear la receta semilla
             paciente paciente = new paciente("Gripa",medico,1,"Nam","Joon",30,'M',"1234","namj@outlook.es");
             //Se crea la receta con los datos semilla
@@ -134,7 +133,7 @@ public class receta
     }
     
     //creaReceta: guarda una nueva receta
-    public void creaReceta()
+    public static void creaReceta()
     {
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones         
@@ -176,8 +175,35 @@ public class receta
         {System.out.println("No se pudo guardar la receta en la lista por el error: " + e.getMessage());}
     }
     
+    //eliminaReceta: eliminará la receta elegida por el usuario de la lista recetas
+    public static void eliminaReceta() throws Exception
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try 
+        {
+            //Se pide el id de la receta y se busca en la lista
+            int id = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el número de receta que deseas eliminar:"));
+            boolean existe = recetas.stream().anyMatch(x -> x.getId() == id);
+            //Si no existe la receta, se manda que la receta no fue encontrada
+            if (existe == false)
+            {System.out.println("No existe ninguna receta con dicho ID.");}
+            //Si sí existe, se elimina y manda mensaje de confirmación
+            else
+            {
+                //Se elimina la receta
+                recetas.remove(id-1);
+                //Se confirma la eliminación
+                System.out.println("La receta ha sido eliminada exitosamente.");
+            }            
+        }
+        //Capta cualquier excepción que surja durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudo eliminar la receta por el error: " + e.getMessage());}
+    }
+    
     //guardaReceta: guarda los datos de las recetas en un archivo json
-    public void guardaReceta()
+    public static void guardaReceta()
     {
         //Se crea el String llamado jsonReceta como variable que guardará el formato JSON.
         String jsonReceta;
@@ -211,7 +237,7 @@ public class receta
     }
     
     //cargarJSON: leerá y cargará todas las recetas que se encuentren en el archivo JSON
-    public void cargarJSON()
+    public static void cargarJSON()
     {
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones 

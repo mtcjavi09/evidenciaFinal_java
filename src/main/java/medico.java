@@ -9,7 +9,6 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -75,7 +74,7 @@ public class medico extends persona
                 JsonParser parser = new JsonParser();
                 JsonArray array = (JsonArray) parser.parse(reader);
                 
-                //Se utiliza un ciclo for para agregar cada médico en la mista medicos
+                //Se utiliza un ciclo for para agregar cada médico en la lista medicos
                 for(Object o : array)
                 {
                     String cadena = o.toString();
@@ -229,6 +228,8 @@ public class medico extends persona
                 //Se convierte el objeto
                 medico medico = gson.fromJson(cadena, medico.class);
                 medico.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
             }
         }
         //Capta cualquier excepción que surja durante la ejecución

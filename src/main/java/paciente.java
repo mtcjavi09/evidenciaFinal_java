@@ -341,7 +341,7 @@ public class paciente extends persona
         try
         {
             //Se guardan los datos del paciente en un objeto de tipo paciente
-            paciente paciente = pacientes.get(id);
+            paciente paciente = pacientes.get(id-1);
             //Se crea el objeto medico para acceder a todos los métodos
             medico medico = new medico();
             //Se llama al método consultaPaciente para el cambio del diagnóstico

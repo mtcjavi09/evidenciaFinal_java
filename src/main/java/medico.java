@@ -70,18 +70,20 @@ public class medico extends persona
                 //Se crea el lector para el archivo de medicos.json
                 FileReader reader = new FileReader(file);
 
-                //Se crean las variables para convertir el Json a array
+                //Se crean las variables para convertir el Json a Array
                 JsonParser parser = new JsonParser();
                 JsonArray array = (JsonArray) parser.parse(reader);
                 
                 //Se utiliza un ciclo for para agregar cada médico en la lista medicos
                 for(Object o : array)
                 {
+                    //Se convierte el objeto a String
                     String cadena = o.toString();
                     //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                     Gson gson = new Gson();
                     //Se convierte el objeto
                     medico medico = gson.fromJson(cadena, medico.class);
+                    //Se agrega el objeto medico en la lista medicos
                     medicos.add(medico);
                 }
                 
@@ -150,7 +152,7 @@ public class medico extends persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try 
         {
-            //Se pide el id del paciente y se busca en la lista
+            //Se pide el id del médico y se busca en la lista
             int id = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el número de médico que deseas eliminar:"));
             boolean existe = medicos.stream().anyMatch(x -> x.getId() == id);
             //Si no existe el médico, se manda que el médico no fue encontrado
@@ -171,7 +173,7 @@ public class medico extends persona
     }
     
     @Override
-    //guardaPersona: guarda los datos de los médicos en un archivo json
+    //guardaPersona: guarda los datos de los médicos en un archivo JSON
     public void guardaPersona()
     {
         //Se crea el String llamado jsonMedico como variable que guardará el formato JSON.
@@ -184,7 +186,7 @@ public class medico extends persona
             //Se crea el objeto gson que nos ayudará a pasar el objeto jsonMedico a un formato JSON
             Gson gson = new Gson();
                         
-            //Se crea el fileWritter para crear el archivo
+            //Se crea el fileWritter para escribir en el archivo
             FileWriter fileWriter = new FileWriter(ARCHIVO);
             //Se crea el printWritter para ir escribiendo en el archivo JSON
             PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -209,19 +211,23 @@ public class medico extends persona
     //ingresar: validará si efectivamente el médico ha sido registrado en el sistema
     public boolean ingresar(int id, String contraseña) throws Exception
     {
+        //Se crea la variable de retorno del método
+        boolean existe = false;
+        
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones
         try
         {
             //Se identifica si el médico ingresado está registrado
-            boolean existe = medicos.stream().anyMatch(x -> 
+            existe = medicos.stream().anyMatch(x -> 
                 x.getId() == id && x.getContraseña().equals(contraseña));
-            //Se regresa el resultado de la búsqueda
-            return existe;
         }
         //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
-        {throw new Exception("No se pudo validar al médico.");}
+        {System.out.println("No se pudo validar al médico.");}
+        
+        //Se regresa el resultado de la búsqueda
+        return existe;
     }
     
     @Override
@@ -238,7 +244,7 @@ public class medico extends persona
             //Se crea el lector para el archivo de medicos.json
             FileReader reader = new FileReader(file);
             
-            //Se crean las variables para convertir el Json a String
+            //Se crean las variables para convertir el Json a Array
             JsonParser parser = new JsonParser();
             JsonArray array = (JsonArray) parser.parse(reader);
 
@@ -250,11 +256,13 @@ public class medico extends persona
             //Se usa un ciclo for para desplegar cada médico
             for(Object o : array)
             {
+                //Se convierte el objeto a String
                 String cadena = o.toString();
                 //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                 Gson gson = new Gson();
                 //Se convierte el objeto
                 medico medico = gson.fromJson(cadena, medico.class);
+                //Se despliega la información del objeto medico
                 medico.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
@@ -296,7 +304,7 @@ public class medico extends persona
         //Se intenta la ejecución de las siguientes instrucciones 
         try
         {
-            //Se indica al usuario que se mostrarán todas los médico que se han registrado
+            //Se indica al usuario que se mostrarán todas los médicos que se han registrado
             System.out.println("Se han registrado los siguientes médicos: ");
             //Se recorre la lista medicos para mostrarle al usuario cada médico que se ha registrado
             for (medico x : medicos)

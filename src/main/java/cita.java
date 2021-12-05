@@ -94,21 +94,23 @@ public class cita
             //Si sí existe, se leen las líneas contenidas en el archivo
             else
             {
-                //Se crea el lector para el archivo de medicos.json
+                //Se crea el lector para el archivo de citas.json
                 FileReader reader = new FileReader(file);
 
-                //Se crean las variables para convertir el Json a array
+                //Se crean las variables para convertir el Json a Array
                 JsonParser parser = new JsonParser();
                 JsonArray array = (JsonArray) parser.parse(reader);
                 
                 //Se utiliza un ciclo for para agregar cada cita en la lista citas
                 for(Object o : array)
                 {
+                    //El objeto es convertido a String
                     String cadena = o.toString();
                     //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                     Gson gson = new Gson();
                     //Se convierte el objeto
                     cita cita = gson.fromJson(cadena, cita.class);
+                    //Se agrega la cita en la lista citas
                     citas.add(cita);
                 }
                 
@@ -116,7 +118,7 @@ public class cita
                 if(citas.isEmpty())
                 {citas.add(semilla);}
             }
-
+            
             System.out.println("Las citas iniciales han sido guardadas.");
         }
         //Capta cualquier excepción que surja durante la ejecución
@@ -143,15 +145,16 @@ public class cita
             //Se guardan la fecha y hora actuales para la cita
             fecha = LocalDate.now().toString();
             hora = LocalTime.now().toString();
-            //Se crea el objeto medico llamando al método busca medico
+            //Se crea el objeto medico llamando al método buscaMedico
             medico medico = buscaMedico();
-            //Si está nulo, manda una excepción
+            //Si está nulo, manda un mensaje de médico inexistente
             if (medico == null)
-            {System.out.println("No existe ningún médico con tal ID");}
-            //Se crea el objeto paciente llamando al método busca paciente
+            {System.out.println("No existe ningún médico con tal ID.");}
+            //Se crea el objeto paciente llamando al método buscaPaciente
             paciente paciente = buscaPaciente();
+            //Si está nulo, manda un mensaje de paciente inexistente
             if (paciente == null)
-            {System.out.println("No existe ningún paciente con tal ID");}
+            {System.out.println("No existe ningún paciente con tal ID.");}
             
             //Se crea el objeto cita
             cita cita = new cita(id, nombre, fecha, hora, motivo, medico, paciente);
@@ -197,7 +200,7 @@ public class cita
     //buscaMedico: buscará el registro del médico tratante y devuelve nulo si no lo encuentra
     public static medico buscaMedico() 
     {
-        //Se crea el objeto médico para guardar los resultados de la búsqueda
+        //Se crea el objeto medico para guardar los resultados de la búsqueda
         medico medico = null;
             
         //Se especifica el manejo de excepciones try ... catch
@@ -226,14 +229,14 @@ public class cita
         catch (Exception e)
         {System.out.println("No se pudo referenciar al médico por el error: " + e.getMessage());}
         
-        //Se regresa el valor del objeto médico
+        //Se regresa el valor del objeto medico
         return medico;
     }
     
     //buscaPaciente: buscará el registro del paciente y devuelve nulo si no lo encuentra
     public static paciente buscaPaciente()
     {
-        //Se crea el objeto médico para guardar los resultados de la búsqueda
+        //Se crea el objeto paciente para guardar los resultados de la búsqueda
         paciente paciente = null;
             
         //Se especifica el manejo de excepciones try ... catch
@@ -266,7 +269,7 @@ public class cita
         return paciente;
     }
     
-    //guardaCita: guarda los datos de las citas en un archivo json
+    //guardaCita: guarda los datos de las citas en un archivo JSON
     public static void guardaCita()
     {
         //Se crea el String llamado jsonCita como variable que guardará el formato JSON.
@@ -279,11 +282,11 @@ public class cita
             //Se crea el objeto gson que nos ayudará a pasar el objeto jsonCita a un formato JSON
             Gson gson = new Gson();
                         
-            //Se crea el fileWritter para crear el archivo
+            //Se crea el fileWritter para escribir en el archivo
             FileWriter fileWriter = new FileWriter(ARCHIVO);
             //Se crea el printWritter para ir escribiendo en el archivo JSON
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            //Se pasas las citas a un formato JSON
+            //Se pasan las citas a un formato JSON
             jsonCita = gson.toJson(citas);
             //Se escribe en el archivo JSON
             printWriter.print(jsonCita);
@@ -312,7 +315,7 @@ public class cita
             //Se crea el lector para el archivo de citas.json
             FileReader reader = new FileReader(file);
             
-            //Se crean las variables para convertir el Json a String
+            //Se crean las variables para convertir el Json a Array
             JsonParser parser = new JsonParser();
             JsonArray array = (JsonArray) parser.parse(reader);
             
@@ -324,11 +327,13 @@ public class cita
             //Se usa un ciclo for para desplegar cada cita
             for(Object o : array)
             {
+                //El objeto es convertido a String
                 String cadena = o.toString();
                 //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                 Gson gson = new Gson();
                 //Se convierte el objeto
                 cita cita = gson.fromJson(cadena, cita.class);
+                //Se despliega la información del objeto cita
                 cita.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
@@ -353,8 +358,10 @@ public class cita
             System.out.println("Fecha de la cita: " + fecha);
             System.out.println("Hora de la cita: " + hora);
             System.out.println("**** Medico tratante ****");
+            //Se llama al método despliega del médico para mostrar sus atributos
             medico.despliega();
             System.out.println("**** Paciente a asistir ****");
+            //Se llama al método despliega del paciente para mostrar sus atributos
             paciente.despliega();
         }
         //Capta cualquier excepción que surja durante la ejecución

@@ -75,7 +75,7 @@ public class persona
             //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
             //Se crea el usuario con los datos semilla
-            persona semilla = new persona(1,"Maria","Tchijov",19,'F',"1234","mashjov13@outlook.es");
+            persona semilla = new persona(1,"Maria","Tchijov",19,'F',"1234","mashjov13@outlook.com");
             
             //Si no existe el archivo, se agrega el usuario semilla para comenzar con el programa    
             if(file.canExecute() == false)
@@ -87,18 +87,20 @@ public class persona
                 //Se crea el lector para el archivo de personas.json
                 FileReader reader = new FileReader(file);
 
-                //Se crean las variables para convertir el Json a String
+                //Se crean las variables para convertir el Json a Array
                 JsonParser parser = new JsonParser();
                 JsonArray array = (JsonArray) parser.parse(reader);
                 
                 //Se utiliza un ciclo for para agregar cada persona en la lista personas
                 for(Object o : array)
                 {
+                    //Se convierte el objeto a String
                     String cadena = o.toString();
                     //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                     Gson gson = new Gson();
                     //Se convierte el objeto
                     persona persona = gson.fromJson(cadena, persona.class);
+                    //Se agrega la persona en la lista personas
                     personas.add(persona);
                 }
                 
@@ -137,7 +139,7 @@ public class persona
             email = JOptionPane.showInputDialog("Correo electrónico del usuario: ");
             contraseña = JOptionPane.showInputDialog("Contraseña con la que accederá el usuario:");
             edad = Integer.parseInt(JOptionPane.showInputDialog("Edad del usuario:"));
-            //Se elige el género del paciente
+            //Se elige el género de la persona
             ingresaGenero = (String) JOptionPane.showInputDialog(null,"Indica el género del usuario:\n (Usa F para Femenino y M para masculino)\n\n", 
                     "", JOptionPane.DEFAULT_OPTION, null, generos, generos[0]);
             //Se convierte la opción elegida para crear el objeto de forma correcta
@@ -184,7 +186,7 @@ public class persona
         {System.out.println("No se pudo eliminar el usuario por el error: " + e.getMessage());}
     }
     
-    //guardaPersona: guarda los datos de los usuarios en un archivo json
+    //guardaPersona: guarda los datos de los usuarios en un archivo JSON
     public void guardaPersona()
     {
         //Se crea el String llamado jsonUsuario como variable que guardará el formato JSON.
@@ -197,13 +199,13 @@ public class persona
             //Se crea el objeto gson que nos ayudará a pasar el objeto persona a un formato JSON
             Gson gson = new Gson();
                         
-            //Se crea el fileWritter para crear el archivo
+            //Se crea el fileWritter para escribir en el archivo
             FileWriter fileWriter = new FileWriter(ARCHIVO);
             //Se crea el printWritter para ir escribiendo en el archivo JSON
             PrintWriter printWriter = new PrintWriter(fileWriter);
 
             
-            //Se pasa la persona a un formato JSON
+            //Se pasan las personas a un formato JSON
             jsonUsuario = gson.toJson(personas);
             //Se escribe en el archivo JSON
             printWriter.print(jsonUsuario);
@@ -211,7 +213,7 @@ public class persona
             //Se cierra el printWritter para que los cambios sean guardados
             printWriter.close();
             
-            //Se manda mensaje al usuario para que pueda ver el guardado exitoso del paciente
+            //Se manda mensaje al usuario para que pueda ver el guardado exitoso de las personas
             System.out.println("Los usuarios han sido guardados correctamente.");
         }
         //Capta cualquier excepción que surja durante la ejecución
@@ -222,19 +224,23 @@ public class persona
     //ingresar: validará si efectivamente el usuario ha sido registrado en el sistema
     public boolean ingresar(int id, String contraseña) throws Exception
     {
+        //Se crea la variable de retorno del método
+        boolean existe = false;
+        
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones
         try
         {
             //Se identifica si el usuario ingresado está registrado
-            boolean existe = personas.stream().anyMatch(x -> 
+            existe = personas.stream().anyMatch(x -> 
                 x.getId() == id && x.getContraseña().equals(contraseña));
-            //Se regresa el resultado de la búsqueda
-            return existe;
         }
         //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
-        {throw new Exception("No se pudo validar al usuario.");}
+        {System.out.println("No se pudo validar al usuario.");}
+        
+        //Se regresa el resultado de la búsqueda
+        return existe;
     }
     
     //cargarJSON: leerá y cargará todos los usuarios que se encuentren en el archivo JSON
@@ -250,7 +256,7 @@ public class persona
             //Se crea el lector para el archivo de personas.json
             FileReader reader = new FileReader(file);
             
-            //Se crean las variables para convertir el Json a String
+            //Se crean las variables para convertir el Json a Array
             JsonParser parser = new JsonParser();
             JsonArray array = (JsonArray) parser.parse(reader);
 
@@ -262,11 +268,13 @@ public class persona
             //Se usa un ciclo for para desplegar cada persona
             for(Object o : array)
             {
+                //Se convierte el objeto a String
                 String cadena = o.toString();
                 //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                 Gson gson = new Gson();
                 //Se convierte el objeto
                 persona persona = gson.fromJson(cadena, persona.class);
+                //Se despliega toda la información del usuario
                 persona.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
@@ -348,9 +356,9 @@ public class persona
                 {
                     //Se busca al usuario en la lista personas
                     boolean existe = personas.stream().anyMatch(x -> x.getId() == id);
-                    //Si no existe el usuario, se lanza una excepción
+                    //Si no existe el usuario, se manda mensaje de error
                     if (existe == false)
-                    {throw new Exception("No existe un usuario con dicho ID.");}
+                    {System.out.println("No existe un usuario con dicho ID.");}
                     //Se busca el email en la lista correspondiente
                     persona persona = personas.get((id-1));
                     email = persona.email;
@@ -362,9 +370,9 @@ public class persona
                 {
                     //Se busca al paciente en la lista pacientes
                     boolean existe = paciente.getPacientes().stream().anyMatch(x -> x.getId() == id);
-                    //Si no existe el paciente, se lanza una excepción
+                    //Si no existe el paciente, se manda mensaje de error
                     if (existe == false)
-                    {throw new Exception("No existe un paciente con dicho ID.");}
+                    {System.out.println("No existe un paciente con dicho ID.");}
                     //Se busca el email en la lista correspondiente
                     paciente destino = paciente.getPacientes().get((id-1));
                     email = destino.getEmail();
@@ -376,9 +384,9 @@ public class persona
                 {
                     //Se busca al médico en la lista medicos
                     boolean existe = medico.getMedicos().stream().anyMatch(x -> x.getId() == id);
-                    //Si no existe el paciente, se lanza una excepción
+                    //Si no existe el médico, se manda un mensaje de error
                     if (existe == false)
-                    {throw new Exception("No existe un médico con dicho ID.");}
+                    {System.out.println("No existe un médico con dicho ID.");}
                     //Se busca el email en la lista correspondiente
                     medico destino = medico.getMedicos().get((id-1));
                     email = destino.getEmail();

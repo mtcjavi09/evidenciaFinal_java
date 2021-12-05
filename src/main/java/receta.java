@@ -105,18 +105,20 @@ public class receta
                 //Se crea el lector para el archivo de recetas.json
                 FileReader reader = new FileReader(file);
 
-                //Se crean las variables para convertir el Json a String
+                //Se crean las variables para convertir el Json a Array
                 JsonParser parser = new JsonParser();
                 JsonArray array = (JsonArray) parser.parse(reader);
                                 
                 //Se utiliza un ciclo for para agregar cada receta en la lista recetas
                 for(Object o : array)
                 {
+                    //Se convierte el objeto a String
                     String cadena = o.toString();
                     //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                     Gson gson = new Gson();
                     //Se convierte el objeto
                     receta receta = gson.fromJson(cadena, receta.class);
+                    //Se agrega la receta en la lista recetas
                     recetas.add(receta);
                 }
                 
@@ -143,16 +145,16 @@ public class receta
             int id = recetas.size() + 1;
             //Se guarda la fecha actual para la receta
             String fecha = LocalDate.now().toString();
-            //Se crea el objeto paciente llamando al método busca paciente
+            //Se crea el objeto paciente llamando al método buscaPaciente
             paciente paciente = cita.buscaPaciente();
-            //Si está nulo, manda una excepción
+            //Si está nulo, manda un mensaje de error
             if (paciente == null)
-            {throw new Exception("No existe ningún paciente con tal ID");}
-            //Se crea el objeto medico llamando al método busca medico
+            {System.out.println("No existe ningún paciente con tal ID");}
+            //Se crea el objeto medico llamando al método buscaMedico
             medico medico = cita.buscaMedico();
-            //Si está nulo, manda una excepción
+            //Si está nulo, manda un mensaje de error
             if (medico == null)
-            {throw new Exception("No existe ningún médico con tal ID");}
+            {System.out.println("No existe ningún médico con tal ID");}
             //Se guardan los datos del medicamento
             String medicamento = JOptionPane.showInputDialog("Ingresa el nombre del medicamento: ");
             String presentacion = JOptionPane.showInputDialog("Ingresa la presentación del medicamento: ");
@@ -202,7 +204,7 @@ public class receta
         {System.out.println("No se pudo eliminar la receta por el error: " + e.getMessage());}
     }
     
-    //guardaReceta: guarda los datos de las recetas en un archivo json
+    //guardaReceta: guarda los datos de las recetas en un archivo JSON
     public static void guardaReceta()
     {
         //Se crea el String llamado jsonReceta como variable que guardará el formato JSON.
@@ -215,12 +217,12 @@ public class receta
             //Se crea el objeto gson que nos ayudará a pasar el objeto jsonReceta a un formato JSON
             Gson gson = new Gson();
                         
-            //Se crea el fileWritter para crear el archivo
+            //Se crea el fileWritter para escribir en el archivo
             FileWriter fileWriter = new FileWriter(ARCHIVO);
             //Se crea el printWritter para ir escribiendo en el archivo JSON
             PrintWriter printWriter = new PrintWriter(fileWriter);
             
-            //Se pasa la receta a un formato JSON
+            //Se pasan las recetas a un formato JSON
             jsonReceta = gson.toJson(recetas);
             //Se escribe en el archivo JSON
             printWriter.print(jsonReceta);
@@ -249,7 +251,7 @@ public class receta
             //Se crea el lector para el archivo de recetas.json
             FileReader reader = new FileReader(file);
 
-            //Se crean las variables para convertir el Json a String
+            //Se crean las variables para convertir el Json a Array
             JsonParser parser = new JsonParser();
             JsonArray array = (JsonArray) parser.parse(reader);
 
@@ -261,11 +263,13 @@ public class receta
             //Se utiliza un ciclo for para desplegar cada receta
             for(Object o : array)
             {
+                //Se convierte el objeto a String
                 String cadena = o.toString();
                 //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                 Gson gson = new Gson();
                 //Se convierte el objeto
                 receta receta = gson.fromJson(cadena, receta.class);
+                //Se despliega la información de la receta
                 receta.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");
@@ -390,15 +394,15 @@ public class receta
             int id =Integer.parseInt(JOptionPane.showInputDialog("Ingresa el id de la receta a sellar:"));
             //Se busca la receta en la lista recetas
             boolean existe = recetas.stream().anyMatch(x -> x.getId() == id);
-            //Si no existe la receta, se lanza una excepción
+            //Si no existe la receta, se manda un mensaje de error
             if (existe == false)
-            {throw new Exception("No existe una receta con dicho ID.");}
+            {System.out.println("No existe una receta con dicho ID.");}
             //Se le indica al usuario que se sellará la receta
             System.out.println("Sellando receta ... ");
             //Se cambia el sello de false a true
-            recetas.get(id).setSello(true);
+            recetas.get(id-1).setSello(true);
             //Se le indica al usuario que la receta fue sellada
-            System.out.println("La receta ha sido sellada: " + recetas.get(id).isSello());
+            System.out.println("La receta ha sido sellada: " + recetas.get(id-1).isSello());
         }
         //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
@@ -416,15 +420,15 @@ public class receta
             int id = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el id de la receta a firmar:"));
             //Se busca la receta en la lista recetas
             boolean existe = recetas.stream().anyMatch(x -> x.getId() == id);
-            //Si no existe la receta, se lanza una excepción
+            //Si no existe la receta, se manda un mensaje de error
             if (existe == false)
-            {throw new Exception("No existe una receta con dicho ID.");}
+            {System.out.println("No existe una receta con dicho ID.");}
             //Se le indica al usuario que se firmará la receta
             System.out.println("Firmando receta ... ");
             //Se cambia la firma de false a true
-            recetas.get(id).setFirma(true);
+            recetas.get(id-1).setFirma(true);
             //Se le indica al usuario que la receta fue firmada
-            System.out.println("La receta ha sido firmada: " + recetas.get(id).isFirma());
+            System.out.println("La receta ha sido firmada: " + recetas.get(id-1).isFirma());
         }
         //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)
@@ -442,29 +446,28 @@ public class receta
             int id = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el id de la receta a surtir:"));
             //Se busca la receta en la lista recetas
             boolean existe = recetas.stream().anyMatch(x -> x.getId() == id);
-            //Si no existe la receta, se lanza una excepción
+            //Si no existe la receta, se manda un mensaje de error
             if (existe == false)
-            {throw new Exception("No existe una receta con dicho ID.");}
+            {System.out.println("No existe una receta con dicho ID.");}
             //Se busca si la receta está sellada y firmada
-            boolean cumple = recetas.get(id).isSello() == true && recetas.get(id).isFirma()== true;
+            boolean cumple = recetas.get(id-1).isSello() == true && recetas.get(id-1).isFirma()== true;
             //Si la receta está firmada y sellada, se continúa
             if(cumple)
             {
                 //Se indica que se surtirá la receta
                 System.out.println("Surtiendo la receta #" + id);
                 //Se muestran los datos del medicamento
-                System.out.println("Medicamento: " + recetas.get(id).getMedicamento());
-                System.out.println("Presentación: " + recetas.get(id).getPresentacion());
-                System.out.println("Recuerda tomarlo: " + recetas.get(id).getDosis());
+                System.out.println("Medicamento: " + recetas.get(id-1).getMedicamento());
+                System.out.println("Presentación: " + recetas.get(id-1).getPresentacion());
+                System.out.println("Recuerda tomarlo: " + recetas.get(id-1).getDosis());
                 //Se crea un boolean para indicar que el surtido fue exitoso
                 boolean surtido = true;
                 //Se indica al usuario el resultado del surtido de la receta
                 System.out.println("Receta surtida: " + surtido);
             }
-            //Si no, se lanza la excepción
+            //Si no, se lanza un mensaje de error
             else
-            {throw new Exception("La receta no tiene sello y/o firma.");}
-            
+            {System.out.println("La receta no tiene sello y/o firma.");}
         }
         //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)

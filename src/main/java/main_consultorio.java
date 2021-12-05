@@ -13,8 +13,7 @@ public class main_consultorio
     //Método main
     public static void main (String[] args) throws Exception
     {
-        //Se especifica el manejo de excepciones try ... catch
-        
+        //Se especifica el manejo de excepciones try ... catch        
         //Se intenta la ejecución de las siguientes instrucciones
         try
         {
@@ -321,7 +320,7 @@ public class main_consultorio
                                 break;
                             }
                             
-                            case "Visualizar citas creadas": //Se cargarán las citas guardados en la lista citas
+                            case "Visualizar citas creadas": //Se cargarán las citas guardadas en la lista citas
                             {
                                 //Se llama al método de consultaCitas de la clase cita
                                 cita.consultaCitas();
@@ -361,7 +360,7 @@ public class main_consultorio
                                 break;
                             }
                             
-                            case "Visualizar recetas creadas": //Se cargarán las recetas guardados en la lista recetas
+                            case "Visualizar recetas creadas": //Se cargarán las recetas guardadas en la lista recetas
                             {
                                 //Se llama al método consultaRecetas de la clase receta
                                 receta.consultaRecetas();
@@ -565,7 +564,7 @@ public class main_consultorio
                                 break;
                             }
                             
-                            case "Visualizar recetas creadas": //Se cargarán las recetas guardados en la lista recetas
+                            case "Visualizar recetas creadas": //Se cargarán las recetas guardadas en la lista recetas
                             {
                                 //Se llama al método consultaRecetas de la clase receta
                                 receta.consultaRecetas();

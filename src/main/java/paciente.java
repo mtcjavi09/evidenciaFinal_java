@@ -7,6 +7,8 @@
 
 //Se importan librerías necesarias para el funcionamiento de la clase
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -66,23 +68,21 @@ public class paciente extends persona
             //Si sí existe, se leen las líneas contenidas en el archivo
             else
             {
-                //Se crea el lector para el archivo de personas.json
-                BufferedReader lector = new BufferedReader(new FileReader(file));
-                //Se crea el String builder para pasar el formato JSON a un objeto
-                StringBuilder json = new StringBuilder();
+                //Se crea el lector para el archivo de pacientes.json
+                FileReader reader = new FileReader(file);
 
-                //Se crea una variable para ir recorriendo el archivo
-                String cadena;
-
-                //Se crea el ciclo para recorrer el archivo JSON
-                while ((cadena = lector.readLine()) != null)
+                //Se crean las variables para convertir el Json a String
+                JsonParser parser = new JsonParser();
+                JsonArray array = (JsonArray) parser.parse(reader);
+                
+                //Se utiliza un ciclo for para agregar cada paciente en la lista pacientes
+                for(Object o : array)
                 {
-                    //Se guarda la línea
-                    json.append(cadena);
+                    String cadena = o.toString();
                     //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                     Gson gson = new Gson();
                     //Se convierte el objeto
-                    paciente paciente = gson.fromJson(json.toString(), paciente.class);
+                    paciente paciente = gson.fromJson(cadena, paciente.class);
                     pacientes.add(paciente);
                 }
                 
@@ -168,15 +168,11 @@ public class paciente extends persona
             //Se crea el printWritter para ir escribiendo en el archivo JSON
             PrintWriter printWriter = new PrintWriter(fileWriter);
             
-            //Se crea un bucle for para guardar cada objeto de la lista en el archivo
-            for (int x = 0; x < pacientes.size(); x++)
-            {
-                //Se pasa el paciente a un formato JSON
-                jsonPaciente = gson.toJson(pacientes.get(x));
-                //Se escribe en el archivo JSON
-                printWriter.print(jsonPaciente);
-            }
-            
+            //Se pasan los pacientes a un formato JSON
+            jsonPaciente = gson.toJson(pacientes);
+            //Se escribe en el archivo JSON
+            printWriter.print(jsonPaciente);
+
             //Se cierra el printWritter para que los cambios sean guardados
             printWriter.close();
             
@@ -220,28 +216,25 @@ public class paciente extends persona
             File file = new File(ARCHIVO);
         
             //Se crea el lector para el archivo de pacientes.json
-            BufferedReader lector = new BufferedReader(new FileReader(file));
-            //Se crea el String builder para pasar el formato JSON a un objeto
-            StringBuilder json = new StringBuilder();
+            FileReader reader = new FileReader(file);
 
-            //Se crea una variable para ir recorriendo el archivo
-            String cadena;
-
+            //Se crean las variables para convertir el Json a String
+            JsonParser parser = new JsonParser();
+            JsonArray array = (JsonArray) parser.parse(reader);
+            
             //Se indicará al usuario que se mostrarán los pacientes guardados en el archivo
             System.out.println("Los pacientes encontrados en el archivo " + ARCHIVO + " son: ");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
             
-            //Se crea el ciclo para recorrer el archivo JSON
-            while ((cadena = lector.readLine()) != null)
+            //Se utiliza un ciclo for para desplegar cada paciente
+            for(Object o : array)
             {
-                //Se guarda la línea
-                json.append(cadena);
+                String cadena = o.toString();
                 //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                 Gson gson = new Gson();
                 //Se convierte el objeto
-                paciente paciente = gson.fromJson(json.toString(), paciente.class);
-                //Se muestra al usuario los datos guardados
+                paciente paciente = gson.fromJson(cadena, paciente.class);
                 paciente.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");

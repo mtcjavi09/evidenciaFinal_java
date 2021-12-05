@@ -7,7 +7,8 @@
 
 //Se importan librerías necesarias para el funcionamiento de la clase
 import com.google.gson.Gson;
-import java.io.BufferedReader;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -93,23 +94,21 @@ public class cita
             //Si sí existe, se leen las líneas contenidas en el archivo
             else
             {
-                //Se crea el lector para el archivo de citas.json
-                BufferedReader lector = new BufferedReader(new FileReader(file));
-                //Se crea el String builder para pasar el formato JSON a un objeto
-                StringBuilder json = new StringBuilder();
+                //Se crea el lector para el archivo de medicos.json
+                FileReader reader = new FileReader(file);
 
-                //Se crea una variable para ir recorriendo el archivo
-                String cadena;
-
-                //Se crea el ciclo para recorrer el archivo JSON
-                while ((cadena = lector.readLine()) != null)
+                //Se crean las variables para convertir el Json a array
+                JsonParser parser = new JsonParser();
+                JsonArray array = (JsonArray) parser.parse(reader);
+                
+                //Se utiliza un ciclo for para agregar cada cita en la lista citas
+                for(Object o : array)
                 {
-                    //Se guarda la línea
-                    json.append(cadena);
+                    String cadena = o.toString();
                     //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                     Gson gson = new Gson();
                     //Se convierte el objeto
-                    cita cita = gson.fromJson(json.toString(), cita.class);
+                    cita cita = gson.fromJson(cadena, cita.class);
                     citas.add(cita);
                 }
                 
@@ -257,15 +256,10 @@ public class cita
             FileWriter fileWriter = new FileWriter(ARCHIVO);
             //Se crea el printWritter para ir escribiendo en el archivo JSON
             PrintWriter printWriter = new PrintWriter(fileWriter);
-            
-            //Se crea un bucle for para guardar cada objeto de la lista en el archivo
-            for (int x = 0; x < citas.size(); x++)
-            {
-                //Se pasa la cita a un formato JSON
-                jsonCita = gson.toJson(citas.get(x));
-                //Se escribe en el archivo JSON
-                printWriter.print(jsonCita);
-            }
+            //Se pasas las citas a un formato JSON
+            jsonCita = gson.toJson(citas);
+            //Se escribe en el archivo JSON
+            printWriter.print(jsonCita);
             
             //Se cierra el printWritter para que los cambios sean guardados
             printWriter.close();
@@ -289,28 +283,25 @@ public class cita
             File file = new File(ARCHIVO);
         
             //Se crea el lector para el archivo de citas.json
-            BufferedReader lector = new BufferedReader(new FileReader(file));
-            //Se crea el String builder para pasar el formato JSON a un objeto
-            StringBuilder json = new StringBuilder();
-
-            //Se crea una variable para ir recorriendo el archivo
-            String cadena;
-
+            FileReader reader = new FileReader(file);
+            
+            //Se crean las variables para convertir el Json a String
+            JsonParser parser = new JsonParser();
+            JsonArray array = (JsonArray) parser.parse(reader);
+            
             //Se indicará al usuario que se mostrarán las citas guardadas en el archivo
             System.out.println("Las citas encontrados en el archivo " + ARCHIVO + " son: ");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
             
-            //Se crea el ciclo para recorrer el archivo JSON
-            while ((cadena = lector.readLine()) != null)
+            //Se usa un ciclo for para desplegar cada cita
+            for(Object o : array)
             {
-                //Se guarda la línea
-                json.append(cadena);
+                String cadena = o.toString();
                 //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                 Gson gson = new Gson();
                 //Se convierte el objeto
-                cita cita = gson.fromJson(json.toString(), cita.class);
-                //Se muestra al usuario los datos guardados
+                cita cita = gson.fromJson(cadena, cita.class);
                 cita.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");

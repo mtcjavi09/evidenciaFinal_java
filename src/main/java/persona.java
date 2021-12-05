@@ -11,9 +11,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import javax.swing.*;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -94,7 +91,7 @@ public class persona
                 JsonParser parser = new JsonParser();
                 JsonArray array = (JsonArray) parser.parse(reader);
                 
-                //Se utiliza un ciclo for para agregar cada persona en la mista personas
+                //Se utiliza un ciclo for para agregar cada persona en la lista personas
                 for(Object o : array)
                 {
                     String cadena = o.toString();
@@ -244,6 +241,8 @@ public class persona
                 //Se convierte el objeto
                 persona persona = gson.fromJson(cadena, persona.class);
                 persona.despliega();
+                //Se agrega una línea para mejor visibilidad
+                System.out.println("");
             }          
         }
         //Capta cualquier excepción que surja durante la ejecución

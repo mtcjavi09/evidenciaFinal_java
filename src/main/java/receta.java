@@ -7,6 +7,8 @@
 
 //Se importan librerías necesarias para el funcionamiento de la clase
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -102,22 +104,20 @@ public class receta
             else
             {               
                 //Se crea el lector para el archivo de recetas.json
-                BufferedReader lector = new BufferedReader(new FileReader(file));
-                //Se crea el String builder para pasar el formato JSON a un objeto
-                StringBuilder json = new StringBuilder();
+                FileReader reader = new FileReader(file);
 
-                //Se crea una variable para ir recorriendo el archivo
-                String cadena;
-
-                //Se crea el ciclo para recorrer el archivo JSON
-                while ((cadena = lector.readLine()) != null)
+                //Se crean las variables para convertir el Json a String
+                JsonParser parser = new JsonParser();
+                JsonArray array = (JsonArray) parser.parse(reader);
+                                
+                //Se utiliza un ciclo for para agregar cada receta en la lista recetas
+                for(Object o : array)
                 {
-                    //Se guarda la línea
-                    json.append(cadena);
+                    String cadena = o.toString();
                     //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                     Gson gson = new Gson();
                     //Se convierte el objeto
-                    receta receta = gson.fromJson(json.toString(), receta.class);
+                    receta receta = gson.fromJson(cadena, receta.class);
                     recetas.add(receta);
                 }
                 
@@ -194,14 +194,10 @@ public class receta
             //Se crea el printWritter para ir escribiendo en el archivo JSON
             PrintWriter printWriter = new PrintWriter(fileWriter);
             
-            //Se crea un bucle for para guardar cada objeto de la lista en el archivo
-            for (int x = 0; x < recetas.size(); x++)
-            {
-                //Se pasa la receta a un formato JSON
-                jsonReceta = gson.toJson(recetas.get(x));
-                //Se escribe en el archivo JSON
-                printWriter.print(jsonReceta);
-            }
+            //Se pasa la receta a un formato JSON
+            jsonReceta = gson.toJson(recetas);
+            //Se escribe en el archivo JSON
+            printWriter.print(jsonReceta);
             
             //Se cierra el printWritter para que los cambios sean guardados
             printWriter.close();
@@ -223,30 +219,27 @@ public class receta
         {
             //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
-        
+            
             //Se crea el lector para el archivo de recetas.json
-            BufferedReader lector = new BufferedReader(new FileReader(file));
-            //Se crea el String builder para pasar el formato JSON a un objeto
-            StringBuilder json = new StringBuilder();
+            FileReader reader = new FileReader(file);
 
-            //Se crea una variable para ir recorriendo el archivo
-            String cadena;
+            //Se crean las variables para convertir el Json a String
+            JsonParser parser = new JsonParser();
+            JsonArray array = (JsonArray) parser.parse(reader);
 
             //Se indicará al usuario que se mostrarán las recetas guardadas en el archivo
             System.out.println("Las recetas encontradas en el archivo " + ARCHIVO + " son: ");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
             
-            //Se crea el ciclo para recorrer el archivo JSON
-            while ((cadena = lector.readLine()) != null)
+            //Se utiliza un ciclo for para desplegar cada receta
+            for(Object o : array)
             {
-                //Se guarda la línea
-                json.append(cadena);
+                String cadena = o.toString();
                 //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                 Gson gson = new Gson();
                 //Se convierte el objeto
-                receta receta = gson.fromJson(json.toString(), receta.class);
-                //Se muestra al usuario los datos guardados
+                receta receta = gson.fromJson(cadena, receta.class);
                 receta.despliega();
                 //Se agrega una línea para mejor visibilidad
                 System.out.println("");

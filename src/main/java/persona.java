@@ -157,6 +157,33 @@ public class persona
         {System.out.println("No se pudo guardar el usuario en la lista por el error: " + e.getMessage());}
     }
     
+    //eliminaPersona: eliminará a la persona elegida por el usuario de la lista personas
+    public void eliminaPersona() throws Exception
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try 
+        {
+            //Se pide el id de la persona y se busca en la lista
+            int id = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el número de usuario que deseas eliminar:"));
+            boolean existe = personas.stream().anyMatch(x -> x.getId() == id);
+            //Si no existe la persona, se manda que la persona no fue encontrada
+            if (existe == false)
+            {System.out.println("No existe ningún usuario con dicho ID.");}
+            //Si sí existe, se elimina y manda mensaje de confirmación
+            else
+            {
+                //Se elimina el usuario
+                personas.remove(id-1);
+                //Se confirma la eliminación
+                System.out.println("El usuario ha sido eliminado exitosamente.");
+            }            
+        }
+        //Capta cualquier excepción que surja durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudo eliminar el usuario por el error: " + e.getMessage());}
+    }
+    
     //guardaPersona: guarda los datos de los usuarios en un archivo json
     public void guardaPersona()
     {

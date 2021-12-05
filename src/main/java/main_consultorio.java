@@ -141,11 +141,12 @@ public class main_consultorio
                     case "Persona": //Es un usuario privilegiado
                     {
                         //opciones: guardará las opciones disponibles para elegir entre las funciones
-                        String [] opciones = {"Crear nuevo usuario", "Cargar usuarios JSON", "Visualizar usuarios creados",
-                        "Enviar un mensaje", "Crear nuevo paciente", "Cargar pacientes JSON", "Visualizar pacientes creados",
-                        "Crear nuevo médico", "Cargar médicos JSON", "Visualizar médicos creados", "Crear nueva cita",
-                        "Cargar citas JSON", "Visualizar citas creadas", "Crear nueva receta", "Visualizar recetas creadas",
-                        "Sellar receta", "Salir"};
+                        String [] opciones = {"Crear nuevo usuario", "Eliminar usuario", "Cargar usuarios JSON",  
+                            "Visualizar usuarios creados","Enviar un mensaje", "Crear nuevo paciente", "Eliminar paciente", 
+                            "Cargar pacientes JSON", "Visualizar pacientes creados", "Crear nuevo médico", "Eliminar médico",
+                            "Cargar médicos JSON", "Visualizar médicos creados", "Crear nueva cita", "Eliminar cita", 
+                            "Cargar citas JSON", "Visualizar citas creadas", "Crear nueva receta", "Eliminar receta", 
+                            "Cargar recetas JSON", "Visualizar recetas creadas", "Sellar receta", "Salir"};
                         //opcionElegida: le pide al usuario la opción de la función a realizar
                         String opcionElegida;
                         
@@ -168,6 +169,16 @@ public class main_consultorio
                                 System.out.println("");
                                 //Se termina el switch
                                 break;
+                            }
+                            
+                            case "Eliminar usuario": //Se eliminará un usuario
+                            {
+                                //Se llama al método eliminaPersona de la clase persona
+                                persona.eliminaPersona();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break; 
                             }
                             
                             case "Cargar usuarios JSON": //Se carga el archivo personas.JSON
@@ -210,6 +221,16 @@ public class main_consultorio
                                 break;
                             }
                             
+                            case "Eliminar paciente": //Se eliminará un paciente
+                            {
+                                //Se llama al método eliminaPersona de la clase paciente
+                                paciente.eliminaPersona();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break; 
+                            }
+                            
                             case "Cargar pacientes JSON": //Se carga el archivo pacientes.JSON
                             {
                                 //Se llama al método cargarJSON de la clase paciente
@@ -238,6 +259,16 @@ public class main_consultorio
                                 System.out.println("");
                                 //Se termina el switch
                                 break;
+                            }
+                            
+                            case "Eliminar médico": //Se eliminará un médico
+                            {
+                                //Se llama al método eliminaPersona de la clase medico
+                                medico.eliminaPersona();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break; 
                             }
                             
                             case "Cargar médicos JSON": //Se carga el archivo medicos.JSON
@@ -270,6 +301,16 @@ public class main_consultorio
                                 break;
                             }
                             
+                            case "Eliminar cita": //Se eliminará una cita
+                            {
+                                //Se llama al método eliminaCita de la clase cita
+                                cita.eliminaCita();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break; 
+                            }
+                            
                             case "Cargar citas JSON": //Se carga el archivo citas.JSON
                             {
                                 //Se llama al método cargarJSON de la clase cita
@@ -294,6 +335,26 @@ public class main_consultorio
                             {
                                 //Se llama al método creaReceta de la clase receta
                                 receta.creaReceta();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Eliminar receta": //Se eliminará una receta
+                            {
+                                //Se llama al método eliminaReceta de la clase receta
+                                receta.eliminaReceta();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break; 
+                            }
+                            
+                            case "Cargar recetas JSON": //Se carga el archivo recetas.JSON
+                            {
+                                //Se llama al método cargarJSON de la clase receta
+                                receta.cargarJSON();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
                                 //Se termina el switch
@@ -336,10 +397,11 @@ public class main_consultorio
                     case "Médico": //Es un médico
                     {
                         //opciones: guardará las opciones disponibles para elegir entre las funciones
-                        String [] opciones = {"Enviar un mensaje", "Crear nuevo paciente", "Cargar pacientes JSON", "Visualizar pacientes creados",
-                        "Visualizar pacientes asignados", "Consultar paciente", "Crear nueva cita", "Cargar citas JSON",
-                        "Visualizar citas creadas", "Visualizar citas asignadas", "Crear nueva receta", "Visualizar recetas creadas",
-                        "Visualizar recetas expedidas", "Firmar receta", "Salir"};
+                        String [] opciones = {"Enviar un mensaje", "Crear nuevo paciente", "Eliminar paciente", "Cargar pacientes JSON", 
+                            "Visualizar pacientes creados", "Visualizar pacientes asignados", "Consultar paciente", "Crear nueva cita", 
+                            "Eliminar cita", "Cargar citas JSON", "Visualizar citas creadas", "Visualizar citas asignadas", "Crear nueva receta",
+                            "Eliminar receta", "Cargar recetas JSON","Visualizar recetas creadas", "Visualizar recetas expedidas", 
+                            "Firmar receta", "Salir"};
                         //opcionElegida: le pide al usuario la opción de la función a realizar
                         String opcionElegida;
                         
@@ -369,6 +431,16 @@ public class main_consultorio
                                 System.out.println("");
                                 //Se termina el switch
                                 break;
+                            }
+                            
+                            case "Eliminar paciente": //Se eliminará un paciente
+                            {
+                                //Se llama al método eliminaPersona de la clase paciente
+                                paciente.eliminaPersona();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break; 
                             }
                             
                             case "Cargar pacientes JSON": //Se carga el archivo pacientes.JSON
@@ -423,6 +495,16 @@ public class main_consultorio
                                 break;
                             }
                             
+                            case "Eliminar cita": //Se eliminará una cita
+                            {
+                                //Se llama al método eliminaCita de la clase cita
+                                cita.eliminaCita();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break; 
+                            }
+                            
                             case "Cargar citas JSON": //Se carga el archivo citas.JSON
                             {
                                 //Se llama al método cargarJSON de la clase cita
@@ -457,6 +539,26 @@ public class main_consultorio
                             {
                                 //Se llama al método creaReceta de la clase receta
                                 receta.creaReceta();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break;
+                            }
+                            
+                            case "Eliminar receta": //Se eliminará una receta
+                            {
+                                //Se llama al método eliminaReceta de la clase receta
+                                receta.eliminaReceta();
+                                //Se agrega una línea para mejor visibilidad
+                                System.out.println("");
+                                //Se termina el switch
+                                break; 
+                            }
+                            
+                            case "Cargar recetas JSON": //Se carga el archivo recetas.JSON
+                            {
+                                //Se llama al método cargarJSON de la clase receta
+                                receta.cargarJSON();
                                 //Se agrega una línea para mejor visibilidad
                                 System.out.println("");
                                 //Se termina el switch

@@ -72,7 +72,7 @@ public class cita
     //Métodos propios de la clase
     
     //agregaDatosIniciales: añadirá un dato semilla para acceder a las funciones 
-    public void agregaDatosIniciales()
+    public static void agregaDatosIniciales()
     {
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones 
@@ -81,7 +81,7 @@ public class cita
             //Se crea el archivo nombrado con la constante ARCHIVO
             File file = new File(ARCHIVO);
             //Se crea el médico con los datos semilla para crear la cita semilla
-            medico medico = new medico("Traumatología",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
+            medico medico = new medico("General",1,"Ariana","Horan",32,'F',"1234","arianah@outlook.es");
             //Se crea el paciente con los datos semilla para crear la cita semilla
             paciente paciente = new paciente("Gripa",medico,1,"Nam","Joon",30,'M',"1234","namj@outlook.es");
             //Se crea la cita con los datos semilla
@@ -125,7 +125,7 @@ public class cita
     }
     
     //creaCita: guarda una nueva cita
-    public void creaCita()
+    public static void creaCita()
     {
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones            
@@ -147,11 +147,11 @@ public class cita
             medico medico = buscaMedico();
             //Si está nulo, manda una excepción
             if (medico == null)
-            {throw new Exception("No existe ningún médico con tal ID");}
+            {System.out.println("No existe ningún médico con tal ID");}
             //Se crea el objeto paciente llamando al método busca paciente
             paciente paciente = buscaPaciente();
             if (paciente == null)
-            {throw new Exception("No existe ningún paciente con tal ID");}
+            {System.out.println("No existe ningún paciente con tal ID");}
             
             //Se crea el objeto cita
             cita cita = new cita(id, nombre, fecha, hora, motivo, medico, paciente);
@@ -165,6 +165,33 @@ public class cita
         //Capta cualquier excepción que surja durante la ejecución
         catch(Exception e)
         {System.out.println("No se pudo guardar la cita en la lista por el error: " + e.getMessage());}
+    }
+    
+    //eliminaCita: eliminará la cita elegida por el usuario de la lista citas
+    public static void eliminaCita() throws Exception
+    {
+        //Se especifica el manejo de excepciones try ... catch
+        //Se intenta la ejecución de las siguientes instrucciones 
+        try 
+        {
+            //Se pide el id de la cita y se busca en la lista
+            int id = Integer.parseInt(JOptionPane.showInputDialog("Ingresa el número de cita que deseas eliminar:"));
+            boolean existe = citas.stream().anyMatch(x -> x.getId() == id);
+            //Si no existe la cita, se manda que la cita no fue encontrada
+            if (existe == false)
+            {System.out.println("No existe ninguna cita con dicho ID.");}
+            //Si sí existe, se elimina y manda mensaje de confirmación
+            else
+            {
+                //Se elimina la cita
+                citas.remove(id-1);
+                //Se confirma la eliminación
+                System.out.println("La cita ha sido eliminada exitosamente.");
+            }            
+        }
+        //Capta cualquier excepción que surja durante la ejecución
+        catch (Exception e)
+        {System.out.println("No se pudo eliminar la cita por el error: " + e.getMessage());}
     }
     
     //buscaMedico: buscará el registro del médico tratante y devuelve nulo si no lo encuentra
@@ -240,7 +267,7 @@ public class cita
     }
     
     //guardaCita: guarda los datos de las citas en un archivo json
-    public void guardaCita()
+    public static void guardaCita()
     {
         //Se crea el String llamado jsonCita como variable que guardará el formato JSON.
         String jsonCita;
@@ -273,7 +300,7 @@ public class cita
     }
     
     //cargarJSON: leerá y cargará todas las citas que se encuentren en el archivo JSON
-    public void cargarJSON()
+    public static void cargarJSON()
     {
         //Se especifica el manejo de excepciones try ... catch
         //Se intenta la ejecución de las siguientes instrucciones 

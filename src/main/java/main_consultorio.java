@@ -27,8 +27,8 @@ public class main_consultorio
             int intentos = 3;
             //credenciales: ayudará a terminar el ciclo cuando las credenciales hayan sido válidas
             boolean credenciales = false;
-            //opciones: guardará los tres tipos de usuarios que pueden acceder al sistema, junto con la opción de salir
-            String [] usuarios = {"Persona", "Médico", "Paciente", "Salir"};
+            //opciones: guardará los tres tipos de usuarios que pueden acceder al sistema
+            String [] usuarios = {"Persona", "Médico", "Paciente"};
             //opcionElegida: le pide el tipo de usuario que desea acceder
             String tipoUsuario;
             //Objetos necesarios para acceder a los métodos de las clases
@@ -60,9 +60,7 @@ public class main_consultorio
             {
                 //Se piden las credenciales del usuario y la contraseña
                 id_usuario = Integer.parseInt(JOptionPane.showInputDialog("Por favor, escribe tu id de usuario:"));
-                contraseña = JOptionPane.showInputDialog("Por favor, escribe tu contraseña:");                
-                //salir: es la variable que ayudará a finalizar el ciclo del ingreso
-                int salir = 0;
+                contraseña = JOptionPane.showInputDialog("Por favor, escribe tu contraseña:");
                 
                 tipoUsuario = (String) JOptionPane.showInputDialog(null, "Por favor, selecciona "
                         + "tu tipo de usuario", "Ingreso", JOptionPane.DEFAULT_OPTION, 
@@ -330,6 +328,9 @@ public class main_consultorio
                                 break;
                             }
                         }
+                        
+                        //Se termina el switch
+                        break;
                     }
                     
                     case "Médico": //Es un médico
@@ -500,6 +501,9 @@ public class main_consultorio
                                 break;
                             }
                         }
+                        
+                        //Se termina el switch
+                        break;
                     }
                     
                     case "Paciente": //Es un paciente
@@ -567,6 +571,9 @@ public class main_consultorio
                             }
                         }
                     }
+                    
+                    //Se termina el switch
+                    break;
                 }
             }
             //Si salir es igual a 1 se termina el ciclo

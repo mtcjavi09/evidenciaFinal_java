@@ -190,7 +190,7 @@ public class cita
                 //Se indica que el médico fue encontrado
                 System.out.println("Médico encontrado en la lista de medicos.");
                 //Se guarda el objeto encontrado en el id del médico en el objeto medico
-                medico = metodos_medico.getMedicos().get(id_medico);
+                medico = metodos_medico.getMedicos().get((id_medico-1));
             }
             //Si no existe, indicará que el médico no se ha encontrado
             else
@@ -226,7 +226,7 @@ public class cita
                 //Se indica que el paciente fue encontrado
                 System.out.println("Paciente encontrado en la lista de pacientes.");
                 //Se guarda el objeto encontrado en el id del paciente en el objeto paciente
-                paciente = metodos_paciente.getPacientes().get(id_paciente);
+                paciente = metodos_paciente.getPacientes().get((id_paciente-1));
             }
             //Si no existe, indicará que no se encontró al paciente
             else

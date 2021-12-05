@@ -7,8 +7,13 @@
 
 //Se importan librerías necesarias para el funcionamiento de la clase
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 import javax.swing.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -74,7 +79,7 @@ public class persona
             File file = new File(ARCHIVO);
             //Se crea el usuario con los datos semilla
             persona semilla = new persona(1,"Maria","Tchijov",19,'F',"1234","mashjov13@outlook.es");
-                
+            
             //Si no existe el archivo, se agrega el usuario semilla para comenzar con el programa    
             if(file.canExecute() == false)
             {personas.add(semilla);}
@@ -82,24 +87,21 @@ public class persona
             //Si sí existe, se leen las líneas contenidas en el archivo
             else
             {
-                
                 //Se crea el lector para el archivo de personas.json
-                BufferedReader lector = new BufferedReader(new FileReader(file));
-                //Se crea el String builder para pasar el formato JSON a un objeto
-                StringBuilder json = new StringBuilder();
+                FileReader reader = new FileReader(file);
 
-                //Se crea una variable para ir recorriendo el archivo
-                String cadena;
-
-                //Se crea el ciclo para recorrer el archivo JSON
-                while ((cadena = lector.readLine()) != null)
+                //Se crean las variables para convertir el Json a String
+                JsonParser parser = new JsonParser();
+                JsonArray array = (JsonArray) parser.parse(reader);
+                
+                //Se utiliza un ciclo for para agregar cada persona en la mista personas
+                for(Object o : array)
                 {
-                    //Se guarda la línea
-                    json.append(cadena);
+                    String cadena = o.toString();
                     //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                     Gson gson = new Gson();
                     //Se convierte el objeto
-                    persona persona = gson.fromJson(json.toString(), persona.class);
+                    persona persona = gson.fromJson(cadena, persona.class);
                     personas.add(persona);
                 }
                 
@@ -107,7 +109,7 @@ public class persona
                 if(personas.isEmpty())
                 {personas.add(semilla);}
             }
-
+            
             System.out.println("Los usuarios iniciales han sido guardados.");
         }
         //Capta cualquier excepción que surga durante la ejecución
@@ -177,14 +179,10 @@ public class persona
             PrintWriter printWriter = new PrintWriter(fileWriter);
 
             
-            //Se crea un bucle for para guardar cada objeto de la lista en el archivo
-            for (int x = 0; x < personas.size(); x++)
-            {
-                //Se pasa la persona a un formato JSON
-                jsonUsuario = gson.toJson(personas.get(x));
-                //Se escribe en el archivo JSON
-                printWriter.print(jsonUsuario);
-            }
+            //Se pasa la persona a un formato JSON
+            jsonUsuario = gson.toJson(personas);
+            //Se escribe en el archivo JSON
+            printWriter.print(jsonUsuario);
             
             //Se cierra el printWritter para que los cambios sean guardados
             printWriter.close();
@@ -226,32 +224,27 @@ public class persona
             File file = new File(ARCHIVO);
         
             //Se crea el lector para el archivo de personas.json
-            BufferedReader lector = new BufferedReader(new FileReader(file));
-            //Se crea el String builder para pasar el formato JSON a un objeto
-            StringBuilder json = new StringBuilder();
-
-            //Se crea una variable para ir recorriendo el archivo
-            String cadena;
+            FileReader reader = new FileReader(file);
+            
+            //Se crean las variables para convertir el Json a String
+            JsonParser parser = new JsonParser();
+            JsonArray array = (JsonArray) parser.parse(reader);
 
             //Se indicará al usuario que se mostrarán las personas guardadas en el archivo
             System.out.println("Los usuarios encontrados en el archivo " + ARCHIVO + " son: ");
             //Se agrega una línea para mejor visibilidad
             System.out.println("");
             
-            //Se crea el ciclo para recorrer el archivo JSON
-            while ((cadena = lector.readLine()) != null)
+            //Se usa un ciclo for para desplegar cada persona
+            for(Object o : array)
             {
-                //Se guarda la línea
-                json.append(cadena);
+                String cadena = o.toString();
                 //Se crea el objeto gson para pasar del formato JSON a un objeto Java
                 Gson gson = new Gson();
                 //Se convierte el objeto
-                persona persona = gson.fromJson(json.toString(), persona.class);
-                //Se muestra al usuario los datos guardados
+                persona persona = gson.fromJson(cadena, persona.class);
                 persona.despliega();
-                //Se agrega una línea para mejor visibilidad
-                System.out.println("");
-            }
+            }          
         }
         //Capta cualquier excepción que surja durante la ejecución
         catch (Exception e)

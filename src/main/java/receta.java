@@ -34,7 +34,7 @@ public class receta
     //Lista donde se guardarán todos las recetas
     private static List <receta> recetas = new ArrayList<>();
     
-    //Archivo donde se guardarán todas las citas
+    //Archivo donde se guardarán todas las recetas
     private static String ARCHIVO = "recetas.json";
     
     //Constructor
